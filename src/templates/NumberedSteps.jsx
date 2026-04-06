@@ -17,9 +17,9 @@ export default function NumberedSteps({
   const isStory = format === 'story'
 
   const logoHeight = isStory ? 44 : 36
-  const logoTop = isStory ? 290 : 36
+  const logoTop = isStory ? 290 : 28
   const logoBottom = logoTop + logoHeight
-  const headlineTop = logoBottom + (isStory ? 20 : 12)
+  const headlineTop = logoBottom + (isStory ? 14 : 6)
 
   return (
     <div
@@ -30,56 +30,51 @@ export default function NumberedSteps({
         background: `linear-gradient(160deg, ${bgColor} 0%, ${darken(bgColor, 10)} 100%)`,
       }}
     >
-      {/* Decorative circles */}
       <div className="ns-deco ns-deco-1" />
       <div className="ns-deco ns-deco-2" />
 
-      {/* Logo top-right */}
       <img
         src="/assets/brand/logo-header.png"
         alt="SnackVerse"
         className="ns-logo"
         style={{
           top: logoTop,
-          right: isStory ? 70 : 40,
+          right: isStory ? 60 : 30,
           height: logoHeight,
           filter: 'brightness(0) invert(1)',
         }}
       />
 
-      {/* Headline - top right, below logo */}
       <div
         className="ns-headline"
         style={{
           top: headlineTop,
-          right: isStory ? 70 : 40,
-          fontSize: isStory ? 60 : 48,
-          width: isStory ? '50%' : '45%',
+          right: isStory ? 60 : 30,
+          fontSize: isStory ? 68 : 56,
+          width: isStory ? '52%' : '48%',
         }}
       >
         {headline}
       </div>
 
-      {/* Box Image - left side */}
       <img
         src={boxImage}
         alt="SnackVerse Box"
         className="ns-box"
         style={{
-          left: isStory ? 20 : 10,
-          top: isStory ? 480 : 160,
-          height: isStory ? '36%' : '52%',
+          left: isStory ? 10 : -10,
+          top: isStory ? 460 : 140,
+          height: isStory ? '40%' : '60%',
         }}
       />
 
-      {/* Steps - right side */}
       <div
         className="ns-steps"
         style={{
-          right: isStory ? 70 : 40,
-          top: isStory ? 580 : 260,
-          width: isStory ? '50%' : '45%',
-          gap: isStory ? 26 : 20,
+          right: isStory ? 60 : 30,
+          top: isStory ? 560 : 240,
+          width: isStory ? '52%' : '48%',
+          gap: isStory ? 28 : 24,
         }}
       >
         {STEPS.map((step, i) => (
@@ -87,16 +82,16 @@ export default function NumberedSteps({
             <div
               className="ns-number"
               style={{
-                width: isStory ? 48 : 40,
-                height: isStory ? 48 : 40,
-                fontSize: isStory ? 24 : 20,
+                width: isStory ? 52 : 44,
+                height: isStory ? 52 : 44,
+                fontSize: isStory ? 28 : 24,
               }}
             >
               {step.number}
             </div>
             <span
               className="ns-label"
-              style={{ fontSize: isStory ? 24 : 20 }}
+              style={{ fontSize: isStory ? 28 : 24 }}
             >
               {step.label}
             </span>

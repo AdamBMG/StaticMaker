@@ -21,7 +21,7 @@ export default function CountryGrid({
   const gridRows = isStory ? 3 : 2
 
   const logoHeight = isStory ? 44 : 36
-  const logoTop = isStory ? 290 : 36
+  const logoTop = isStory ? 290 : 28
 
   return (
     <div
@@ -32,29 +32,27 @@ export default function CountryGrid({
         background: `linear-gradient(180deg, ${bgColor} 0%, ${darken(bgColor, 10)} 100%)`,
       }}
     >
-      {/* Logo top-left */}
       <img
         src="/assets/brand/logo-header.png"
         alt="SnackVerse"
         className="cg-logo"
         style={{
           top: logoTop,
-          left: isStory ? 50 : 40,
+          left: isStory ? 50 : 28,
           height: logoHeight,
           filter: 'brightness(0) invert(1)',
         }}
       />
 
-      {/* Grid of country cards */}
       <div
         className="cg-grid"
         style={{
-          top: isStory ? 360 : 90,
-          padding: isStory ? '0 50px' : '0 36px',
+          top: isStory ? 350 : 76,
+          padding: isStory ? '0 40px' : '0 24px',
           gridTemplateColumns: `repeat(${gridCols}, 1fr)`,
           gridTemplateRows: `repeat(${gridRows}, 1fr)`,
-          gap: isStory ? 14 : 12,
-          bottom: isStory ? 520 : 200,
+          gap: isStory ? 12 : 10,
+          bottom: isStory ? 500 : 170,
         }}
       >
         {COUNTRIES.slice(0, gridCols * gridRows).map((country, i) => (
@@ -63,10 +61,10 @@ export default function CountryGrid({
             className="cg-card"
             style={{ background: country.bg }}
           >
-            <span className="cg-month" style={{ fontSize: isStory ? 13 : 10 }}>
+            <span className="cg-month" style={{ fontSize: isStory ? 14 : 11 }}>
               {country.month}
             </span>
-            <span className="cg-name" style={{ fontSize: isStory ? 20 : 16 }}>
+            <span className="cg-name" style={{ fontSize: isStory ? 22 : 18 }}>
               {country.name}
             </span>
             <img src={country.image} alt={country.name} className="cg-box-img" />
@@ -74,13 +72,12 @@ export default function CountryGrid({
         ))}
       </div>
 
-      {/* Headline at bottom */}
       <div
         className="cg-headline"
         style={{
-          bottom: isStory ? 420 : 60,
-          fontSize: isStory ? 48 : 40,
-          padding: isStory ? '0 50px' : '0 36px',
+          bottom: isStory ? 410 : 40,
+          fontSize: isStory ? 54 : 46,
+          padding: isStory ? '0 40px' : '0 24px',
         }}
       >
         {headline}

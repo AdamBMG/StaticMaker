@@ -12,12 +12,12 @@ export default function TypographicWallpaper({
   format,
 }) {
   const isStory = format === 'story'
-  const rows = isStory ? 16 : 10
+  const rows = isStory ? 18 : 12
 
   const logoHeight = isStory ? 48 : 40
-  const logoTop = isStory ? 290 : 36
+  const logoTop = isStory ? 290 : 28
   const logoBottom = logoTop + logoHeight
-  const headlineTop = logoBottom + (isStory ? 20 : 12)
+  const headlineTop = logoBottom + (isStory ? 14 : 6)
 
   return (
     <div
@@ -28,14 +28,13 @@ export default function TypographicWallpaper({
         background: bgColor,
       }}
     >
-      {/* Repeating text background */}
       <div className="tw-bg-text" style={{ color: bgTextColor }}>
         {Array.from({ length: rows }, (_, i) => (
           <div
             key={i}
             className="tw-bg-row"
             style={{
-              fontSize: isStory ? 68 : 58,
+              fontSize: isStory ? 76 : 68,
               transform: `rotate(-15deg) translateX(${(i % 2) * -80}px)`,
             }}
           >
@@ -44,41 +43,38 @@ export default function TypographicWallpaper({
         ))}
       </div>
 
-      {/* Logo top-right */}
       <img
         src="/assets/brand/logo-header.png"
         alt="SnackVerse"
         className="tw-logo"
         style={{
           top: logoTop,
-          right: isStory ? 70 : 40,
+          right: isStory ? 60 : 30,
           height: logoHeight,
           filter: 'brightness(0) invert(1)',
         }}
       />
 
-      {/* Main headline - below logo */}
       <div
         className="tw-headline"
         style={{
           color: textColor,
-          fontSize: isStory ? 80 : 68,
+          fontSize: isStory ? 92 : 80,
           top: headlineTop,
-          padding: isStory ? '0 70px' : '0 44px',
+          padding: isStory ? '0 60px' : '0 36px',
           textShadow: `0 4px 20px rgba(0, 0, 0, 0.15), 0 0 60px ${bgColor}`,
         }}
       >
         {headline}
       </div>
 
-      {/* Box product shot */}
       <img
         src={boxImage}
         alt="SnackVerse Box"
         className="tw-box"
         style={{
-          bottom: isStory ? 380 : -10,
-          height: isStory ? '48%' : '62%',
+          bottom: isStory ? 360 : -30,
+          height: isStory ? '52%' : '70%',
         }}
       />
     </div>

@@ -3,14 +3,12 @@ import './BoxHero.css'
 export default function BoxHero({ headline, bgColor, textColor, boxImage, showLogo, width, height, format }) {
   const isStory = format === 'story'
 
-  // Gradient background - lighter at top, darker at bottom (matches real ads)
   const bgGradient = `linear-gradient(180deg, ${bgColor} 0%, ${adjustBrightness(bgColor, -15)} 100%)`
 
-  // Logo takes fixed space at top. Headline always starts below it.
   const logoHeight = isStory ? 56 : 44
-  const logoTop = isStory ? 290 : 36
+  const logoTop = isStory ? 290 : 30
   const logoBottom = logoTop + logoHeight
-  const headlineTop = showLogo ? logoBottom + (isStory ? 24 : 16) : (isStory ? 290 : 36)
+  const headlineTop = showLogo ? logoBottom + (isStory ? 16 : 8) : (isStory ? 290 : 30)
 
   return (
     <div
@@ -21,11 +19,9 @@ export default function BoxHero({ headline, bgColor, textColor, boxImage, showLo
         background: bgGradient,
       }}
     >
-      {/* Decorative circles */}
       <div className="bh-circle bh-circle-1" style={{ opacity: 0.1 }} />
       <div className="bh-circle bh-circle-2" style={{ opacity: 0.07 }} />
 
-      {/* Logo - fixed position, headline always starts below */}
       {showLogo && (
         <img
           src="/assets/brand/logo-header.png"
@@ -33,42 +29,39 @@ export default function BoxHero({ headline, bgColor, textColor, boxImage, showLo
           className="bh-logo"
           style={{
             top: logoTop,
-            left: isStory ? 70 : 44,
+            left: isStory ? 60 : 36,
             height: logoHeight,
           }}
         />
       )}
 
-      {/* Headline - always below the logo, never overlapping */}
       <div
         className="bh-headline"
         style={{
           color: textColor,
           top: headlineTop,
-          fontSize: isStory ? 110 : 86,
-          padding: isStory ? '0 70px' : '0 44px',
+          fontSize: isStory ? 120 : 100,
+          padding: isStory ? '0 60px' : '0 36px',
           maxWidth: '100%',
         }}
       >
         {headline}
       </div>
 
-      {/* Product Box - large, centred, dominant */}
       <img
         src={boxImage}
         alt="SnackVerse Box"
         className="bh-box-image"
         style={{
-          bottom: isStory ? 400 : -20,
-          height: isStory ? '52%' : '65%',
-          maxWidth: '92%',
+          bottom: isStory ? 380 : -40,
+          height: isStory ? '55%' : '75%',
+          maxWidth: '95%',
         }}
       />
     </div>
   )
 }
 
-// Darken/lighten a hex colour
 function adjustBrightness(hex, percent) {
   if (!hex || hex.length < 4) return hex
   const num = parseInt(hex.replace('#', ''), 16)

@@ -1,11 +1,11 @@
 import './StarterPack.css'
 
 const DEFAULT_PRODUCTS = [
-  { image: '/assets/snacks/chip.png', label: 'CRUNCHY CHIPS', x: 8, y: 28, size: 22 },
-  { image: '/assets/snacks/cookie.png', label: 'SWEET COOKIES', x: 55, y: 25, size: 26 },
-  { image: '/assets/snacks/soda.png', label: 'FIZZY DRINKS', x: 10, y: 58, size: 20 },
-  { image: '/assets/snacks/gummy.png', label: 'GUMMY CANDY', x: 38, y: 55, size: 24 },
-  { image: '/assets/snacks/candy_green.png', label: 'SOUR SWEETS', x: 68, y: 58, size: 18 },
+  { image: '/assets/snacks/chip.png', label: 'CRUNCHY CHIPS', x: 5, y: 26, size: 24 },
+  { image: '/assets/snacks/cookie.png', label: 'SWEET COOKIES', x: 52, y: 22, size: 30 },
+  { image: '/assets/snacks/soda.png', label: 'FIZZY DRINKS', x: 6, y: 56, size: 22 },
+  { image: '/assets/snacks/gummy.png', label: 'GUMMY CANDY', x: 35, y: 52, size: 28 },
+  { image: '/assets/snacks/candy_green.png', label: 'SOUR SWEETS', x: 66, y: 56, size: 22 },
 ]
 
 export default function StarterPack({
@@ -21,11 +21,10 @@ export default function StarterPack({
   const isStory = format === 'story'
 
   const logoHeight = isStory ? 44 : 36
-  const logoTop = isStory ? 290 : 36
+  const logoTop = isStory ? 290 : 28
   const logoBottom = logoTop + logoHeight
-  const headlineTop = logoBottom + (isStory ? 16 : 10)
+  const headlineTop = logoBottom + (isStory ? 12 : 6)
 
-  // Scale product positions for story format
   const storyYOffset = isStory ? 8 : 0
 
   return (
@@ -37,32 +36,28 @@ export default function StarterPack({
         background: bgColor,
       }}
     >
-      {/* Checkerboard border top */}
       <div className="sp-checker sp-checker-top" />
-      {/* Checkerboard border bottom */}
       <div className="sp-checker sp-checker-bottom" />
 
-      {/* Logo */}
       <img
         src="/assets/brand/logo-header.png"
         alt="SnackVerse"
         className="sp-logo"
         style={{
           top: logoTop,
-          left: isStory ? 70 : 44,
+          left: isStory ? 60 : 36,
           height: logoHeight,
           filter: 'brightness(0) invert(1)',
         }}
       />
 
-      {/* Headline */}
       <div
         className="sp-headline"
         style={{
           color: accentColor,
           top: headlineTop,
-          fontSize: isStory ? 72 : 64,
-          padding: isStory ? '0 60px' : '0 40px',
+          fontSize: isStory ? 80 : 72,
+          padding: isStory ? '0 50px' : '0 30px',
           WebkitTextStroke: `3px ${darken(accentColor, 30)}`,
           paintOrder: 'stroke fill',
         }}
@@ -70,10 +65,9 @@ export default function StarterPack({
         {headline}
       </div>
 
-      {/* Products with labels */}
       {products.map((product, i) => {
         const productTop = product.y + storyYOffset
-        const productSize = isStory ? product.size * 0.9 : product.size
+        const productSize = isStory ? product.size * 0.95 : product.size
         return (
           <div
             key={i}
@@ -84,14 +78,13 @@ export default function StarterPack({
               width: `${productSize}%`,
             }}
           >
-            {/* Dashed circle */}
             <div className="sp-circle" />
             <img src={product.image} alt={product.label} className="sp-product-img" />
             <span
               className="sp-label"
               style={{
                 color: textColor,
-                fontSize: isStory ? 24 : 20,
+                fontSize: isStory ? 26 : 22,
               }}
             >
               {product.label}

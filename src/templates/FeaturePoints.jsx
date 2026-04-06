@@ -73,15 +73,15 @@ export default function FeaturePoints({
         ))}
       </div>
 
-      {/* Box fills bottom-right third */}
+      {/* Box fully visible, bottom-right, no clipping */}
       <img
         src={boxImage}
         alt="SnackVerse Box"
         className="fp-box"
         style={{
-          bottom: isStory ? 390 : -20,
-          right: isStory ? -80 : -60,
-          height: isStory ? '46%' : '58%',
+          bottom: isStory ? 400 : 30,
+          right: isStory ? 30 : 16,
+          height: isStory ? '40%' : '48%',
         }}
       />
 

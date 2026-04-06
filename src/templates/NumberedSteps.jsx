@@ -45,7 +45,6 @@ export default function NumberedSteps({
         }}
       />
 
-      {/* Headline top-right */}
       <div
         className="ns-headline"
         style={{
@@ -58,25 +57,26 @@ export default function NumberedSteps({
         {headline}
       </div>
 
-      {/* Box bottom-left, big */}
+      {/* Box bottom-left, fully visible */}
       <img
         src={boxImage}
         alt="SnackVerse Box"
         className="ns-box"
         style={{
-          left: isStory ? -20 : -30,
-          bottom: isStory ? 400 : -20,
+          left: isStory ? 20 : 10,
+          bottom: isStory ? 410 : 30,
           top: 'auto',
-          height: isStory ? '44%' : '65%',
+          height: isStory ? '38%' : '52%',
         }}
       />
 
-      {/* Steps right side, no overlap with box */}
+      {/* Steps right side, clear of box */}
       <div
         className="ns-steps"
         style={{
           right: isStory ? 60 : 30,
-          top: isStory ? 560 : 280,
+          bottom: isStory ? 450 : 80,
+          top: 'auto',
           width: isStory ? '48%' : '44%',
           gap: isStory ? 32 : 28,
         }}

@@ -68,17 +68,15 @@ export default function TypographicWallpaper({
         {headline}
       </div>
 
-      {/* Box centred and huge */}
+      {/* Box centred, fully visible within frame */}
       <img
         src={boxImage}
         alt="SnackVerse Box"
         className="tw-box"
         style={{
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -20%)',
-          height: isStory ? '56%' : '78%',
-          bottom: 'auto',
+          bottom: isStory ? 400 : 20,
+          height: isStory ? '48%' : '60%',
+          maxWidth: '90%',
         }}
       />
     </div>

@@ -48,18 +48,15 @@ export default function BoxHero({ headline, bgColor, textColor, boxImage, showLo
         {headline}
       </div>
 
-      {/* Box centred in the frame */}
+      {/* Box: centred, fully visible, no clipping */}
       <img
         src={boxImage}
         alt="SnackVerse Box"
         className="bh-box-image"
         style={{
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -30%)',
-          height: isStory ? '58%' : '80%',
-          maxWidth: '100%',
-          bottom: 'auto',
+          bottom: isStory ? 400 : 20,
+          height: isStory ? '50%' : '62%',
+          maxWidth: '90%',
         }}
       />
     </div>

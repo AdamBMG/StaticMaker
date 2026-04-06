@@ -66,15 +66,15 @@ export default function Testimonial({
         </div>
       )}
 
-      {/* Product way bigger, fills bottom half */}
+      {/* Product fully visible, no clipping */}
       <img
         src={productImage}
         alt="Product"
         className="tm-product"
         style={{
-          bottom: isStory ? 370 : -40,
-          right: isStory ? -10 : -40,
-          height: isStory ? '52%' : '68%',
+          bottom: isStory ? 400 : 20,
+          right: isStory ? 30 : 16,
+          height: isStory ? '44%' : '52%',
         }}
       />
     </div>

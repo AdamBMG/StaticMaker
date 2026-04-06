@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { toPng } from 'html-to-image'
 import { saveAs } from 'file-saver'
 import BoxHero from './templates/BoxHero'
@@ -372,11 +372,31 @@ function App() {
   const [exporting, setExporting] = useState(false)
   const [showSafeZones, setShowSafeZones] = useState(false)
   const [safeZoneType, setSafeZoneType] = useState('story')
-  const [qcScale, setQcScale] = useState(1.0)
   const adRef = useRef(null)
 
   const template = TEMPLATES[selectedTemplate]
   const format = FORMATS[selectedFormat]
+
+  // QC scale: saved per template+variant+format in localStorage
+  const scaleKey = `qc_${template.id}_${selectedVariant}_${format.id}`
+
+  const [qcScale, setQcScaleRaw] = useState(() => {
+    const saved = localStorage.getItem(scaleKey)
+    return saved ? parseFloat(saved) : 1.0
+  })
+
+  // When template/variant/format changes, load the saved scale
+  useEffect(() => {
+    const saved = localStorage.getItem(scaleKey)
+    setQcScaleRaw(saved ? parseFloat(saved) : 1.0)
+  }, [scaleKey])
+
+  // Wrapper that saves to localStorage whenever scale changes
+  const setQcScale = useCallback((val) => {
+    const v = typeof val === 'function' ? val(qcScale) : val
+    setQcScaleRaw(v)
+    localStorage.setItem(scaleKey, v.toString())
+  }, [scaleKey, qcScale])
   const variant = template.variants[selectedVariant] || {}
   const adProps = { ...template.defaults, ...variant, ...customProps }
   const TemplateComponent = template.component
@@ -458,7 +478,7 @@ function App() {
                 <button
                   key={t.id}
                   className={`template-card ${i === selectedTemplate ? 'active' : ''}`}
-                  onClick={() => { setSelectedTemplate(i); setSelectedVariant(0); setCustomProps({}); setQcScale(1.0) }}
+                  onClick={() => { setSelectedTemplate(i); setSelectedVariant(0); setCustomProps({}) }}
                 >
                   <strong>{t.name}</strong>
                   <span>{t.description}</span>
@@ -521,7 +541,7 @@ function App() {
                 <button
                   key={i}
                   className={`variant-btn ${i === selectedVariant ? 'active' : ''}`}
-                  onClick={() => { setSelectedVariant(i); setCustomProps({}); setQcScale(1.0) }}
+                  onClick={() => { setSelectedVariant(i); setCustomProps({}) }}
                 >
                   <span className="variant-swatch" style={{ background: v.bgColor || template.defaults.bgColor }} />
                   {v.label}

@@ -8,6 +8,7 @@ import Testimonial from './templates/Testimonial'
 import CountryGrid from './templates/CountryGrid'
 import NumberedSteps from './templates/NumberedSteps'
 import TypographicWallpaper from './templates/TypographicWallpaper'
+import StarterPack from './templates/StarterPack'
 import './App.css'
 
 const TEMPLATES = [
@@ -298,6 +299,44 @@ const TEMPLATES = [
         bgColor: '#6B2FA0',
         bgTextColor: '#8B4FC0',
         textColor: '#FFD700',
+      },
+    ],
+  },
+  {
+    id: 'starter-pack',
+    name: 'Starter Pack',
+    component: StarterPack,
+    description: 'Product showcase with labels + checkerboard border',
+    defaults: {
+      headline: 'Snack Night Starter Pack',
+      bgColor: '#E02020',
+      textColor: '#FFFFFF',
+      accentColor: '#FFD700',
+    },
+    variants: [
+      {
+        label: 'Red - "Snack Night Starter Pack"',
+        headline: 'Snack Night Starter Pack',
+        bgColor: '#E02020',
+        accentColor: '#FFD700',
+      },
+      {
+        label: 'Orange - "What\'s In The Box"',
+        headline: "What's In The Box",
+        bgColor: '#FF7A00',
+        accentColor: '#FFFFFF',
+      },
+      {
+        label: 'Purple - "Unbox The World"',
+        headline: 'Unbox The World',
+        bgColor: '#6B2FA0',
+        accentColor: '#FFD700',
+      },
+      {
+        label: 'Red - "Movie Night Sorted"',
+        headline: 'Movie Night Sorted',
+        bgColor: '#E02020',
+        accentColor: '#FFD700',
       },
     ],
   },

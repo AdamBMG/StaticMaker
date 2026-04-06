@@ -1,6 +1,6 @@
 import './CountryGrid.css'
 
-// QC BENCHMARK: 45%+ grid coverage, <10% whitespace, cards fill the space
+// REAL AD: grid fills 70%+, tight gaps, headline at bottom, minimal whitespace
 const COUNTRIES = [
   { name: 'Japan', month: 'DEC', image: '/assets/country-boxes/japan-box.png', bg: '#6B2FA0' },
   { name: 'Netherlands', month: 'NOV', image: '/assets/country-boxes/netherlands-box.png', bg: '#FF7A00' },
@@ -14,36 +14,34 @@ export default function CountryGrid({ headline = 'Taste a different country ever
   const isStory = format === 'story'
   const gridCols = isStory ? 2 : 3
   const gridRows = isStory ? 3 : 2
-  const logoHeight = isStory ? 44 : 32
-  const logoTop = isStory ? 290 : 24
 
   return (
     <div className="country-grid" style={{ width, height, background: `linear-gradient(180deg, ${bgColor} 0%, ${darken(bgColor, 10)} 100%)` }}>
       <img src="/assets/brand/logo-header.png" alt="SnackVerse" className="cg-logo"
-        style={{ top: logoTop, left: isStory ? 40 : 24, height: logoHeight, filter: 'brightness(0) invert(1)' }} />
+        style={{ top: isStory ? 290 : 18, left: isStory ? 30 : 16, height: isStory ? 44 : 32, filter: 'brightness(0) invert(1)' }} />
 
-      {/* Grid fills most of the canvas */}
+      {/* Grid: fills from 6% to 82% on square */}
       <div className="cg-grid" style={{
-        top: isStory ? 340 : 66,
-        bottom: isStory ? 480 : 150,
-        padding: isStory ? '0 36px' : '0 18px',
+        top: isStory ? 340 : 58,
+        bottom: isStory ? 480 : 130,
+        padding: isStory ? '0 30px' : '0 12px',
         gridTemplateColumns: `repeat(${gridCols}, 1fr)`,
         gridTemplateRows: `repeat(${gridRows}, 1fr)`,
-        gap: isStory ? 10 : 8,
+        gap: isStory ? 8 : 6,
       }}>
         {COUNTRIES.slice(0, gridCols * gridRows).map((country, i) => (
           <div key={i} className="cg-card" style={{ background: country.bg }}>
-            <span className="cg-month" style={{ fontSize: isStory ? 13 : 10 }}>{country.month}</span>
-            <span className="cg-name" style={{ fontSize: isStory ? 22 : 18 }}>{country.name}</span>
+            <span className="cg-month" style={{ fontSize: isStory ? 14 : 11 }}>{country.month}</span>
+            <span className="cg-name" style={{ fontSize: isStory ? 24 : 20 }}>{country.name}</span>
             <img src={country.image} alt={country.name} className="cg-box-img" />
           </div>
         ))}
       </div>
 
       <div className="cg-headline" style={{
-        bottom: isStory ? 410 : 30,
-        fontSize: isStory ? 52 : 44,
-        padding: isStory ? '0 36px' : '0 18px',
+        bottom: isStory ? 410 : 20,
+        fontSize: isStory ? 54 : 46,
+        padding: isStory ? '0 30px' : '0 12px',
       }}>
         {headline}
       </div>

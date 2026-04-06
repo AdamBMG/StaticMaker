@@ -1,6 +1,6 @@
 import './FeaturePoints.css'
 
-// QC BENCHMARK: 30%+ product coverage, <15% whitespace, box bottom-right
+// REAL AD: headline top-left, points mid-left, box bottom-right filling ~50% of canvas
 export default function FeaturePoints({
   headline, point1, point2, point3, bgColor,
   textColor = '#FFFFFF', accentColor = '#FFD700', boxImage,
@@ -8,50 +8,51 @@ export default function FeaturePoints({
 }) {
   const isStory = format === 'story'
   const logoHeight = isStory ? 52 : 40
-  const logoTop = isStory ? 290 : 30
-  const logoBottom = logoTop + logoHeight
-  const headlineTop = logoBottom + (isStory ? 16 : 8)
+  const logoTop = isStory ? 290 : 24
 
   return (
     <div className="feature-points" style={{ width, height, background: bgColor }}>
       <div className="fp-deco fp-deco-1" style={{ background: accentColor, opacity: 0.08 }} />
-      <div className="fp-deco fp-deco-2" style={{ background: accentColor, opacity: 0.05 }} />
 
       <img src="/assets/brand/logo-header.png" alt="SnackVerse" className="fp-logo"
-        style={{ top: logoTop, right: isStory ? 60 : 36, height: logoHeight, filter: 'brightness(0) invert(1)' }} />
+        style={{ top: logoTop, right: isStory ? 50 : 30, height: logoHeight, filter: 'brightness(0) invert(1)' }} />
 
       <div className="fp-headline" style={{
-        color: textColor, top: headlineTop,
-        fontSize: isStory ? 76 : 52,
-        padding: isStory ? '0 60px' : '0 36px',
-        width: isStory ? '100%' : '55%',
+        color: textColor, top: isStory ? 360 : 80,
+        fontSize: isStory ? 76 : 54,
+        padding: isStory ? '0 50px' : '0 30px',
+        width: isStory ? '100%' : '58%',
+        zIndex: 10,
       }}>
         {headline}
       </div>
 
       <div className="fp-points" style={{
-        top: isStory ? 680 : 360,
-        padding: isStory ? '0 60px' : '0 36px',
-        width: isStory ? '100%' : '55%',
+        top: isStory ? 680 : 340,
+        padding: isStory ? '0 50px' : '0 30px',
+        width: isStory ? '100%' : '58%',
+        zIndex: 10,
       }}>
         {[point1, point2, point3].filter(Boolean).map((point, i) => (
-          <div key={i} className="fp-point" style={{ fontSize: isStory ? 36 : 26 }}>
-            <span className="fp-check" style={{ color: accentColor, fontSize: isStory ? 40 : 30 }}>&#10003;</span>
+          <div key={i} className="fp-point" style={{ fontSize: isStory ? 36 : 28 }}>
+            <span className="fp-check" style={{ color: accentColor, fontSize: isStory ? 40 : 32 }}>&#10003;</span>
             <span style={{ color: textColor }}>{point}</span>
           </div>
         ))}
       </div>
 
-      {/* Box fills bottom-right, big */}
+      {/* Box: bottom-right, fills 55% height on square */}
       <img src={boxImage} alt="SnackVerse Box" className="fp-box" style={{
-        bottom: isStory ? 400 : 10,
-        right: isStory ? 20 : 0,
-        height: `${(isStory ? 44 : 55) * qcScale}%`,
+        bottom: isStory ? 400 : 0,
+        right: isStory ? 10 : -10,
+        height: `${(isStory ? 44 : 58) * qcScale}%`,
+        zIndex: 5,
       }} />
 
       <div className="fp-cta" style={{
-        bottom: isStory ? 410 : 30, left: isStory ? 60 : 36,
-        fontSize: isStory ? 28 : 20, background: accentColor, color: bgColor,
+        bottom: isStory ? 410 : 24, left: isStory ? 50 : 30,
+        fontSize: isStory ? 28 : 22, background: accentColor, color: bgColor,
+        zIndex: 10,
       }}>
         SUBSCRIBE NOW
       </div>

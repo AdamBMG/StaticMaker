@@ -1,12 +1,9 @@
 import './BoxHero.css'
 
-// QC BENCHMARK: 60%+ product coverage, <10% whitespace, headline overlaps box top (matches real ads)
+// REAL AD BENCHMARK: headline top 5-25%, box starts at 20% and fills to 95%. Headline overlaps box.
 export default function BoxHero({ headline, bgColor, textColor, boxImage, showLogo, width, height, format, qcScale = 1.0 }) {
   const isStory = format === 'story'
   const bgGradient = `linear-gradient(180deg, ${bgColor} 0%, ${adjustBrightness(bgColor, -15)} 100%)`
-
-  const logoHeight = isStory ? 56 : 44
-  const logoTop = isStory ? 290 : 30
 
   return (
     <div className="box-hero" style={{ width, height, background: bgGradient }}>
@@ -15,24 +12,30 @@ export default function BoxHero({ headline, bgColor, textColor, boxImage, showLo
 
       {showLogo && (
         <img src="/assets/brand/logo-header.png" alt="SnackVerse" className="bh-logo"
-          style={{ top: logoTop, left: isStory ? 60 : 36, height: logoHeight }} />
+          style={{ top: isStory ? 290 : 24, left: isStory ? 50 : 30, height: isStory ? 56 : 44 }} />
       )}
 
-      {/* Headline at top - sits over the box like real ads */}
+      {/* Headline: pinned to top, z-index above box */}
       <div className="bh-headline" style={{
         color: textColor,
-        top: isStory ? 300 : 30,
-        fontSize: isStory ? 120 : 100,
-        padding: isStory ? '0 60px' : '0 36px',
+        top: isStory ? 290 : 24,
+        fontSize: isStory ? 120 : 104,
+        padding: isStory ? '0 50px' : '0 30px',
+        zIndex: 10,
       }}>
         {headline}
       </div>
 
-      {/* Box: fills 75%+ of canvas, centred, can extend to edges */}
+      {/* Box: starts at 22% from top, fills to near bottom. Headline overlaps top of box. */}
       <img src={boxImage} alt="SnackVerse Box" className="bh-box-image" style={{
+        top: `${isStory ? 38 : 22}%`,
         bottom: isStory ? 390 : 10,
-        height: `${(isStory ? 55 : 75) * qcScale}%`,
-        maxWidth: `${Math.min(95 * qcScale, 100)}%`,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        height: 'auto',
+        maxHeight: `${(isStory ? 52 : 76) * qcScale}%`,
+        maxWidth: '98%',
+        zIndex: 5,
       }} />
     </div>
   )

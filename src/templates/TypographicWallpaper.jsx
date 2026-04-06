@@ -1,6 +1,6 @@
 import './TypographicWallpaper.css'
 
-// QC BENCHMARK: 50%+ product coverage, <5% whitespace (bg text fills rest), box dominates
+// REAL AD: bg text fills everything, headline at top, box 75%+ of canvas, headline over box
 export default function TypographicWallpaper({
   headline = 'Affordable snacks.', bgText = 'AFFORDABLE SNACKS',
   bgColor = '#FFD700', bgTextColor = '#FF7A00', textColor = '#FFFFFF',
@@ -8,19 +8,14 @@ export default function TypographicWallpaper({
   width, height, format, qcScale = 1.0,
 }) {
   const isStory = format === 'story'
-  const rows = isStory ? 22 : 16
-  const logoHeight = isStory ? 48 : 36
-  const logoTop = isStory ? 290 : 24
-  const logoBottom = logoTop + logoHeight
-  const headlineTop = logoBottom + (isStory ? 10 : 4)
+  const rows = isStory ? 24 : 16
 
   return (
     <div className="typo-wallpaper" style={{ width, height, background: bgColor }}>
-      {/* Background text fills entire canvas */}
       <div className="tw-bg-text" style={{ color: bgTextColor }}>
         {Array.from({ length: rows }, (_, i) => (
           <div key={i} className="tw-bg-row" style={{
-            fontSize: isStory ? 82 : 74,
+            fontSize: isStory ? 84 : 76,
             transform: `rotate(-15deg) translateX(${(i % 2) * -80}px)`,
           }}>
             {bgText} {bgText} {bgText} {bgText}
@@ -29,22 +24,28 @@ export default function TypographicWallpaper({
       </div>
 
       <img src="/assets/brand/logo-header.png" alt="SnackVerse" className="tw-logo"
-        style={{ top: logoTop, right: isStory ? 60 : 24, height: logoHeight, filter: 'brightness(0) invert(1)' }} />
+        style={{ top: isStory ? 290 : 20, right: isStory ? 50 : 20, height: isStory ? 48 : 36, filter: 'brightness(0) invert(1)', zIndex: 10 }} />
 
-      {/* Headline overlaps box top like real ads */}
+      {/* Headline over the box, like real ads */}
       <div className="tw-headline" style={{
-        color: textColor, fontSize: isStory ? 100 : 88,
-        top: headlineTop, padding: isStory ? '0 50px' : '0 24px',
+        color: textColor, fontSize: isStory ? 104 : 92,
+        top: isStory ? 290 : 20, padding: isStory ? '0 50px' : '0 24px',
         textShadow: `0 4px 20px rgba(0, 0, 0, 0.15), 0 0 60px ${bgColor}`,
+        zIndex: 10,
       }}>
         {headline}
       </div>
 
-      {/* Box huge, fills bottom 70%+  */}
+      {/* Box: starts at 20%, fills to bottom like real ads */}
       <img src={boxImage} alt="SnackVerse Box" className="tw-box" style={{
-        bottom: isStory ? 380 : 10,
-        height: `${(isStory ? 55 : 72) * qcScale}%`,
-        maxWidth: `${Math.min(95 * qcScale, 100)}%`,
+        top: `${isStory ? 38 : 20}%`,
+        bottom: isStory ? 380 : 8,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        height: 'auto',
+        maxHeight: `${(isStory ? 54 : 78) * qcScale}%`,
+        maxWidth: '98%',
+        zIndex: 5,
       }} />
     </div>
   )

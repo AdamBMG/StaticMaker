@@ -1,6 +1,6 @@
 import './NumberedSteps.css'
 
-// QC BENCHMARK: 35%+ product coverage, <15% whitespace, box bottom-left, steps right
+// REAL AD: box left 50%, steps right, both big, headline top-right above steps
 const STEPS = [
   { number: '1', label: 'Choose your box' },
   { number: '2', label: 'Subscribe' },
@@ -9,10 +9,6 @@ const STEPS = [
 
 export default function NumberedSteps({ headline = "You'll eat these.", bgColor = '#6B2FA0', boxImage = '/assets/boxes/box_mobile.png', width, height, format, qcScale = 1.0 }) {
   const isStory = format === 'story'
-  const logoHeight = isStory ? 44 : 34
-  const logoTop = isStory ? 290 : 24
-  const logoBottom = logoTop + logoHeight
-  const headlineTop = logoBottom + (isStory ? 10 : 4)
 
   return (
     <div className="numbered-steps" style={{ width, height, background: `linear-gradient(160deg, ${bgColor} 0%, ${darken(bgColor, 10)} 100%)` }}>
@@ -20,37 +16,37 @@ export default function NumberedSteps({ headline = "You'll eat these.", bgColor 
       <div className="ns-deco ns-deco-2" />
 
       <img src="/assets/brand/logo-header.png" alt="SnackVerse" className="ns-logo"
-        style={{ top: logoTop, right: isStory ? 60 : 24, height: logoHeight, filter: 'brightness(0) invert(1)' }} />
+        style={{ top: isStory ? 290 : 20, right: isStory ? 50 : 20, height: isStory ? 44 : 34, filter: 'brightness(0) invert(1)' }} />
 
       <div className="ns-headline" style={{
-        top: headlineTop, right: isStory ? 60 : 24,
-        fontSize: isStory ? 64 : 52, width: isStory ? '52%' : '48%',
+        top: isStory ? 350 : 60, right: isStory ? 50 : 20,
+        fontSize: isStory ? 66 : 54, width: isStory ? '52%' : '48%',
       }}>
         {headline}
       </div>
 
-      {/* Box bottom-left, big */}
+      {/* Box: fills left half, big */}
       <img src={boxImage} alt="SnackVerse Box" className="ns-box" style={{
-        left: isStory ? 10 : 0,
-        bottom: isStory ? 400 : 10,
+        left: isStory ? 0 : -10,
+        bottom: isStory ? 400 : 0,
         top: 'auto',
-        height: `${(isStory ? 44 : 65) * qcScale}%`,
+        height: `${(isStory ? 46 : 70) * qcScale}%`,
       }} />
 
-      {/* Steps right, bigger text */}
+      {/* Steps: right side, vertically centred in lower half */}
       <div className="ns-steps" style={{
-        right: isStory ? 60 : 24,
-        bottom: isStory ? 440 : 60,
+        right: isStory ? 50 : 20,
+        bottom: isStory ? 440 : 50,
         top: 'auto',
-        width: isStory ? '48%' : '44%',
-        gap: isStory ? 30 : 26,
+        width: isStory ? '48%' : '46%',
+        gap: isStory ? 34 : 30,
       }}>
         {STEPS.map((step, i) => (
           <div key={i} className="ns-step">
-            <div className="ns-number" style={{ width: isStory ? 54 : 46, height: isStory ? 54 : 46, fontSize: isStory ? 28 : 24 }}>
+            <div className="ns-number" style={{ width: isStory ? 56 : 50, height: isStory ? 56 : 50, fontSize: isStory ? 30 : 28 }}>
               {step.number}
             </div>
-            <span className="ns-label" style={{ fontSize: isStory ? 28 : 24 }}>{step.label}</span>
+            <span className="ns-label" style={{ fontSize: isStory ? 30 : 28 }}>{step.label}</span>
           </div>
         ))}
       </div>

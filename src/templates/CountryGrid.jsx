@@ -1,5 +1,6 @@
 import './CountryGrid.css'
 
+// QC BENCHMARK: 45%+ grid coverage, <10% whitespace, cards fill the space
 const COUNTRIES = [
   { name: 'Japan', month: 'DEC', image: '/assets/country-boxes/japan-box.png', bg: '#6B2FA0' },
   { name: 'Netherlands', month: 'NOV', image: '/assets/country-boxes/netherlands-box.png', bg: '#FF7A00' },
@@ -9,78 +10,41 @@ const COUNTRIES = [
   { name: 'France', month: 'JUL', image: '/assets/country-boxes/france-box.png', bg: '#FF7A00' },
 ]
 
-export default function CountryGrid({
-  headline = 'Taste a different country every month.',
-  bgColor = '#FF4040',
-  width,
-  height,
-  format,
-  qcScale = 1.0,
-}) {
+export default function CountryGrid({ headline = 'Taste a different country every month.', bgColor = '#FF4040', width, height, format, qcScale = 1.0 }) {
   const isStory = format === 'story'
   const gridCols = isStory ? 2 : 3
   const gridRows = isStory ? 3 : 2
-
-  const logoHeight = isStory ? 44 : 36
-  const logoTop = isStory ? 290 : 28
+  const logoHeight = isStory ? 44 : 32
+  const logoTop = isStory ? 290 : 24
 
   return (
-    <div
-      className="country-grid"
-      style={{
-        width,
-        height,
-        background: `linear-gradient(180deg, ${bgColor} 0%, ${darken(bgColor, 10)} 100%)`,
-      }}
-    >
-      <img
-        src="/assets/brand/logo-header.png"
-        alt="SnackVerse"
-        className="cg-logo"
-        style={{
-          top: logoTop,
-          left: isStory ? 50 : 28,
-          height: logoHeight,
-          filter: 'brightness(0) invert(1)',
-        }}
-      />
+    <div className="country-grid" style={{ width, height, background: `linear-gradient(180deg, ${bgColor} 0%, ${darken(bgColor, 10)} 100%)` }}>
+      <img src="/assets/brand/logo-header.png" alt="SnackVerse" className="cg-logo"
+        style={{ top: logoTop, left: isStory ? 40 : 24, height: logoHeight, filter: 'brightness(0) invert(1)' }} />
 
-      <div
-        className="cg-grid"
-        style={{
-          top: isStory ? 350 : 76,
-          padding: isStory ? '0 40px' : '0 24px',
-          gridTemplateColumns: `repeat(${gridCols}, 1fr)`,
-          gridTemplateRows: `repeat(${gridRows}, 1fr)`,
-          gap: isStory ? 12 : 10,
-          bottom: isStory ? 500 : 170,
-        }}
-      >
+      {/* Grid fills most of the canvas */}
+      <div className="cg-grid" style={{
+        top: isStory ? 340 : 66,
+        bottom: isStory ? 480 : 150,
+        padding: isStory ? '0 36px' : '0 18px',
+        gridTemplateColumns: `repeat(${gridCols}, 1fr)`,
+        gridTemplateRows: `repeat(${gridRows}, 1fr)`,
+        gap: isStory ? 10 : 8,
+      }}>
         {COUNTRIES.slice(0, gridCols * gridRows).map((country, i) => (
-          <div
-            key={i}
-            className="cg-card"
-            style={{ background: country.bg }}
-          >
-            <span className="cg-month" style={{ fontSize: isStory ? 14 : 11 }}>
-              {country.month}
-            </span>
-            <span className="cg-name" style={{ fontSize: isStory ? 22 : 18 }}>
-              {country.name}
-            </span>
+          <div key={i} className="cg-card" style={{ background: country.bg }}>
+            <span className="cg-month" style={{ fontSize: isStory ? 13 : 10 }}>{country.month}</span>
+            <span className="cg-name" style={{ fontSize: isStory ? 22 : 18 }}>{country.name}</span>
             <img src={country.image} alt={country.name} className="cg-box-img" />
           </div>
         ))}
       </div>
 
-      <div
-        className="cg-headline"
-        style={{
-          bottom: isStory ? 410 : 40,
-          fontSize: isStory ? 54 : 46,
-          padding: isStory ? '0 40px' : '0 24px',
-        }}
-      >
+      <div className="cg-headline" style={{
+        bottom: isStory ? 410 : 30,
+        fontSize: isStory ? 52 : 44,
+        padding: isStory ? '0 36px' : '0 18px',
+      }}>
         {headline}
       </div>
     </div>

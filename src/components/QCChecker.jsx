@@ -73,15 +73,15 @@ export default function QCChecker({ templateId, adRef, width, height, qcScale, o
           <div className={`qc-metric ${coverageOk ? 'qc-ok' : 'qc-fail'}`}>
             Product: {coveragePct}% {coverageOk ? '' : `(need ${targetPct}%+)`}
           </div>
-          {!coverageOk && (
-            <button className="qc-auto-fix" onClick={() => {
-              const needed = benchmark.targetCoverage / Math.max(coverage, 0.01)
-              const newScale = qcScale * Math.sqrt(needed) * 1.1
-              onScaleChange(Math.min(2.0, newScale))
-            }}>
-              Auto-fix to {targetPct}%+
-            </button>
-          )}
+          <button className="qc-auto-fix" onClick={() => {
+            // Always bump by at least 20%, or enough to exceed target by 10%
+            const targetRatio = (benchmark.targetCoverage * 1.1) / Math.max(coverage, 0.01)
+            const bump = Math.max(1.2, Math.sqrt(targetRatio))
+            const newScale = Math.min(2.0, qcScale * bump)
+            onScaleChange(newScale)
+          }}>
+            Make bigger
+          </button>
         </div>
       )}
 

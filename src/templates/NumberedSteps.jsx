@@ -13,6 +13,7 @@ export default function NumberedSteps({
   width,
   height,
   format,
+  qcScale = 1.0,
 }) {
   const isStory = format === 'story'
 
@@ -66,7 +67,7 @@ export default function NumberedSteps({
           left: isStory ? 20 : 10,
           bottom: isStory ? 410 : 30,
           top: 'auto',
-          height: isStory ? '44%' : '62%',
+          height: isStory ? `${44 * qcScale}%` : `${62 * qcScale}%`,
         }}
       />
 

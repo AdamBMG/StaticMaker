@@ -1,6 +1,6 @@
 import './BoxHero.css'
 
-export default function BoxHero({ headline, bgColor, textColor, boxImage, showLogo, width, height, format }) {
+export default function BoxHero({ headline, bgColor, textColor, boxImage, showLogo, width, height, format, qcScale = 1.0 }) {
   const isStory = format === 'story'
 
   const bgGradient = `linear-gradient(180deg, ${bgColor} 0%, ${adjustBrightness(bgColor, -15)} 100%)`
@@ -64,8 +64,8 @@ export default function BoxHero({ headline, bgColor, textColor, boxImage, showLo
           top: height * imageZoneStart,
           bottom: 20,
           height: 'auto',
-          maxHeight: height * (1 - imageZoneStart) - 20,
-          maxWidth: '95%',
+          maxHeight: (height * (1 - imageZoneStart) - 20) * qcScale,
+          maxWidth: `${Math.min(95 * qcScale, 100)}%`,
         }}
       />
     </div>

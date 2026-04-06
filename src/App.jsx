@@ -372,6 +372,8 @@ function App() {
   const [exporting, setExporting] = useState(false)
   const [showSafeZones, setShowSafeZones] = useState(false)
   const [safeZoneType, setSafeZoneType] = useState('story')
+  const [qcScale, setQcScale] = useState(1.0)
+  const [qcApplied, setQcApplied] = useState(false)
   const adRef = useRef(null)
 
   const template = TEMPLATES[selectedTemplate]
@@ -457,7 +459,7 @@ function App() {
                 <button
                   key={t.id}
                   className={`template-card ${i === selectedTemplate ? 'active' : ''}`}
-                  onClick={() => { setSelectedTemplate(i); setSelectedVariant(0); setCustomProps({}) }}
+                  onClick={() => { setSelectedTemplate(i); setSelectedVariant(0); setCustomProps({}); setQcApplied(false); setQcScale(1.0) }}
                 >
                   <strong>{t.name}</strong>
                   <span>{t.description}</span>
@@ -520,7 +522,7 @@ function App() {
                 <button
                   key={i}
                   className={`variant-btn ${i === selectedVariant ? 'active' : ''}`}
-                  onClick={() => { setSelectedVariant(i); setCustomProps({}) }}
+                  onClick={() => { setSelectedVariant(i); setCustomProps({}); setQcApplied(false); setQcScale(1.0) }}
                 >
                   <span className="variant-swatch" style={{ background: v.bgColor || template.defaults.bgColor }} />
                   {v.label}
@@ -578,6 +580,12 @@ function App() {
               adRef={adRef}
               width={format.width}
               height={format.height}
+              qcApplied={qcApplied}
+              onApplyFix={(multiplier) => {
+                setQcScale(multiplier)
+                setQcApplied(true)
+              }}
+              onToggleQC={() => setQcApplied(!qcApplied)}
             />
           </section>
 
@@ -618,6 +626,7 @@ function App() {
                 width={format.width}
                 height={format.height}
                 format={format.id}
+                qcScale={qcApplied ? qcScale : 1.0}
               />
             </div>
             {/* Safe zone overlay - only shown on story format, not exported */}

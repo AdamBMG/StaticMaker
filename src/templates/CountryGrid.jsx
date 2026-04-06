@@ -15,6 +15,7 @@ export default function CountryGrid({
   width,
   height,
   format,
+  qcScale = 1.0,
 }) {
   const isStory = format === 'story'
   const gridCols = isStory ? 2 : 3

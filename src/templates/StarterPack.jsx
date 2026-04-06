@@ -17,6 +17,7 @@ export default function StarterPack({
   width,
   height,
   format,
+  qcScale = 1.0,
 }) {
   const isStory = format === 'story'
 

@@ -10,6 +10,7 @@ export default function TypographicWallpaper({
   width,
   height,
   format,
+  qcScale = 1.0,
 }) {
   const isStory = format === 'story'
   const rows = isStory ? 20 : 14
@@ -85,8 +86,8 @@ export default function TypographicWallpaper({
           top: height * imageZoneStart,
           bottom: 20,
           height: 'auto',
-          maxHeight: height * (1 - imageZoneStart) - 20,
-          maxWidth: '95%',
+          maxHeight: (height * (1 - imageZoneStart) - 20) * qcScale,
+          maxWidth: `${Math.min(95 * qcScale, 100)}%`,
         }}
       />
     </div>

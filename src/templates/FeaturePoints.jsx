@@ -12,6 +12,7 @@ export default function FeaturePoints({
   width,
   height,
   format,
+  qcScale = 1.0,
 }) {
   const isStory = format === 'story'
 
@@ -89,7 +90,7 @@ export default function FeaturePoints({
         style={{
           bottom: isStory ? 400 : 70,
           right: isStory ? 30 : 16,
-          width: boxWidth,
+          width: `calc(${boxWidth} * ${qcScale})`,
           height: 'auto',
         }}
       />

@@ -9,6 +9,7 @@ export default function Testimonial({
   width,
   height,
   format,
+  qcScale = 1.0,
 }) {
   const isStory = format === 'story'
 
@@ -84,8 +85,8 @@ export default function Testimonial({
           left: '50%',
           transform: 'translateX(-50%)',
           height: 'auto',
-          maxHeight: height * (1 - imageZoneStart) - 20,
-          maxWidth: '95%',
+          maxHeight: (height * (1 - imageZoneStart) - 20) * qcScale,
+          maxWidth: `${Math.min(95 * qcScale, 100)}%`,
           right: 'auto',
         }}
       />

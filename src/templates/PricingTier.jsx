@@ -24,7 +24,7 @@ const TIERS = [
   },
 ]
 
-export default function PricingTier({ headline, bgColor, width, height, format }) {
+export default function PricingTier({ headline, bgColor, width, height, format, qcScale = 1.0 }) {
   const isStory = format === 'story'
 
   const logoHeight = isStory ? 56 : 44

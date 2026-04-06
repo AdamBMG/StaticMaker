@@ -10,7 +10,7 @@ const DEFAULT_PRODUCTS = [
 
 export default function StarterPack({
   headline = 'Snack Night Starter Pack',
-  bgColor = '#E02020',
+  bgColor = '#FF7A00',
   textColor = '#FFFFFF',
   accentColor = '#FFD700',
   products = DEFAULT_PRODUCTS,

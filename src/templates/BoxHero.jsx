@@ -28,12 +28,10 @@ export default function BoxHero({ headline, bgColor, textColor, boxImage, showLo
 
       {/* Box: starts at 22% from top, fills to near bottom. Headline overlaps top of box. */}
       <img src={boxImage} alt="SnackVerse Box" className="bh-box-image" style={{
-        top: `${isStory ? 38 : 22}%`,
         bottom: isStory ? 390 : 10,
         left: '50%',
         transform: 'translateX(-50%)',
-        height: 'auto',
-        maxHeight: `${(isStory ? 52 : 76) * qcScale}%`,
+        height: `${(isStory ? 52 : 76) * qcScale}%`,
         maxWidth: '98%',
         zIndex: 5,
       }} />

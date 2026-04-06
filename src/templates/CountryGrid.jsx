@@ -33,7 +33,7 @@ export default function CountryGrid({ headline = 'Taste a different country ever
           <div key={i} className="cg-card" style={{ background: country.bg }}>
             <span className="cg-month" style={{ fontSize: isStory ? 14 : 11 }}>{country.month}</span>
             <span className="cg-name" style={{ fontSize: isStory ? 24 : 20 }}>{country.name}</span>
-            <img src={country.image} alt={country.name} className="cg-box-img" />
+            <img src={country.image} alt={country.name} className="cg-box-img" style={{ width: `${75 * qcScale}%` }} />
           </div>
         ))}
       </div>

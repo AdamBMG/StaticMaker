@@ -38,12 +38,10 @@ export default function TypographicWallpaper({
 
       {/* Box: starts at 20%, fills to bottom like real ads */}
       <img src={boxImage} alt="SnackVerse Box" className="tw-box" style={{
-        top: `${isStory ? 38 : 20}%`,
         bottom: isStory ? 380 : 8,
         left: '50%',
         transform: 'translateX(-50%)',
-        height: 'auto',
-        maxHeight: `${(isStory ? 54 : 78) * qcScale}%`,
+        height: `${(isStory ? 54 : 78) * qcScale}%`,
         maxWidth: '98%',
         zIndex: 5,
       }} />

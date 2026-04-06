@@ -30,8 +30,8 @@ export default function PricingTier({ headline, bgColor, width, height, format, 
         {TIERS.map((tier, i) => (
           <div key={i} className="pt-card" style={{ flex: 1, padding: isStory ? '16px 20px' : '12px 8px' }}>
             {tier.badge && <div className="pt-badge" style={{ fontSize: isStory ? 12 : 10 }}>{tier.badge}</div>}
-            <div className="pt-tier-image-wrap" style={{ flex: 1, minHeight: 0 }}>
-              <img src={tier.image} alt={tier.name} className="pt-tier-image" />
+            <div className="pt-tier-image-wrap" style={{ flex: qcScale, minHeight: 0 }}>
+              <img src={tier.image} alt={tier.name} className="pt-tier-image" style={{ transform: `scale(${qcScale})` }} />
             </div>
             <div className="pt-tier-name" style={{ fontSize: isStory ? 22 : 17 }}>{tier.name}</div>
             <div className="pt-tier-snacks" style={{ fontSize: isStory ? 14 : 11 }}>{tier.snacks} full size snacks</div>

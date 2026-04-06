@@ -1,0 +1,150 @@
+.batch-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.batch-section h2 {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--ui-text-muted);
+  margin-bottom: 8px;
+}
+
+.batch-headlines {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--ui-border);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--ui-text);
+  font-family: inherit;
+  font-size: 13px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.batch-headlines:focus {
+  outline: none;
+  border-color: var(--ui-accent);
+}
+
+.batch-count {
+  font-size: 11px;
+  color: var(--ui-text-muted);
+  margin-top: 4px;
+}
+
+.batch-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.batch-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid var(--ui-border);
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--ui-text);
+  transition: all 0.15s;
+}
+
+.batch-checkbox.active {
+  border-color: var(--ui-accent);
+  background: rgba(255, 122, 0, 0.1);
+}
+
+.batch-checkbox input {
+  accent-color: var(--ui-accent);
+  width: 14px;
+  height: 14px;
+}
+
+.batch-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.batch-formats {
+  display: flex;
+  gap: 6px;
+}
+
+.batch-format-btn {
+  flex: 1;
+  padding: 8px;
+  border: 2px solid var(--ui-border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ui-text);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.batch-format-btn.active {
+  border-color: var(--ui-accent);
+  background: rgba(255, 122, 0, 0.1);
+  color: var(--ui-accent);
+}
+
+.batch-name-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--ui-border);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--ui-text);
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.batch-name-input:focus {
+  outline: none;
+  border-color: var(--ui-accent);
+}
+
+.batch-summary {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ui-accent);
+  padding: 8px 0;
+}
+
+.batch-empty {
+  color: var(--ui-text-muted);
+  font-weight: 400;
+}
+
+.batch-generate-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: var(--ui-accent);
+  color: white;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.batch-generate-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.batch-generate-btn:hover:not(:disabled) {
+  opacity: 0.9;
+}

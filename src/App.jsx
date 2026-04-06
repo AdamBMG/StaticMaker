@@ -10,6 +10,8 @@ import NumberedSteps from './templates/NumberedSteps'
 import TypographicWallpaper from './templates/TypographicWallpaper'
 import StarterPack from './templates/StarterPack'
 import QCChecker from './components/QCChecker'
+import BatchMode from './components/BatchMode'
+import BatchGrid from './components/BatchGrid'
 import './App.css'
 
 const TEMPLATES = [
@@ -365,6 +367,8 @@ const SAFE_ZONES = {
 }
 
 function App() {
+  const [mode, setMode] = useState('single') // 'single' or 'batch'
+  const [batchAds, setBatchAds] = useState([])
   const [selectedTemplate, setSelectedTemplate] = useState(0)
   const [selectedFormat, setSelectedFormat] = useState(0)
   const [selectedVariant, setSelectedVariant] = useState(0)
@@ -484,8 +488,27 @@ function App() {
       <header className="app-header">
         <img src="/assets/brand/logo-header.png" alt="SnackVerse" className="app-logo" />
         <h1>Static Ad Maker</h1>
+        <div className="mode-toggle">
+          <button className={`mode-btn ${mode === 'single' ? 'active' : ''}`} onClick={() => setMode('single')}>Single</button>
+          <button className={`mode-btn ${mode === 'batch' ? 'active' : ''}`} onClick={() => setMode('batch')}>Batch</button>
+        </div>
       </header>
 
+      {mode === 'batch' && batchAds.length > 0 ? (
+        <BatchGrid ads={batchAds} onBack={() => setBatchAds([])} />
+      ) : mode === 'batch' ? (
+        <div className="app-layout">
+          <div className="controls-panel">
+            <BatchMode onGenerate={(ads) => setBatchAds(ads)} />
+          </div>
+          <div className="preview-panel">
+            <div className="batch-empty-preview">
+              <h2>Batch Mode</h2>
+              <p>Add headlines, select templates and colours, then hit Generate</p>
+            </div>
+          </div>
+        </div>
+      ) : (
       <div className="app-layout">
         {/* Left panel - Controls */}
         <div className="controls-panel">
@@ -677,6 +700,7 @@ function App() {
           </div>
         </div>
       </div>
+      )}
     </div>
   )
 }

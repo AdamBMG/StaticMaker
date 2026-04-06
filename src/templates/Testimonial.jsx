@@ -17,6 +17,10 @@ export default function Testimonial({
   const logoBottom = logoTop + logoHeight
   const quoteTop = logoBottom + (isStory ? 16 : 8)
 
+  // Square: text top 50%, product bottom 50%. Story: text top 40%, product bottom 50%.
+  const textZoneEnd = isStory ? 0.40 : 0.45
+  const imageZoneStart = textZoneEnd
+
   return (
     <div
       className="testimonial"
@@ -37,13 +41,16 @@ export default function Testimonial({
         }}
       />
 
+      {/* Quote in top text zone */}
       <div
         className="tm-quote"
         style={{
           color: textColor,
           top: quoteTop,
-          fontSize: isStory ? 64 : 56,
+          fontSize: isStory ? 60 : 50,
           padding: isStory ? '0 60px' : '0 36px',
+          maxHeight: height * textZoneEnd - quoteTop - 10,
+          overflow: 'hidden',
         }}
       >
         "{headline}"
@@ -53,7 +60,7 @@ export default function Testimonial({
         <div
           className="tm-stars"
           style={{
-            top: isStory ? 600 : 310,
+            top: height * textZoneEnd - (isStory ? 60 : 50),
             left: isStory ? 60 : 36,
           }}
         >
@@ -66,15 +73,20 @@ export default function Testimonial({
         </div>
       )}
 
-      {/* Product fully visible, no clipping */}
+      {/* Product in bottom image zone, centred, fully visible */}
       <img
         src={productImage}
         alt="Product"
         className="tm-product"
         style={{
-          bottom: isStory ? 400 : 20,
-          right: isStory ? 30 : 16,
-          height: isStory ? '44%' : '52%',
+          top: height * imageZoneStart,
+          bottom: 20,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          height: 'auto',
+          maxHeight: height * (1 - imageZoneStart) - 30,
+          maxWidth: '85%',
+          right: 'auto',
         }}
       />
     </div>

@@ -19,6 +19,10 @@ export default function TypographicWallpaper({
   const logoBottom = logoTop + logoHeight
   const headlineTop = logoBottom + (isStory ? 14 : 6)
 
+  // Text zone: top 35%. Image zone: bottom 65%. No overlap.
+  const textZoneEnd = isStory ? 0.35 : 0.35
+  const imageZoneStart = textZoneEnd
+
   return (
     <div
       className="typo-wallpaper"
@@ -28,6 +32,7 @@ export default function TypographicWallpaper({
         background: bgColor,
       }}
     >
+      {/* Background text - decorative only, behind everything */}
       <div className="tw-bg-text" style={{ color: bgTextColor }}>
         {Array.from({ length: rows }, (_, i) => (
           <div
@@ -55,6 +60,7 @@ export default function TypographicWallpaper({
         }}
       />
 
+      {/* Headline in top text zone */}
       <div
         className="tw-headline"
         style={{
@@ -62,20 +68,24 @@ export default function TypographicWallpaper({
           fontSize: isStory ? 100 : 88,
           top: headlineTop,
           padding: isStory ? '0 50px' : '0 30px',
+          maxHeight: height * textZoneEnd - headlineTop,
+          overflow: 'hidden',
           textShadow: `0 4px 20px rgba(0, 0, 0, 0.15), 0 0 60px ${bgColor}`,
         }}
       >
         {headline}
       </div>
 
-      {/* Box centred, fully visible within frame */}
+      {/* Box in bottom image zone, centred, fully visible */}
       <img
         src={boxImage}
         alt="SnackVerse Box"
         className="tw-box"
         style={{
-          bottom: isStory ? 400 : 20,
-          height: isStory ? '48%' : '60%',
+          top: height * imageZoneStart,
+          bottom: 20,
+          height: 'auto',
+          maxHeight: height * (1 - imageZoneStart) - 30,
           maxWidth: '90%',
         }}
       />

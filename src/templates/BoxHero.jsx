@@ -10,6 +10,10 @@ export default function BoxHero({ headline, bgColor, textColor, boxImage, showLo
   const logoBottom = logoTop + logoHeight
   const headlineTop = showLogo ? logoBottom + (isStory ? 16 : 8) : (isStory ? 290 : 30)
 
+  // Text zone: top 40% of canvas. Image zone: bottom 60%.
+  const textZoneEnd = isStory ? 0.35 : 0.38
+  const imageZoneStart = textZoneEnd
+
   return (
     <div
       className="box-hero"
@@ -35,6 +39,7 @@ export default function BoxHero({ headline, bgColor, textColor, boxImage, showLo
         />
       )}
 
+      {/* Headline: stays in top text zone */}
       <div
         className="bh-headline"
         style={{
@@ -43,19 +48,23 @@ export default function BoxHero({ headline, bgColor, textColor, boxImage, showLo
           fontSize: isStory ? 120 : 100,
           padding: isStory ? '0 60px' : '0 36px',
           maxWidth: '100%',
+          maxHeight: height * textZoneEnd - headlineTop,
+          overflow: 'hidden',
         }}
       >
         {headline}
       </div>
 
-      {/* Box: centred, fully visible, no clipping */}
+      {/* Box: stays in bottom image zone, fully visible */}
       <img
         src={boxImage}
         alt="SnackVerse Box"
         className="bh-box-image"
         style={{
-          bottom: isStory ? 400 : 20,
-          height: isStory ? '50%' : '62%',
+          top: height * imageZoneStart,
+          bottom: 20,
+          height: 'auto',
+          maxHeight: height * (1 - imageZoneStart) - 30,
           maxWidth: '90%',
         }}
       />

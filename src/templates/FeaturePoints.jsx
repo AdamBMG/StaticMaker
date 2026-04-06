@@ -20,6 +20,10 @@ export default function FeaturePoints({
   const logoBottom = logoTop + logoHeight
   const headlineTop = logoBottom + (isStory ? 16 : 8)
 
+  // Left column: text (60% width). Right column: box (40% width). No overlap.
+  const textWidth = isStory ? '100%' : '58%'
+  const boxWidth = isStory ? '45%' : '40%'
+
   return (
     <div
       className="feature-points"
@@ -44,28 +48,32 @@ export default function FeaturePoints({
         }}
       />
 
+      {/* Headline: left side on square, full width on story */}
       <div
         className="fp-headline"
         style={{
           color: textColor,
           top: headlineTop,
-          fontSize: isStory ? 76 : 56,
+          fontSize: isStory ? 76 : 52,
           padding: isStory ? '0 60px' : '0 36px',
+          width: textWidth,
         }}
       >
         {headline}
       </div>
 
+      {/* Points: left side */}
       <div
         className="fp-points"
         style={{
           top: isStory ? 680 : 370,
           padding: isStory ? '0 60px' : '0 36px',
+          width: textWidth,
         }}
       >
         {[point1, point2, point3].filter(Boolean).map((point, i) => (
-          <div key={i} className="fp-point" style={{ fontSize: isStory ? 36 : 28 }}>
-            <span className="fp-check" style={{ color: accentColor, fontSize: isStory ? 40 : 32 }}>
+          <div key={i} className="fp-point" style={{ fontSize: isStory ? 36 : 26 }}>
+            <span className="fp-check" style={{ color: accentColor, fontSize: isStory ? 40 : 30 }}>
               &#10003;
             </span>
             <span style={{ color: textColor }}>{point}</span>
@@ -73,24 +81,25 @@ export default function FeaturePoints({
         ))}
       </div>
 
-      {/* Box fully visible, bottom-right, no clipping */}
+      {/* Box: right side, fully visible, no overlap with text */}
       <img
         src={boxImage}
         alt="SnackVerse Box"
         className="fp-box"
         style={{
-          bottom: isStory ? 400 : 30,
+          bottom: isStory ? 400 : 70,
           right: isStory ? 30 : 16,
-          height: isStory ? '40%' : '48%',
+          width: boxWidth,
+          height: 'auto',
         }}
       />
 
       <div
         className="fp-cta"
         style={{
-          bottom: isStory ? 410 : 36,
+          bottom: isStory ? 410 : 30,
           left: isStory ? 60 : 36,
-          fontSize: isStory ? 28 : 22,
+          fontSize: isStory ? 28 : 20,
           background: accentColor,
           color: bgColor,
         }}

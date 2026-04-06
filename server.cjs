@@ -56,9 +56,13 @@ app.delete('/api/scales/:key', (req, res) => {
   res.json({ ok: true, key })
 })
 
-// SPA fallback - serve index.html for all other routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+// SPA fallback - serve index.html for all other routes (Express 5 syntax)
+app.use((req, res, next) => {
+  if (req.method === 'GET' && !req.path.startsWith('/api/')) {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'))
+  } else {
+    next()
+  }
 })
 
 app.listen(PORT, () => {

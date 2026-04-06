@@ -1,0 +1,88 @@
+.numbered-steps {
+  position: relative;
+  overflow: hidden;
+  font-family: 'Readex Pro', sans-serif;
+}
+
+.ns-deco {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.ns-deco-1 {
+  width: 500px;
+  height: 500px;
+  top: -150px;
+  left: -200px;
+}
+
+.ns-deco-2 {
+  width: 350px;
+  height: 350px;
+  bottom: -100px;
+  right: -100px;
+}
+
+.ns-headline {
+  position: absolute;
+  z-index: 5;
+  font-family: 'Luckiest Guy', 'Lilita One', sans-serif;
+  font-weight: 400;
+  line-height: 1.05;
+  color: #FFD700;
+  text-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  text-align: right;
+}
+
+.ns-box {
+  position: absolute;
+  z-index: 4;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.3));
+}
+
+.ns-steps {
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+}
+
+.ns-step {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ns-number {
+  background: #E02020;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.ns-label {
+  color: #FFD700;
+  font-weight: 600;
+}
+
+.ns-logo {
+  position: absolute;
+  z-index: 10;
+  object-fit: contain;
+}
+
+.ns-url {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 1px;
+}

@@ -1,0 +1,33 @@
+:root {
+  --sv-orange: #FF7A00;
+  --sv-purple: #6B2FA0;
+  --sv-yellow: #FFD700;
+  --sv-red: #E02020;
+  --sv-pink: #FFD6D6;
+  --sv-lilac: #E8D0FF;
+  --sv-coral: #FF4040;
+
+  --ui-bg: #1a1a2e;
+  --ui-surface: #222240;
+  --ui-border: #333355;
+  --ui-text: #e0e0e0;
+  --ui-text-muted: #888;
+  --ui-accent: #FF7A00;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Readex Pro', sans-serif;
+  background: var(--ui-bg);
+  color: var(--ui-text);
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}

@@ -1,0 +1,112 @@
+.pricing-tier {
+  position: relative;
+  overflow: hidden;
+  font-family: 'Readex Pro', sans-serif;
+}
+
+.pt-logo {
+  position: absolute;
+  z-index: 10;
+  object-fit: contain;
+}
+
+.pt-headline {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: 'Luckiest Guy', 'Lilita One', 'Bubblegum Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -1px;
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.pt-cards {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: stretch;
+  z-index: 5;
+}
+
+.pt-card {
+  background: white;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  gap: 4px;
+  padding-bottom: 24px;
+}
+
+.pt-badge {
+  position: absolute;
+  top: -10px;
+  right: -5px;
+  background: #E02020;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.5px;
+  transform: rotate(5deg);
+}
+
+.pt-tier-image-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.pt-tier-image {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.pt-tier-name {
+  font-weight: 700;
+  color: #333;
+  letter-spacing: -0.3px;
+}
+
+.pt-tier-snacks {
+  color: #888;
+  font-weight: 400;
+  margin-bottom: 4px;
+}
+
+.pt-tier-price {
+  font-weight: 800;
+  color: #E02020;
+  line-height: 1;
+}
+
+.pt-currency {
+  font-size: 0.6em;
+  vertical-align: super;
+}
+
+.pt-tier-period {
+  color: #aaa;
+  font-weight: 400;
+}
+
+.pt-cta {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 1px;
+}

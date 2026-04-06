@@ -66,7 +66,7 @@ export default function NumberedSteps({
           left: isStory ? 20 : 10,
           bottom: isStory ? 410 : 30,
           top: 'auto',
-          height: isStory ? '38%' : '52%',
+          height: isStory ? '44%' : '62%',
         }}
       />
 

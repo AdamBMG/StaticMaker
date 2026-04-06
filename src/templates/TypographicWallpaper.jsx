@@ -19,8 +19,8 @@ export default function TypographicWallpaper({
   const logoBottom = logoTop + logoHeight
   const headlineTop = logoBottom + (isStory ? 14 : 6)
 
-  // Text zone: top 35%. Image zone: bottom 65%. No overlap.
-  const textZoneEnd = isStory ? 0.35 : 0.35
+  // Text zone: top 28%. Image zone: bottom 72%. Box should dominate.
+  const textZoneEnd = isStory ? 0.30 : 0.28
   const imageZoneStart = textZoneEnd
 
   return (
@@ -85,8 +85,8 @@ export default function TypographicWallpaper({
           top: height * imageZoneStart,
           bottom: 20,
           height: 'auto',
-          maxHeight: height * (1 - imageZoneStart) - 30,
-          maxWidth: '90%',
+          maxHeight: height * (1 - imageZoneStart) - 20,
+          maxWidth: '95%',
         }}
       />
     </div>

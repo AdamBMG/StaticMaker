@@ -20,9 +20,9 @@ export default function FeaturePoints({
   const logoBottom = logoTop + logoHeight
   const headlineTop = logoBottom + (isStory ? 16 : 8)
 
-  // Left column: text (60% width). Right column: box (40% width). No overlap.
-  const textWidth = isStory ? '100%' : '58%'
-  const boxWidth = isStory ? '45%' : '40%'
+  // Left column: text (55% width). Right column: box (48% width). No overlap.
+  const textWidth = isStory ? '100%' : '55%'
+  const boxWidth = isStory ? '50%' : '48%'
 
   return (
     <div

@@ -17,8 +17,8 @@ export default function Testimonial({
   const logoBottom = logoTop + logoHeight
   const quoteTop = logoBottom + (isStory ? 16 : 8)
 
-  // Square: text top 50%, product bottom 50%. Story: text top 40%, product bottom 50%.
-  const textZoneEnd = isStory ? 0.40 : 0.45
+  // Text top 35%, product bottom 65%. Big product.
+  const textZoneEnd = isStory ? 0.35 : 0.35
   const imageZoneStart = textZoneEnd
 
   return (
@@ -84,8 +84,8 @@ export default function Testimonial({
           left: '50%',
           transform: 'translateX(-50%)',
           height: 'auto',
-          maxHeight: height * (1 - imageZoneStart) - 30,
-          maxWidth: '85%',
+          maxHeight: height * (1 - imageZoneStart) - 20,
+          maxWidth: '95%',
           right: 'auto',
         }}
       />

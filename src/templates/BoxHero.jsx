@@ -10,8 +10,8 @@ export default function BoxHero({ headline, bgColor, textColor, boxImage, showLo
   const logoBottom = logoTop + logoHeight
   const headlineTop = showLogo ? logoBottom + (isStory ? 16 : 8) : (isStory ? 290 : 30)
 
-  // Text zone: top 40% of canvas. Image zone: bottom 60%.
-  const textZoneEnd = isStory ? 0.35 : 0.38
+  // Text zone: top 30%. Image zone: bottom 70%. Box should dominate.
+  const textZoneEnd = isStory ? 0.32 : 0.30
   const imageZoneStart = textZoneEnd
 
   return (
@@ -64,8 +64,8 @@ export default function BoxHero({ headline, bgColor, textColor, boxImage, showLo
           top: height * imageZoneStart,
           bottom: 20,
           height: 'auto',
-          maxHeight: height * (1 - imageZoneStart) - 30,
-          maxWidth: '90%',
+          maxHeight: height * (1 - imageZoneStart) - 20,
+          maxWidth: '95%',
         }}
       />
     </div>

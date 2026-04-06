@@ -12,7 +12,7 @@ export default function TypographicWallpaper({
   format,
 }) {
   const isStory = format === 'story'
-  const rows = isStory ? 18 : 12
+  const rows = isStory ? 20 : 14
 
   const logoHeight = isStory ? 48 : 40
   const logoTop = isStory ? 290 : 28
@@ -34,7 +34,7 @@ export default function TypographicWallpaper({
             key={i}
             className="tw-bg-row"
             style={{
-              fontSize: isStory ? 76 : 68,
+              fontSize: isStory ? 80 : 72,
               transform: `rotate(-15deg) translateX(${(i % 2) * -80}px)`,
             }}
           >
@@ -59,22 +59,26 @@ export default function TypographicWallpaper({
         className="tw-headline"
         style={{
           color: textColor,
-          fontSize: isStory ? 92 : 80,
+          fontSize: isStory ? 100 : 88,
           top: headlineTop,
-          padding: isStory ? '0 60px' : '0 36px',
+          padding: isStory ? '0 50px' : '0 30px',
           textShadow: `0 4px 20px rgba(0, 0, 0, 0.15), 0 0 60px ${bgColor}`,
         }}
       >
         {headline}
       </div>
 
+      {/* Box centred and huge */}
       <img
         src={boxImage}
         alt="SnackVerse Box"
         className="tw-box"
         style={{
-          bottom: isStory ? 360 : -30,
-          height: isStory ? '52%' : '70%',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -20%)',
+          height: isStory ? '56%' : '78%',
+          bottom: 'auto',
         }}
       />
     </div>

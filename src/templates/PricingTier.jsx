@@ -65,14 +65,15 @@ export default function PricingTier({ headline, bgColor, width, height, format }
         {headline}
       </div>
 
+      {/* Cards stretch to fill - minimal padding */}
       <div
         className="pt-cards"
         style={{
-          top: isStory ? 480 : 190,
-          bottom: isStory ? 400 : 30,
+          top: isStory ? 480 : 180,
+          bottom: isStory ? 400 : 16,
           flexDirection: isStory ? 'column' : 'row',
-          padding: isStory ? '0 50px' : '0 20px',
-          gap: isStory ? 16 : 12,
+          padding: isStory ? '0 40px' : '0 14px',
+          gap: isStory ? 14 : 10,
         }}
       >
         {TIERS.map((tier, i) => (
@@ -80,7 +81,7 @@ export default function PricingTier({ headline, bgColor, width, height, format }
             {tier.badge && (
               <div className="pt-badge" style={{ fontSize: isStory ? 12 : 10 }}>{tier.badge}</div>
             )}
-            <div className="pt-tier-image-wrap" style={{ height: isStory ? 120 : 110 }}>
+            <div className="pt-tier-image-wrap" style={{ flex: 1, minHeight: 0 }}>
               <img src={tier.image} alt={tier.name} className="pt-tier-image" />
             </div>
             <div className="pt-tier-name" style={{ fontSize: isStory ? 22 : 17 }}>

@@ -42,7 +42,7 @@ export default function Testimonial({
         style={{
           color: textColor,
           top: quoteTop,
-          fontSize: isStory ? 60 : 52,
+          fontSize: isStory ? 64 : 56,
           padding: isStory ? '0 60px' : '0 36px',
         }}
       >
@@ -61,19 +61,20 @@ export default function Testimonial({
             src="/assets/brand/trustpilot-stars-5.svg"
             alt="Trustpilot 5 stars"
             className="tm-tp-svg"
-            style={{ height: isStory ? 40 : 32 }}
+            style={{ height: isStory ? 44 : 36 }}
           />
         </div>
       )}
 
+      {/* Product way bigger, fills bottom half */}
       <img
         src={productImage}
         alt="Product"
         className="tm-product"
         style={{
-          bottom: isStory ? 390 : -10,
-          right: isStory ? 20 : -10,
-          height: isStory ? '48%' : '58%',
+          bottom: isStory ? 370 : -40,
+          right: isStory ? -10 : -40,
+          height: isStory ? '52%' : '68%',
         }}
       />
     </div>

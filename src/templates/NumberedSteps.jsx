@@ -45,6 +45,7 @@ export default function NumberedSteps({
         }}
       />
 
+      {/* Headline top-right */}
       <div
         className="ns-headline"
         style={{
@@ -57,24 +58,27 @@ export default function NumberedSteps({
         {headline}
       </div>
 
+      {/* Box bottom-left, big */}
       <img
         src={boxImage}
         alt="SnackVerse Box"
         className="ns-box"
         style={{
-          left: isStory ? 10 : -10,
-          top: isStory ? 460 : 140,
-          height: isStory ? '40%' : '60%',
+          left: isStory ? -20 : -30,
+          bottom: isStory ? 400 : -20,
+          top: 'auto',
+          height: isStory ? '44%' : '65%',
         }}
       />
 
+      {/* Steps right side, no overlap with box */}
       <div
         className="ns-steps"
         style={{
           right: isStory ? 60 : 30,
-          top: isStory ? 560 : 240,
-          width: isStory ? '52%' : '48%',
-          gap: isStory ? 28 : 24,
+          top: isStory ? 560 : 280,
+          width: isStory ? '48%' : '44%',
+          gap: isStory ? 32 : 28,
         }}
       >
         {STEPS.map((step, i) => (
@@ -82,16 +86,16 @@ export default function NumberedSteps({
             <div
               className="ns-number"
               style={{
-                width: isStory ? 52 : 44,
-                height: isStory ? 52 : 44,
-                fontSize: isStory ? 28 : 24,
+                width: isStory ? 56 : 48,
+                height: isStory ? 56 : 48,
+                fontSize: isStory ? 30 : 26,
               }}
             >
               {step.number}
             </div>
             <span
               className="ns-label"
-              style={{ fontSize: isStory ? 28 : 24 }}
+              style={{ fontSize: isStory ? 30 : 26 }}
             >
               {step.label}
             </span>

@@ -377,25 +377,43 @@ function App() {
   const template = TEMPLATES[selectedTemplate]
   const format = FORMATS[selectedFormat]
 
-  // QC scale: saved per template+variant+format in localStorage
+  // QC scale: saved per template+variant+format, synced to server + localStorage
   const scaleKey = `qc_${template.id}_${selectedVariant}_${format.id}`
+  const [qcScale, setQcScaleRaw] = useState(1.0)
+  const [serverScales, setServerScales] = useState({})
 
-  const [qcScale, setQcScaleRaw] = useState(() => {
-    const saved = localStorage.getItem(scaleKey)
-    return saved ? parseFloat(saved) : 1.0
-  })
-
-  // When template/variant/format changes, load the saved scale
+  // Load all scales from server on mount
   useEffect(() => {
-    const saved = localStorage.getItem(scaleKey)
-    setQcScaleRaw(saved ? parseFloat(saved) : 1.0)
-  }, [scaleKey])
+    fetch('/api/scales').then(r => r.json()).then(data => {
+      setServerScales(data)
+    }).catch(() => {
+      // Fallback: load from localStorage
+      const local = {}
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i)
+        if (k.startsWith('qc_')) local[k] = parseFloat(localStorage.getItem(k))
+      }
+      setServerScales(local)
+    })
+  }, [])
 
-  // Wrapper that saves to localStorage whenever scale changes
+  // When key changes, load saved scale
+  useEffect(() => {
+    const saved = serverScales[scaleKey]
+    setQcScaleRaw(saved != null ? parseFloat(saved) : 1.0)
+  }, [scaleKey, serverScales])
+
+  // Save to server + localStorage on change
   const setQcScale = useCallback((val) => {
     const v = typeof val === 'function' ? val(qcScale) : val
     setQcScaleRaw(v)
-    localStorage.setItem(scaleKey, v.toString())
+    setServerScales(prev => ({ ...prev, [scaleKey]: v }))
+    localStorage.setItem(scaleKey, String(v))
+    fetch('/api/scales/' + encodeURIComponent(scaleKey), {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ value: v }),
+    }).catch(() => {})
   }, [scaleKey, qcScale])
   const variant = template.variants[selectedVariant] || {}
   const adProps = { ...template.defaults, ...variant, ...customProps }

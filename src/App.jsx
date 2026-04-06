@@ -9,6 +9,7 @@ import CountryGrid from './templates/CountryGrid'
 import NumberedSteps from './templates/NumberedSteps'
 import TypographicWallpaper from './templates/TypographicWallpaper'
 import StarterPack from './templates/StarterPack'
+import QCChecker from './components/QCChecker'
 import './App.css'
 
 const TEMPLATES = [
@@ -568,6 +569,16 @@ function App() {
                 </>
               )}
             </div>
+          </section>
+
+          <section className="control-section">
+            <h2>Quality Check</h2>
+            <QCChecker
+              templateId={template.id}
+              adRef={adRef}
+              width={format.width}
+              height={format.height}
+            />
           </section>
 
           <section className="control-section export-section">

@@ -26,6 +26,7 @@ export default function StarterPack({
       <div className="sp-headline" style={{
         color: accentColor, top: (isStory ? 340 : 58) + (ov['headline.top'] || 0),
         fontSize: (isStory ? 82 : 72) + (ov['headline.fontSize'] || 0),
+        marginLeft: ov['headline.left'] || 0,
         padding: isStory ? '0 40px' : '0 20px',
         WebkitTextStroke: `3px ${darken(accentColor, 30)}`,
         paintOrder: 'stroke fill',
@@ -38,7 +39,7 @@ export default function StarterPack({
         const productSize = ((isStory ? product.size * 0.95 : product.size) + (ov['products.size'] || 0)) * qcScale
         return (
           <div key={i} className="sp-product" style={{
-            left: `${product.x}%`, top: `${productTop}%`, width: `${productSize}%`,
+            left: `${product.x + (ov['products.left'] || 0)}%`, top: `${productTop}%`, width: `${productSize}%`,
           }}>
             <div className="sp-circle" />
             <img src={product.image} alt={product.label} className="sp-product-img" />

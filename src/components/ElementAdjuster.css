@@ -4,6 +4,23 @@
   gap: 8px;
 }
 
+.ea-dropdown {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--ui-border);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--ui-text);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.ea-dropdown:focus {
+  outline: none;
+  border-color: var(--ui-accent);
+}
+
 .ea-element {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--ui-border);
@@ -11,11 +28,35 @@
   padding: 8px;
 }
 
+.ea-element-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
 .ea-label {
   font-size: 12px;
   font-weight: 600;
   color: var(--ui-text);
-  margin-bottom: 6px;
+}
+
+.ea-unpin {
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: 3px;
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  font-size: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ea-unpin:hover {
+  background: rgba(239, 68, 68, 0.3);
 }
 
 .ea-controls {
@@ -33,8 +74,27 @@
 .ea-prop-label {
   font-size: 10px;
   color: var(--ui-text-muted);
-  width: 40px;
+  width: 36px;
   flex-shrink: 0;
+}
+
+.ea-reset {
+  width: 18px;
+  height: 18px;
+  border: none;
+  border-radius: 3px;
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  font-size: 9px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ea-reset:hover {
+  background: rgba(239, 68, 68, 0.3);
 }
 
 .ea-btn {
@@ -51,6 +111,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .ea-btn:hover {
@@ -67,22 +128,21 @@
   font-family: monospace;
 }
 
-.ea-reset {
-  width: 20px;
-  height: 20px;
-  border: none;
-  border-radius: 3px;
-  background: rgba(239, 68, 68, 0.2);
-  color: #ef4444;
-  font-size: 10px;
+.ea-pin-btn {
+  width: 100%;
+  padding: 6px;
+  border: 1px dashed var(--ui-border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ui-text-muted);
+  font-size: 11px;
+  font-family: inherit;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.ea-reset:hover {
-  background: rgba(239, 68, 68, 0.3);
+.ea-pin-btn:hover {
+  border-color: var(--ui-accent);
+  color: var(--ui-accent);
 }
 
 .ea-reset-all {

@@ -16,7 +16,7 @@ export default function NumberedSteps({ headline = "You'll eat these.", bgColor 
       <div className="ns-deco ns-deco-2" />
 
       <div className="ns-headline" style={{
-        top: (isStory ? 350 : 60) + (ov['headline.top'] || 0), right: isStory ? 50 : 20,
+        top: (isStory ? 350 : 60) + (ov['headline.top'] || 0), right: (isStory ? 50 : 20) + (ov['headline.right'] || 0),
         fontSize: (isStory ? 66 : 54) + (ov['headline.fontSize'] || 0), width: isStory ? '52%' : '48%',
       }}>
         {headline}
@@ -24,7 +24,7 @@ export default function NumberedSteps({ headline = "You'll eat these.", bgColor 
 
       {/* Box: fills left half, big */}
       <img src={boxImage} alt="SnackVerse Box" className="ns-box" style={{
-        left: isStory ? 0 : -10,
+        left: (isStory ? 0 : -10) + (ov['box.left'] || 0),
         bottom: (isStory ? 400 : 0) + (ov['box.bottom'] || 0),
         top: 'auto',
         height: `${((isStory ? 46 : 70) + (ov['box.height'] || 0)) * qcScale}%`,
@@ -32,7 +32,7 @@ export default function NumberedSteps({ headline = "You'll eat these.", bgColor 
 
       {/* Steps: right side, vertically centred in lower half */}
       <div className="ns-steps" style={{
-        right: isStory ? 50 : 20,
+        right: (isStory ? 50 : 20) + (ov['steps.right'] || 0),
         bottom: (isStory ? 440 : 50) + (ov['steps.bottom'] || 0),
         top: 'auto',
         width: isStory ? '48%' : '46%',

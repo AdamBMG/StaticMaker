@@ -26,7 +26,7 @@ export default function TypographicWallpaper({
       {/* Headline over the box, like real ads */}
       <div className="tw-headline" style={{
         color: textColor, fontSize: (isStory ? 104 : 92) + (ov['headline.fontSize'] || 0),
-        top: (isStory ? 290 : 20) + (ov['headline.top'] || 0), padding: isStory ? '0 50px' : '0 24px',
+        top: (isStory ? 290 : 20) + (ov['headline.top'] || 0), marginLeft: ov['headline.left'] || 0, padding: isStory ? '0 50px' : '0 24px',
         textShadow: `0 4px 20px rgba(0, 0, 0, 0.15), 0 0 60px ${bgColor}`,
         zIndex: 10,
       }}>
@@ -38,6 +38,7 @@ export default function TypographicWallpaper({
         bottom: (isStory ? 380 : 8) + (ov['box.bottom'] || 0),
         left: '50%',
         transform: 'translateX(-50%)',
+        marginLeft: ov['box.left'] || 0,
         height: `${((isStory ? 54 : 78) + (ov['box.height'] || 0)) * qcScale}%`,
         maxWidth: '98%',
         zIndex: 5,

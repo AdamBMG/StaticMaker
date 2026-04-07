@@ -16,6 +16,7 @@ export default function FeaturePoints({
         color: textColor, top: (isStory ? 360 : 80) + (ov['headline.top'] || 0),
         fontSize: (isStory ? 76 : 54) + (ov['headline.fontSize'] || 0),
         padding: isStory ? '0 50px' : '0 30px',
+        marginLeft: ov['headline.left'] || 0,
         width: isStory ? '100%' : '58%',
         zIndex: 10,
       }}>
@@ -25,6 +26,7 @@ export default function FeaturePoints({
       <div className="fp-points" style={{
         top: (isStory ? 680 : 340) + (ov['points.top'] || 0),
         padding: isStory ? '0 50px' : '0 30px',
+        marginLeft: ov['points.left'] || 0,
         width: isStory ? '100%' : '58%',
         zIndex: 10,
       }}>
@@ -39,13 +41,13 @@ export default function FeaturePoints({
       {/* Box: bottom-right, fills 55% height on square */}
       <img src={boxImage} alt="SnackVerse Box" className="fp-box" style={{
         bottom: (isStory ? 400 : 0) + (ov['box.bottom'] || 0),
-        right: isStory ? 10 : -10,
+        right: (isStory ? 10 : -10) + (ov['box.right'] || 0),
         height: `${((isStory ? 44 : 58) + (ov['box.height'] || 0)) * qcScale}%`,
         zIndex: 5,
       }} />
 
       <div className="fp-cta" style={{
-        bottom: (isStory ? 410 : 24) + (ov['cta.bottom'] || 0), left: isStory ? 50 : 30,
+        bottom: (isStory ? 410 : 24) + (ov['cta.bottom'] || 0), left: (isStory ? 50 : 30) + (ov['cta.left'] || 0),
         fontSize: (isStory ? 28 : 22) + (ov['cta.fontSize'] || 0), background: accentColor, color: bgColor,
         zIndex: 10,
       }}>

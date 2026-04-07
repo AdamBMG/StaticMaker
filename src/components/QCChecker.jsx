@@ -61,10 +61,10 @@ export default function QCChecker({ templateId, adRef, width, height, qcScale, o
       <div className="qc-scale-row">
         <button className="qc-scale-btn" onClick={() => onScaleChange(Math.max(0.5, qcScale - 0.1))}>-</button>
         <span className="qc-scale-label">{(qcScale * 100).toFixed(0)}%</span>
-        <button className="qc-scale-btn" onClick={() => onScaleChange(Math.min(2.0, qcScale + 0.1))}>+</button>
         {qcScale !== 1.0 && (
           <button className="qc-reset-btn" onClick={() => onScaleChange(1.0)}>Reset</button>
         )}
+        <button className="qc-scale-btn" onClick={() => onScaleChange(Math.min(2.0, qcScale + 0.1))}>+</button>
       </div>
 
       {/* QC status */}

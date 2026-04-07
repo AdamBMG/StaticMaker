@@ -38,6 +38,7 @@ export default function CountryGrid({ headline = 'Taste a different country ever
       <div className="cg-headline" style={{
         bottom: (isStory ? 410 : 20) + (ov['headline.bottom'] || 0),
         fontSize: (isStory ? 54 : 46) + (ov['headline.fontSize'] || 0),
+        marginLeft: ov['headline.left'] || 0,
         padding: isStory ? '0 30px' : '0 12px',
       }}>
         {headline}

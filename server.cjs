@@ -374,7 +374,7 @@ Examples of what works:
     const ai = new GoogleGenAI({ apiKey })
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3-pro-image',
+      model: 'gemini-3-pro-image-preview',
       contents: prompt,
       config: {
         responseModalities: ['TEXT', 'IMAGE'],

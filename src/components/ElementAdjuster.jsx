@@ -35,10 +35,10 @@ function ElementControls({ el, overrides, onOverrideChange, onUnpin, isPinned })
           return (
             <div key={prop} className="ea-prop">
               <span className="ea-prop-label">{PROP_LABELS[prop] || prop}</span>
-              {val !== 0 && <button className="ea-reset" onClick={() => reset(prop)}>x</button>}
               <button className="ea-btn" onClick={() => nudge(prop, -config.step)}>-</button>
               <span className="ea-value">{val > 0 ? '+' : ''}{val}{unit}</span>
               <button className="ea-btn" onClick={() => nudge(prop, config.step)}>+</button>
+              <button className={`ea-reset ${val === 0 ? 'ea-hidden' : ''}`} onClick={() => reset(prop)}>x</button>
             </div>
           )
         })}

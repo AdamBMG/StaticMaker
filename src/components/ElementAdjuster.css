@@ -97,6 +97,10 @@
   background: rgba(239, 68, 68, 0.3);
 }
 
+.ea-reset.ea-hidden {
+  visibility: hidden;
+}
+
 .ea-btn {
   width: 26px;
   height: 26px;

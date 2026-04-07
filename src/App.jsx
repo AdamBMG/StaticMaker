@@ -12,6 +12,7 @@ import StarterPack from './templates/StarterPack'
 import QCChecker from './components/QCChecker'
 import BatchMode from './components/BatchMode'
 import BatchGrid from './components/BatchGrid'
+import HeadlineGenerator from './components/HeadlineGenerator'
 import './App.css'
 
 const TEMPLATES = [
@@ -630,6 +631,10 @@ function App() {
                 </>
               )}
             </div>
+            <HeadlineGenerator
+              mode="single"
+              onSelectHeadline={(h) => setCustomProps(p => ({ ...p, headline: h }))}
+            />
           </section>
 
           <section className="control-section">

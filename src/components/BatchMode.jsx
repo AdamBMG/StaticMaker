@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import HeadlineGenerator from './HeadlineGenerator'
 import './BatchMode.css'
 
 const COLOUR_OPTIONS = [
@@ -83,6 +84,15 @@ export default function BatchMode({ onGenerate }) {
 
   return (
     <div className="batch-mode">
+      <section className="batch-section">
+        <h2>AI Generate</h2>
+        <HeadlineGenerator
+          mode="batch"
+          onSelectHeadline={(h) => setHeadlines(prev => prev ? prev + '\n' + h : h)}
+          onAddAllHeadlines={(hs) => setHeadlines(prev => prev ? prev + '\n' + hs.join('\n') : hs.join('\n'))}
+        />
+      </section>
+
       <section className="batch-section">
         <h2>Headlines</h2>
         <textarea

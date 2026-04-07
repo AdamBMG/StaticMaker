@@ -10,7 +10,7 @@ const COUNTRIES = [
   { name: 'France', month: 'JUL', image: '/assets/country-boxes/france-box.png', bg: '#FF7A00' },
 ]
 
-export default function CountryGrid({ headline = 'Taste a different country every month.', bgColor = '#FF4040', width, height, format, qcScale = 1.0 }) {
+export default function CountryGrid({ headline = 'Taste a different country every month.', bgColor = '#FF4040', width, height, format, qcScale = 1.0, ov = {} }) {
   const isStory = format === 'story'
   const gridCols = isStory ? 2 : 3
   const gridRows = isStory ? 3 : 2
@@ -19,8 +19,8 @@ export default function CountryGrid({ headline = 'Taste a different country ever
     <div className="country-grid" style={{ width, height, background: `linear-gradient(180deg, ${bgColor} 0%, ${darken(bgColor, 10)} 100%)` }}>
       {/* Grid: fills from 6% to 82% on square */}
       <div className="cg-grid" style={{
-        top: isStory ? 340 : 58,
-        bottom: isStory ? 480 : 130,
+        top: (isStory ? 340 : 58) + (ov['grid.top'] || 0),
+        bottom: (isStory ? 480 : 130) + (ov['grid.bottom'] || 0),
         padding: isStory ? '0 30px' : '0 12px',
         gridTemplateColumns: `repeat(${gridCols}, 1fr)`,
         gridTemplateRows: `repeat(${gridRows}, 1fr)`,
@@ -36,8 +36,8 @@ export default function CountryGrid({ headline = 'Taste a different country ever
       </div>
 
       <div className="cg-headline" style={{
-        bottom: isStory ? 410 : 20,
-        fontSize: isStory ? 54 : 46,
+        bottom: (isStory ? 410 : 20) + (ov['headline.bottom'] || 0),
+        fontSize: (isStory ? 54 : 46) + (ov['headline.fontSize'] || 0),
         padding: isStory ? '0 30px' : '0 12px',
       }}>
         {headline}

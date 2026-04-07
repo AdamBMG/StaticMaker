@@ -4,7 +4,7 @@ import './FeaturePoints.css'
 export default function FeaturePoints({
   headline, point1, point2, point3, bgColor,
   textColor = '#FFFFFF', accentColor = '#FFD700', boxImage,
-  width, height, format, qcScale = 1.0,
+  width, height, format, qcScale = 1.0, ov = {},
 }) {
   const isStory = format === 'story'
 
@@ -13,8 +13,8 @@ export default function FeaturePoints({
       <div className="fp-deco fp-deco-1" style={{ background: accentColor, opacity: 0.08 }} />
 
       <div className="fp-headline" style={{
-        color: textColor, top: isStory ? 360 : 80,
-        fontSize: isStory ? 76 : 54,
+        color: textColor, top: (isStory ? 360 : 80) + (ov['headline.top'] || 0),
+        fontSize: (isStory ? 76 : 54) + (ov['headline.fontSize'] || 0),
         padding: isStory ? '0 50px' : '0 30px',
         width: isStory ? '100%' : '58%',
         zIndex: 10,
@@ -23,13 +23,13 @@ export default function FeaturePoints({
       </div>
 
       <div className="fp-points" style={{
-        top: isStory ? 680 : 340,
+        top: (isStory ? 680 : 340) + (ov['points.top'] || 0),
         padding: isStory ? '0 50px' : '0 30px',
         width: isStory ? '100%' : '58%',
         zIndex: 10,
       }}>
         {[point1, point2, point3].filter(Boolean).map((point, i) => (
-          <div key={i} className="fp-point" style={{ fontSize: isStory ? 36 : 28 }}>
+          <div key={i} className="fp-point" style={{ fontSize: (isStory ? 36 : 28) + (ov['points.fontSize'] || 0) }}>
             <span className="fp-check" style={{ color: accentColor, fontSize: isStory ? 40 : 32 }}>&#10003;</span>
             <span style={{ color: textColor }}>{point}</span>
           </div>
@@ -38,15 +38,15 @@ export default function FeaturePoints({
 
       {/* Box: bottom-right, fills 55% height on square */}
       <img src={boxImage} alt="SnackVerse Box" className="fp-box" style={{
-        bottom: isStory ? 400 : 0,
+        bottom: (isStory ? 400 : 0) + (ov['box.bottom'] || 0),
         right: isStory ? 10 : -10,
-        height: `${(isStory ? 44 : 58) * qcScale}%`,
+        height: `${((isStory ? 44 : 58) + (ov['box.height'] || 0)) * qcScale}%`,
         zIndex: 5,
       }} />
 
       <div className="fp-cta" style={{
-        bottom: isStory ? 410 : 24, left: isStory ? 50 : 30,
-        fontSize: isStory ? 28 : 22, background: accentColor, color: bgColor,
+        bottom: (isStory ? 410 : 24) + (ov['cta.bottom'] || 0), left: isStory ? 50 : 30,
+        fontSize: (isStory ? 28 : 22) + (ov['cta.fontSize'] || 0), background: accentColor, color: bgColor,
         zIndex: 10,
       }}>
         SUBSCRIBE NOW

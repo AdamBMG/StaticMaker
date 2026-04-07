@@ -1,7 +1,7 @@
 import './BoxHero.css'
 
 // REAL AD BENCHMARK: headline top 5-25%, box starts at 20% and fills to 95%. Headline overlaps box.
-export default function BoxHero({ headline, bgColor, textColor, boxImage, width, height, format, qcScale = 1.0 }) {
+export default function BoxHero({ headline, bgColor, textColor, boxImage, width, height, format, qcScale = 1.0, ov = {} }) {
   const isStory = format === 'story'
   const bgGradient = `linear-gradient(180deg, ${bgColor} 0%, ${adjustBrightness(bgColor, -15)} 100%)`
 
@@ -13,8 +13,8 @@ export default function BoxHero({ headline, bgColor, textColor, boxImage, width,
       {/* Headline: pinned to top, z-index above box */}
       <div className="bh-headline" style={{
         color: textColor,
-        top: isStory ? 290 : 24,
-        fontSize: isStory ? 120 : 104,
+        top: (isStory ? 290 : 24) + (ov['headline.top'] || 0),
+        fontSize: (isStory ? 120 : 104) + (ov['headline.fontSize'] || 0),
         padding: isStory ? '0 50px' : '0 30px',
         zIndex: 10,
       }}>
@@ -23,10 +23,10 @@ export default function BoxHero({ headline, bgColor, textColor, boxImage, width,
 
       {/* Box: starts at 22% from top, fills to near bottom. Headline overlaps top of box. */}
       <img src={boxImage} alt="SnackVerse Box" className="bh-box-image" style={{
-        bottom: isStory ? 390 : 10,
+        bottom: (isStory ? 390 : 10) + (ov['box.bottom'] || 0),
         left: '50%',
         transform: 'translateX(-50%)',
-        height: `${(isStory ? 52 : 76) * qcScale}%`,
+        height: `${((isStory ? 52 : 76) + (ov['box.height'] || 0)) * qcScale}%`,
         maxWidth: '98%',
         zIndex: 5,
       }} />

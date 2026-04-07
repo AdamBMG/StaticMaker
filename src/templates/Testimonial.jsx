@@ -4,7 +4,7 @@ import './Testimonial.css'
 export default function Testimonial({
   headline, bgColor = '#FFD6D6', textColor = '#6B2FA0',
   productImage = '/assets/boxes/box_mobile.png', showTrustpilot = true,
-  width, height, format, qcScale = 1.0,
+  width, height, format, qcScale = 1.0, ov = {},
 }) {
   const isStory = format === 'story'
 
@@ -12,8 +12,8 @@ export default function Testimonial({
     <div className="testimonial" style={{ width, height, background: bgColor }}>
       {/* Quote at top */}
       <div className="tm-quote" style={{
-        color: textColor, top: isStory ? 290 : 24,
-        fontSize: isStory ? 62 : 54,
+        color: textColor, top: (isStory ? 290 : 24) + (ov['quote.top'] || 0),
+        fontSize: (isStory ? 62 : 54) + (ov['quote.fontSize'] || 0),
         padding: isStory ? '0 50px' : '0 30px',
         zIndex: 10,
       }}>
@@ -21,7 +21,7 @@ export default function Testimonial({
       </div>
 
       {showTrustpilot && (
-        <div className="tm-stars" style={{ top: isStory ? 560 : 260, left: isStory ? 50 : 30, zIndex: 10 }}>
+        <div className="tm-stars" style={{ top: (isStory ? 560 : 260) + (ov['stars.top'] || 0), left: isStory ? 50 : 30, zIndex: 10 }}>
           <img src="/assets/brand/trustpilot-stars-5.svg" alt="Trustpilot 5 stars" className="tm-tp-svg"
             style={{ height: isStory ? 44 : 36 }} />
         </div>
@@ -29,10 +29,10 @@ export default function Testimonial({
 
       {/* Product: fills bottom, centred, huge - matches real testimonial ads */}
       <img src={productImage} alt="Product" className="tm-product" style={{
-        bottom: isStory ? 390 : 0,
+        bottom: (isStory ? 390 : 0) + (ov['product.bottom'] || 0),
         left: '50%',
         transform: 'translateX(-50%)',
-        height: `${(isStory ? 52 : 68) * qcScale}%`,
+        height: `${((isStory ? 52 : 68) + (ov['product.height'] || 0)) * qcScale}%`,
         maxWidth: '100%',
         right: 'auto',
         zIndex: 5,

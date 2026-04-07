@@ -13,7 +13,7 @@ export default function StarterPack({
   headline = 'Snack Night Starter Pack', bgColor = '#FF7A00',
   textColor = '#FFFFFF', accentColor = '#FFD700',
   products = DEFAULT_PRODUCTS,
-  width, height, format, qcScale = 1.0,
+  width, height, format, qcScale = 1.0, ov = {},
 }) {
   const isStory = format === 'story'
   const storyYOffset = isStory ? 8 : 0
@@ -24,8 +24,8 @@ export default function StarterPack({
       <div className="sp-checker sp-checker-bottom" />
 
       <div className="sp-headline" style={{
-        color: accentColor, top: isStory ? 340 : 58,
-        fontSize: isStory ? 82 : 72,
+        color: accentColor, top: (isStory ? 340 : 58) + (ov['headline.top'] || 0),
+        fontSize: (isStory ? 82 : 72) + (ov['headline.fontSize'] || 0),
         padding: isStory ? '0 40px' : '0 20px',
         WebkitTextStroke: `3px ${darken(accentColor, 30)}`,
         paintOrder: 'stroke fill',
@@ -34,8 +34,8 @@ export default function StarterPack({
       </div>
 
       {products.map((product, i) => {
-        const productTop = product.y + storyYOffset
-        const productSize = (isStory ? product.size * 0.95 : product.size) * qcScale
+        const productTop = product.y + storyYOffset + (ov['products.top'] || 0)
+        const productSize = ((isStory ? product.size * 0.95 : product.size) + (ov['products.size'] || 0)) * qcScale
         return (
           <div key={i} className="sp-product" style={{
             left: `${product.x}%`, top: `${productTop}%`, width: `${productSize}%`,

@@ -5,7 +5,7 @@ export default function TypographicWallpaper({
   headline = 'Affordable snacks.', bgText = 'AFFORDABLE SNACKS',
   bgColor = '#FFD700', bgTextColor = '#FF7A00', textColor = '#FFFFFF',
   boxImage = '/assets/boxes/box_mobile.png',
-  width, height, format, qcScale = 1.0,
+  width, height, format, qcScale = 1.0, ov = {},
 }) {
   const isStory = format === 'story'
   const rows = isStory ? 24 : 16
@@ -25,8 +25,8 @@ export default function TypographicWallpaper({
 
       {/* Headline over the box, like real ads */}
       <div className="tw-headline" style={{
-        color: textColor, fontSize: isStory ? 104 : 92,
-        top: isStory ? 290 : 20, padding: isStory ? '0 50px' : '0 24px',
+        color: textColor, fontSize: (isStory ? 104 : 92) + (ov['headline.fontSize'] || 0),
+        top: (isStory ? 290 : 20) + (ov['headline.top'] || 0), padding: isStory ? '0 50px' : '0 24px',
         textShadow: `0 4px 20px rgba(0, 0, 0, 0.15), 0 0 60px ${bgColor}`,
         zIndex: 10,
       }}>
@@ -35,10 +35,10 @@ export default function TypographicWallpaper({
 
       {/* Box: starts at 20%, fills to bottom like real ads */}
       <img src={boxImage} alt="SnackVerse Box" className="tw-box" style={{
-        bottom: isStory ? 380 : 8,
+        bottom: (isStory ? 380 : 8) + (ov['box.bottom'] || 0),
         left: '50%',
         transform: 'translateX(-50%)',
-        height: `${(isStory ? 54 : 78) * qcScale}%`,
+        height: `${((isStory ? 54 : 78) + (ov['box.height'] || 0)) * qcScale}%`,
         maxWidth: '98%',
         zIndex: 5,
       }} />

@@ -7,19 +7,19 @@ const TIERS = [
   { name: 'Premium Box', price: '23.99', snacks: '20+', image: '/assets/boxes/box-premium-illustration-full.jpg', badge: 'BEST VALUE' },
 ]
 
-export default function PricingTier({ headline, bgColor, width, height, format, qcScale = 1.0 }) {
+export default function PricingTier({ headline, bgColor, width, height, format, qcScale = 1.0, ov = {} }) {
   const isStory = format === 'story'
 
   return (
     <div className="pricing-tier" style={{ width, height, background: `linear-gradient(180deg, ${bgColor} 0%, ${darken(bgColor, 12)} 100%)` }}>
-      <div className="pt-headline" style={{ top: isStory ? 360 : 68, fontSize: isStory ? 72 : 60, color: '#FFFFFF' }}>
+      <div className="pt-headline" style={{ top: (isStory ? 360 : 68) + (ov['headline.top'] || 0), fontSize: (isStory ? 72 : 60) + (ov['headline.fontSize'] || 0), color: '#FFFFFF' }}>
         {headline}
       </div>
 
       {/* Cards: fill from 15% to 98% of canvas on square */}
       <div className="pt-cards" style={{
-        top: isStory ? 460 : 150,
-        bottom: isStory ? 400 : 8,
+        top: (isStory ? 460 : 150) + (ov['cards.top'] || 0),
+        bottom: (isStory ? 400 : 8) + (ov['cards.bottom'] || 0),
         flexDirection: isStory ? 'column' : 'row',
         padding: isStory ? '0 30px' : '0 8px',
         gap: isStory ? 10 : 6,

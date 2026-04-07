@@ -13,6 +13,7 @@ import QCChecker from './components/QCChecker'
 import BatchMode from './components/BatchMode'
 import BatchGrid from './components/BatchGrid'
 import HeadlineGenerator from './components/HeadlineGenerator'
+import ElementAdjuster from './components/ElementAdjuster'
 import './App.css'
 
 const TEMPLATES = [
@@ -419,6 +420,38 @@ function App() {
       body: JSON.stringify({ value: v }),
     }).catch(() => {})
   }, [scaleKey, qcScale])
+
+  // Element position overrides - saved per template+variant+format
+  const overridesKey = `ov_${template.id}_${selectedVariant}_${format.id}`
+  const [elementOverrides, setElementOverrides] = useState({})
+
+  // Load overrides from server on mount
+  useEffect(() => {
+    fetch('/api/scales').then(r => r.json()).then(data => {
+      // Overrides are stored alongside scales with "ov_" prefix
+      const ovKeys = Object.keys(data).filter(k => k.startsWith('ov_'))
+      const ovData = {}
+      ovKeys.forEach(k => { ovData[k] = data[k] })
+      setElementOverrides(prev => ({ ...prev, ...ovData }))
+    }).catch(() => {})
+  }, [])
+
+  // Get overrides for current template
+  const currentOverrides = elementOverrides[overridesKey] || {}
+
+  const setOverride = useCallback((propKey, value) => {
+    const updated = { ...currentOverrides, [propKey]: value }
+    // Clean out zero values
+    Object.keys(updated).forEach(k => { if (updated[k] === 0) delete updated[k] })
+    setElementOverrides(prev => ({ ...prev, [overridesKey]: updated }))
+    localStorage.setItem(overridesKey, JSON.stringify(updated))
+    fetch('/api/scales/' + encodeURIComponent(overridesKey), {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ value: updated }),
+    }).catch(() => {})
+  }, [overridesKey, currentOverrides])
+
   const variant = template.variants[selectedVariant] || {}
   const adProps = { ...template.defaults, ...variant, ...customProps }
   const TemplateComponent = template.component
@@ -649,6 +682,15 @@ function App() {
             />
           </section>
 
+          <section className="control-section">
+            <h2>Adjust Elements</h2>
+            <ElementAdjuster
+              templateId={template.id}
+              overrides={currentOverrides}
+              onOverrideChange={setOverride}
+            />
+          </section>
+
           <section className="control-section export-section">
             <button className="export-btn" onClick={handleExport} disabled={exporting}>
               {exporting ? 'Exporting...' : 'Export PNG'}
@@ -687,6 +729,7 @@ function App() {
                 height={format.height}
                 format={format.id}
                 qcScale={qcScale}
+                ov={currentOverrides}
               />
             </div>
             {/* Safe zone overlay - only shown on story format, not exported */}

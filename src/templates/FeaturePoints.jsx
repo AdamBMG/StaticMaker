@@ -7,15 +7,10 @@ export default function FeaturePoints({
   width, height, format, qcScale = 1.0,
 }) {
   const isStory = format === 'story'
-  const logoHeight = isStory ? 52 : 40
-  const logoTop = isStory ? 290 : 24
 
   return (
     <div className="feature-points" style={{ width, height, background: bgColor }}>
       <div className="fp-deco fp-deco-1" style={{ background: accentColor, opacity: 0.08 }} />
-
-      <img src="/assets/brand/logo-header.png" alt="SnackVerse" className="fp-logo"
-        style={{ top: logoTop, right: isStory ? 50 : 30, height: logoHeight, filter: 'brightness(0) invert(1)' }} />
 
       <div className="fp-headline" style={{
         color: textColor, top: isStory ? 360 : 80,

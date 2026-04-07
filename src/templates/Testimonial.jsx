@@ -38,9 +38,6 @@ export default function Testimonial({
         zIndex: 5,
       }} />
 
-      {/* Logo bottom corner */}
-      <img src="/assets/brand/logo-header.png" alt="SnackVerse" className="tm-logo"
-        style={{ bottom: isStory ? 400 : 16, right: isStory ? 50 : 24, height: isStory ? 44 : 36, zIndex: 10 }} />
     </div>
   )
 }

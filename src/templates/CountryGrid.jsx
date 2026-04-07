@@ -17,9 +17,6 @@ export default function CountryGrid({ headline = 'Taste a different country ever
 
   return (
     <div className="country-grid" style={{ width, height, background: `linear-gradient(180deg, ${bgColor} 0%, ${darken(bgColor, 10)} 100%)` }}>
-      <img src="/assets/brand/logo-header.png" alt="SnackVerse" className="cg-logo"
-        style={{ top: isStory ? 290 : 18, left: isStory ? 30 : 16, height: isStory ? 44 : 32, filter: 'brightness(0) invert(1)' }} />
-
       {/* Grid: fills from 6% to 82% on square */}
       <div className="cg-grid" style={{
         top: isStory ? 340 : 58,

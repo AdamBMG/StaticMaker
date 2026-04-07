@@ -15,9 +15,6 @@ export default function NumberedSteps({ headline = "You'll eat these.", bgColor 
       <div className="ns-deco ns-deco-1" />
       <div className="ns-deco ns-deco-2" />
 
-      <img src="/assets/brand/logo-header.png" alt="SnackVerse" className="ns-logo"
-        style={{ top: isStory ? 290 : 20, right: isStory ? 50 : 20, height: isStory ? 44 : 34, filter: 'brightness(0) invert(1)' }} />
-
       <div className="ns-headline" style={{
         top: isStory ? 350 : 60, right: isStory ? 50 : 20,
         fontSize: isStory ? 66 : 54, width: isStory ? '52%' : '48%',

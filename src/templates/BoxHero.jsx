@@ -1,7 +1,7 @@
 import './BoxHero.css'
 
 // REAL AD BENCHMARK: headline top 5-25%, box starts at 20% and fills to 95%. Headline overlaps box.
-export default function BoxHero({ headline, bgColor, textColor, boxImage, showLogo, width, height, format, qcScale = 1.0 }) {
+export default function BoxHero({ headline, bgColor, textColor, boxImage, width, height, format, qcScale = 1.0 }) {
   const isStory = format === 'story'
   const bgGradient = `linear-gradient(180deg, ${bgColor} 0%, ${adjustBrightness(bgColor, -15)} 100%)`
 
@@ -9,11 +9,6 @@ export default function BoxHero({ headline, bgColor, textColor, boxImage, showLo
     <div className="box-hero" style={{ width, height, background: bgGradient }}>
       <div className="bh-circle bh-circle-1" style={{ opacity: 0.1 }} />
       <div className="bh-circle bh-circle-2" style={{ opacity: 0.07 }} />
-
-      {showLogo && (
-        <img src="/assets/brand/logo-header.png" alt="SnackVerse" className="bh-logo"
-          style={{ top: isStory ? 290 : 24, left: isStory ? 50 : 30, height: isStory ? 56 : 44 }} />
-      )}
 
       {/* Headline: pinned to top, z-index above box */}
       <div className="bh-headline" style={{

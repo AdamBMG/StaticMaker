@@ -12,9 +12,6 @@ export default function PricingTier({ headline, bgColor, width, height, format, 
 
   return (
     <div className="pricing-tier" style={{ width, height, background: `linear-gradient(180deg, ${bgColor} 0%, ${darken(bgColor, 12)} 100%)` }}>
-      <img src="/assets/brand/logo-header.png" alt="SnackVerse" className="pt-logo"
-        style={{ top: isStory ? 290 : 20, left: '50%', transform: 'translateX(-50%)', height: isStory ? 52 : 40, filter: 'brightness(0) invert(1)' }} />
-
       <div className="pt-headline" style={{ top: isStory ? 360 : 68, fontSize: isStory ? 72 : 60, color: '#FFFFFF' }}>
         {headline}
       </div>

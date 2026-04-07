@@ -23,9 +23,6 @@ export default function TypographicWallpaper({
         ))}
       </div>
 
-      <img src="/assets/brand/logo-header.png" alt="SnackVerse" className="tw-logo"
-        style={{ top: isStory ? 290 : 20, right: isStory ? 50 : 20, height: isStory ? 48 : 36, filter: 'brightness(0) invert(1)', zIndex: 10 }} />
-
       {/* Headline over the box, like real ads */}
       <div className="tw-headline" style={{
         color: textColor, fontSize: isStory ? 104 : 92,

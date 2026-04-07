@@ -24,7 +24,7 @@ const COMPONENTS = {
 }
 
 const DEFAULTS = {
-  'box-hero': { boxImage: '/assets/boxes/box_mobile.png', showLogo: true },
+  'box-hero': { boxImage: '/assets/boxes/box_mobile.png' },
   'feature-points': { boxImage: '/assets/boxes/box_mobile.png', point1: 'From £7.99/month', point2: 'Up to 20+ snacks', point3: 'Free UK shipping', accentColor: '#FFD700' },
   'pricing-tier': {},
   'testimonial': { productImage: '/assets/boxes/box_mobile.png', showTrustpilot: true },

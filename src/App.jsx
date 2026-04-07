@@ -25,7 +25,6 @@ const TEMPLATES = [
       bgColor: '#FF7A00',
       textColor: '#FFFFFF',
       boxImage: '/assets/boxes/box_mobile.png',
-      showLogo: true,
     },
     variants: [
       {

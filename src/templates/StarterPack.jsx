@@ -16,17 +16,12 @@ export default function StarterPack({
   width, height, format, qcScale = 1.0,
 }) {
   const isStory = format === 'story'
-  const logoHeight = isStory ? 44 : 32
-  const logoTop = isStory ? 290 : 20
   const storyYOffset = isStory ? 8 : 0
 
   return (
     <div className="starter-pack" style={{ width, height, background: bgColor }}>
       <div className="sp-checker sp-checker-top" />
       <div className="sp-checker sp-checker-bottom" />
-
-      <img src="/assets/brand/logo-header.png" alt="SnackVerse" className="sp-logo"
-        style={{ top: logoTop, left: isStory ? 50 : 24, height: logoHeight, filter: 'brightness(0) invert(1)' }} />
 
       <div className="sp-headline" style={{
         color: accentColor, top: isStory ? 340 : 58,

@@ -14,6 +14,7 @@ import BatchMode from './components/BatchMode'
 import BatchGrid from './components/BatchGrid'
 import HeadlineGenerator from './components/HeadlineGenerator'
 import ElementAdjuster from './components/ElementAdjuster'
+import BackgroundGenerator from './components/BackgroundGenerator'
 import './App.css'
 
 const TEMPLATES = [
@@ -667,6 +668,10 @@ function App() {
             <HeadlineGenerator
               mode="single"
               onSelectHeadline={(h) => setCustomProps(p => ({ ...p, headline: h }))}
+            />
+            <BackgroundGenerator
+              format={format.id}
+              onBackgroundGenerated={(img) => setCustomProps(p => ({ ...p, bgImage: img }))}
             />
           </section>
 

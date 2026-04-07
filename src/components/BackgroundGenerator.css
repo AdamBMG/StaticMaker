@@ -1,0 +1,55 @@
+.bg-gen {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 8px;
+  border-top: 1px solid var(--ui-border);
+}
+
+.bg-gen-row {
+  display: flex;
+  gap: 6px;
+}
+
+.bg-gen-select {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid var(--ui-border);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--ui-text);
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.bg-gen-select:focus {
+  outline: none;
+  border-color: var(--ui-accent);
+}
+
+.bg-gen-btn {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #059669;
+  color: white;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.bg-gen-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bg-gen-btn:hover:not(:disabled) {
+  background: #047857;
+}
+
+.bg-gen-error {
+  font-size: 11px;
+  color: #ef4444;
+}

@@ -3,13 +3,13 @@ import './FeaturePoints.css'
 // REAL AD: headline top-left, points mid-left, box bottom-right filling ~50% of canvas
 export default function FeaturePoints({
   headline, point1, point2, point3, bgColor,
-  textColor = '#FFFFFF', accentColor = '#FFD700', boxImage,
+  textColor = '#FFFFFF', accentColor = '#FFD700', boxImage, bgImage,
   width, height, format, qcScale = 1.0, ov = {},
 }) {
   const isStory = format === 'story'
 
   return (
-    <div className="feature-points" style={{ width, height, background: bgColor }}>
+    <div className="feature-points" style={{ width, height, ...(bgImage ? { backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : { background: bgColor }) }}>
       <div className="fp-deco fp-deco-1" style={{ background: accentColor, opacity: 0.08 }} />
 
       <div className="fp-headline" style={{

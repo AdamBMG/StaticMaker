@@ -3,13 +3,13 @@ import './Testimonial.css'
 // REAL AD: quote top 25%, trustpilot stars below, product fills bottom 65%, product is MASSIVE
 export default function Testimonial({
   headline, bgColor = '#FFD6D6', textColor = '#6B2FA0',
-  productImage = '/assets/boxes/box_mobile.png', showTrustpilot = true,
+  productImage = '/assets/boxes/box_mobile.png', showTrustpilot = true, bgImage,
   width, height, format, qcScale = 1.0, ov = {},
 }) {
   const isStory = format === 'story'
 
   return (
-    <div className="testimonial" style={{ width, height, background: bgColor }}>
+    <div className="testimonial" style={{ width, height, ...(bgImage ? { backgroundImage: `url(${bgImage})`, backgroundSize: 'cover', backgroundPosition: 'center' } : { background: bgColor }) }}>
       {/* Quote at top */}
       <div className="tm-quote" style={{
         color: textColor, top: (isStory ? 290 : 24) + (ov['quote.top'] || 0),

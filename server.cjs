@@ -337,6 +337,69 @@ Generate exactly ${count} unique static ad headlines for SnackVerse. Each should
   }
 })
 
+// --- AI Background Generation (Nano Banana Pro / Gemini) ---
+
+app.post('/api/generate-background', async (req, res) => {
+  const apiKey = process.env.GOOGLE_AI_API_KEY
+  if (!apiKey) {
+    return res.status(400).json({ error: 'GOOGLE_AI_API_KEY not configured' })
+  }
+
+  const { country = 'Japan', style = 'illustrated', format = 'square' } = req.body
+
+  const dimensions = format === 'story' ? '1080x1920 (9:16 portrait)' : '1080x1080 (square)'
+
+  const prompt = `Create a vibrant, eye-catching background image for a snack subscription box advertisement.
+
+Theme: ${country} - use cultural elements, colours, and motifs associated with ${country}.
+Style: ${style === 'illustrated' ? 'Illustrated/graphic style with decorative elements like leaves, stars, cultural symbols, food elements floating around. NOT photographic - use flat design or semi-flat illustration style.' : 'Gradient background with subtle cultural patterns and motifs.'}
+Dimensions: ${dimensions}
+Requirements:
+- The centre and bottom 60% should be relatively clear/simple to layer a product box on top
+- Rich, vibrant colours appropriate to ${country}'s culture
+- Decorative elements around the edges and top portion
+- NO text, NO logos, NO product images - just the background
+- Should feel premium and appetising
+- Similar to an illustrated food delivery app background
+
+Examples of what works:
+- Japan: dark purple night sky, moon, bamboo leaves, cherry blossoms, floating lanterns
+- Canada: warm autumn gradient, maple leaves, golden tones
+- South Korea: vibrant yellow/pink, cherry blossoms, traditional patterns
+- Italy: warm terracotta/olive tones, Mediterranean motifs
+- USA: bold red/blue gradients, stars, dynamic shapes`
+
+  try {
+    const { GoogleGenAI } = await import('@google/genai')
+    const ai = new GoogleGenAI({ apiKey })
+
+    const response = await ai.models.generateContent({
+      model: 'gemini-3.1-flash-image-preview',
+      contents: prompt,
+      config: {
+        responseModalities: ['TEXT', 'IMAGE'],
+      },
+    })
+
+    // Find the image part in the response
+    const parts = response.candidates?.[0]?.content?.parts || []
+    const imagePart = parts.find(p => p.inlineData)
+
+    if (!imagePart) {
+      return res.status(500).json({ error: 'No image generated' })
+    }
+
+    // Return the base64 image data
+    res.json({
+      image: `data:${imagePart.inlineData.mimeType};base64,${imagePart.inlineData.data}`,
+      mimeType: imagePart.inlineData.mimeType,
+    })
+  } catch (err) {
+    console.error('Gemini API error:', err.message)
+    res.status(500).json({ error: 'Failed to generate background: ' + err.message })
+  }
+})
+
 // SPA fallback
 app.use((req, res, next) => {
   if (req.method === 'GET' && !req.path.startsWith('/api/')) {

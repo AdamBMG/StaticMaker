@@ -4,6 +4,51 @@
   gap: 16px;
 }
 
+.sheet-import {
+  display: flex;
+  gap: 6px;
+}
+
+.sheet-url-input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid var(--ui-border);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  color: var(--ui-text);
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.sheet-url-input:focus {
+  outline: none;
+  border-color: var(--ui-accent);
+}
+
+.sheet-pull-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #22c55e;
+  color: white;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sheet-pull-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.sheet-error {
+  font-size: 11px;
+  color: #ef4444;
+  margin-top: 4px;
+}
+
 .batch-section h2 {
   font-size: 11px;
   font-weight: 600;

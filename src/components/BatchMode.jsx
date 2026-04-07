@@ -31,6 +31,9 @@ export default function BatchMode({ onGenerate }) {
   const [selectedColours, setSelectedColours] = useState([0])
   const [selectedFormat, setSelectedFormat] = useState('both')
   const [batchName, setBatchName] = useState('')
+  const [sheetUrl, setSheetUrl] = useState('')
+  const [sheetLoading, setSheetLoading] = useState(false)
+  const [sheetError, setSheetError] = useState(null)
 
   const headlineList = headlines.split('\n').map(h => h.trim()).filter(Boolean)
   const formatCount = selectedFormat === 'both' ? 2 : 1
@@ -82,8 +85,58 @@ export default function BatchMode({ onGenerate }) {
     onGenerate(ads)
   }
 
+  const pullFromSheet = async () => {
+    if (!sheetUrl) return
+    setSheetLoading(true)
+    setSheetError(null)
+    try {
+      const res = await fetch('/api/fetch-sheet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sheetUrl }),
+      })
+      const data = await res.json()
+      if (data.error) {
+        setSheetError(data.error)
+      } else if (data.headlines && data.headlines.length > 0) {
+        const newHeadlines = data.headlines.join('\n')
+        setHeadlines(prev => prev ? prev + '\n' + newHeadlines : newHeadlines)
+        // Auto-fill batch name from first brief
+        if (!batchName && data.briefs?.[0]?.batch) {
+          setBatchName(data.briefs[0].batch)
+        }
+      } else {
+        setSheetError('No headlines found in column F')
+      }
+    } catch (err) {
+      setSheetError('Failed to connect to server')
+    }
+    setSheetLoading(false)
+  }
+
   return (
     <div className="batch-mode">
+      <section className="batch-section">
+        <h2>Import from Sheet</h2>
+        <div className="sheet-import">
+          <input
+            className="sheet-url-input"
+            type="text"
+            placeholder="Paste Google Sheet URL..."
+            value={sheetUrl}
+            onChange={e => setSheetUrl(e.target.value)}
+          />
+          <button
+            className="sheet-pull-btn"
+            onClick={pullFromSheet}
+            disabled={sheetLoading || !sheetUrl}
+          >
+            {sheetLoading ? 'Pulling...' : 'Pull Headlines'}
+          </button>
+        </div>
+        {sheetError && <div className="sheet-error">{sheetError}</div>}
+      </section>
+
       <section className="batch-section">
         <h2>AI Generate</h2>
         <HeadlineGenerator

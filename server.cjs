@@ -53,6 +53,111 @@ app.delete('/api/scales/:key', (req, res) => {
   res.json({ ok: true, key })
 })
 
+// --- Google Sheet Import API ---
+
+function parseCSV(text) {
+  const lines = text.split('\n')
+  const rows = []
+  let current = ''
+  let inQuotes = false
+
+  for (const line of lines) {
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i]
+      if (ch === '"') {
+        inQuotes = !inQuotes
+      }
+      current += ch
+    }
+    if (inQuotes) {
+      current += '\n'
+    } else {
+      rows.push(current)
+      current = ''
+    }
+  }
+  if (current) rows.push(current)
+
+  return rows.map(row => {
+    const cells = []
+    let cell = ''
+    let q = false
+    for (let i = 0; i < row.length; i++) {
+      const ch = row[i]
+      if (ch === '"') {
+        q = !q
+      } else if (ch === ',' && !q) {
+        cells.push(cell.trim())
+        cell = ''
+      } else {
+        cell += ch
+      }
+    }
+    cells.push(cell.trim())
+    return cells
+  })
+}
+
+app.post('/api/fetch-sheet', async (req, res) => {
+  const { sheetUrl } = req.body
+  if (!sheetUrl) return res.status(400).json({ error: 'No sheet URL provided' })
+
+  try {
+    // Extract sheet ID and GID from URL
+    const idMatch = sheetUrl.match(/\/d\/([a-zA-Z0-9_-]+)/)
+    const gidMatch = sheetUrl.match(/gid=(\d+)/)
+    if (!idMatch) return res.status(400).json({ error: 'Could not parse sheet ID from URL' })
+
+    const sheetId = idMatch[1]
+    const gid = gidMatch ? gidMatch[1] : '0'
+
+    // Fetch as CSV
+    const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`
+    const response = await fetch(csvUrl)
+
+    if (!response.ok) {
+      return res.status(400).json({ error: 'Could not fetch sheet. Make sure it is set to "Anyone with the link can view".' })
+    }
+
+    const csvText = await response.text()
+    const rows = parseCSV(csvText)
+
+    if (rows.length < 2) {
+      return res.status(400).json({ error: 'Sheet appears to be empty' })
+    }
+
+    // Extract data - Column F (index 5) = Primary text, G-I (6-8) = Text 1-3
+    // Skip header row
+    const briefs = []
+    for (let i = 1; i < rows.length; i++) {
+      const row = rows[i]
+      const headline = (row[5] || '').trim()
+      if (!headline) continue
+
+      briefs.push({
+        batch: (row[0] || '').trim(),
+        conceptType: (row[1] || '').trim(),
+        briefName: (row[2] || '').trim(),
+        reference: (row[3] || '').trim(),
+        imageDesc: (row[4] || '').trim(),
+        headline: headline,
+        text1: (row[6] || '').trim(),
+        text2: (row[7] || '').trim(),
+        text3: (row[8] || '').trim(),
+      })
+    }
+
+    res.json({
+      headlines: briefs.map(b => b.headline).filter(Boolean),
+      briefs,
+      totalRows: rows.length - 1,
+    })
+  } catch (err) {
+    console.error('Sheet fetch error:', err.message)
+    res.status(500).json({ error: 'Failed to fetch sheet: ' + err.message })
+  }
+})
+
 // --- AI Headline Generation API ---
 
 const HOOK_CATEGORIES = {

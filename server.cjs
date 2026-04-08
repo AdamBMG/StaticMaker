@@ -337,6 +337,22 @@ Generate exactly ${count} unique static ad headlines for SnackVerse. Each should
   }
 })
 
+// --- Debug: list available Gemini models ---
+app.get('/api/list-models', async (req, res) => {
+  const apiKey = process.env.GOOGLE_AI_API_KEY
+  if (!apiKey) return res.status(400).json({ error: 'No API key' })
+  try {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`)
+    const data = await response.json()
+    const imageModels = (data.models || [])
+      .filter(m => m.name.includes('image') || m.supportedGenerationMethods?.includes('generateContent'))
+      .map(m => ({ name: m.name, displayName: m.displayName, methods: m.supportedGenerationMethods }))
+    res.json({ allModels: (data.models || []).map(m => m.name), imageModels })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 // --- AI Background Generation (Nano Banana Pro / Gemini) ---
 
 app.post('/api/generate-background', async (req, res) => {

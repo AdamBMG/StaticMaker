@@ -13,6 +13,19 @@
   border-bottom: 1px solid var(--ui-border);
 }
 
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--ui-text);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+}
+.back-btn:hover { opacity: 1; }
+
 .app-header .app-logo {
   height: 36px;
   width: auto;

@@ -368,7 +368,7 @@ const SAFE_ZONES = {
   },
 }
 
-function App() {
+function App({ onBack }) {
   const [mode, setMode] = useState('single') // 'single' or 'batch'
   const [batchAds, setBatchAds] = useState([])
   const [selectedTemplate, setSelectedTemplate] = useState(0)
@@ -520,6 +520,13 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
+        {onBack && (
+          <button className="back-btn" onClick={onBack} title="Back to clients">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M12 4L6 10L12 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        )}
         <img src="/assets/brand/logo-header.png" alt="SnackVerse" className="app-logo" />
         <h1>Static Ad Maker</h1>
         <div className="mode-toggle">

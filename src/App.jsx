@@ -15,6 +15,7 @@ import BatchGrid from './components/BatchGrid'
 import HeadlineGenerator from './components/HeadlineGenerator'
 import ElementAdjuster from './components/ElementAdjuster'
 import BackgroundGenerator from './components/BackgroundGenerator'
+import CanvasMode from './canvas/CanvasMode'
 import './App.css'
 
 const TEMPLATES = [
@@ -532,10 +533,13 @@ function App({ onBack }) {
         <div className="mode-toggle">
           <button className={`mode-btn ${mode === 'single' ? 'active' : ''}`} onClick={() => setMode('single')}>Single</button>
           <button className={`mode-btn ${mode === 'batch' ? 'active' : ''}`} onClick={() => setMode('batch')}>Batch</button>
+          <button className={`mode-btn ${mode === 'canvas' ? 'active' : ''}`} onClick={() => setMode('canvas')}>Canvas</button>
         </div>
       </header>
 
-      {mode === 'batch' && batchAds.length > 0 ? (
+      {mode === 'canvas' ? (
+        <CanvasMode />
+      ) : mode === 'batch' && batchAds.length > 0 ? (
         <BatchGrid ads={batchAds} onBack={() => setBatchAds([])} />
       ) : mode === 'batch' ? (
         <div className="app-layout">

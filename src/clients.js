@@ -11,10 +11,10 @@ export const CLIENTS = [
   {
     id: 'mobile-tutors',
     name: 'Mobile Tutors',
-    logo: null,
-    thumbnail: null,
+    logo: '/assets/mobile-tutors/logo-dark.png',
+    thumbnail: '/assets/mobile-tutors/icon.png',
     accentColor: '#4A90D9',
-    status: 'coming-soon',
+    status: 'active',
     description: 'Tutoring service ads',
   },
 ]

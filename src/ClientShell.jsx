@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ClientSelector from './ClientSelector'
 import App from './App'
+import MobileTutorsApp from './MobileTutorsApp'
 
 export default function ClientShell() {
   const [selectedClient, setSelectedClient] = useState(null)
@@ -9,5 +10,11 @@ export default function ClientShell() {
     return <ClientSelector onSelect={setSelectedClient} />
   }
 
-  return <App onBack={() => setSelectedClient(null)} />
+  const onBack = () => setSelectedClient(null)
+
+  if (selectedClient === 'mobile-tutors') {
+    return <MobileTutorsApp onBack={onBack} />
+  }
+
+  return <App onBack={onBack} />
 }

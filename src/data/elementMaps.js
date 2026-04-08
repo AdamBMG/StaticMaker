@@ -39,4 +39,13 @@ export const ELEMENT_MAPS = {
     { id: 'headline', label: 'Headline', props: { top: { step: 10 }, left: { step: 10 }, fontSize: { step: 4 } } },
     { id: 'products', label: 'Products', props: { top: { step: 5, unit: '%' }, left: { step: 5, unit: '%' }, size: { step: 2, unit: '%' } } },
   ],
+  // Mobile Tutors templates
+  'bold-headline': [
+    { id: 'headline', label: 'Headline', props: { top: { step: 10 }, left: { step: 10 }, fontSize: { step: 4 } } },
+    { id: 'logo', label: 'Logo', props: { top: { step: 10 }, left: { step: 10 } } },
+    { id: 'trust', label: 'Trust Badge', props: { top: { step: 10 }, left: { step: 10 } } },
+    { id: 'price', label: 'Price Line', props: { bottom: { step: 10 }, left: { step: 10 } } },
+    { id: 'cta', label: 'CTA Button', props: { bottom: { step: 10 }, left: { step: 10 } } },
+    { id: 'image', label: 'Hero Image', props: { bottom: { step: 10 }, right: { step: 10 }, height: { step: 2, unit: '%' } } },
+  ],
 }

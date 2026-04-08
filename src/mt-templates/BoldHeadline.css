@@ -1,0 +1,79 @@
+.mt-bold {
+  position: relative;
+  overflow: hidden;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.mt-bold-accent {
+  position: absolute;
+  width: 140%;
+  height: 50%;
+  bottom: -10%;
+  left: -20%;
+  border-radius: 50% 50% 0 0;
+}
+
+.mt-bold-logo {
+  position: absolute;
+  z-index: 10;
+  object-fit: contain;
+}
+
+.mt-bold-logo-top {
+  /* positioned via inline styles */
+}
+
+.mt-bold-logo-bottom {
+  /* positioned via inline styles */
+}
+
+.mt-bold-headline {
+  position: absolute;
+  z-index: 5;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -2px;
+  text-transform: none;
+}
+
+.mt-bold-trust {
+  position: absolute;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.mt-bold-stars {
+  display: block;
+}
+
+.mt-bold-price {
+  position: absolute;
+  z-index: 5;
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+.mt-bold-cta {
+  position: absolute;
+  z-index: 5;
+  background: #FEC40B;
+  color: #000000;
+  font-weight: 800;
+  padding: 14px 36px;
+  border-radius: 50px;
+  border: 3px solid #000000;
+  box-shadow: 5px 5px 0 0 #000000;
+  letter-spacing: 0.5px;
+}
+
+.mt-bold-hero-image {
+  position: absolute;
+  z-index: 4;
+  object-fit: contain;
+  object-position: bottom right;
+  filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.15));
+}

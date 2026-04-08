@@ -1,8 +1,21 @@
+import { useState } from 'react'
 import { BRAND_COLOURS, BRAND_FONTS } from './data/brandPalette'
+
+function NudgeControl({ label, value, step, onChange }) {
+  return (
+    <div className="ea-prop">
+      <span className="ea-prop-label">{label}</span>
+      <button className="ea-btn" onClick={() => onChange(value - step)}>-</button>
+      <span className="ea-value">{Math.round(value)}</span>
+      <button className="ea-btn" onClick={() => onChange(value + step)}>+</button>
+    </div>
+  )
+}
 
 export default function CanvasProperties({ state, dispatch }) {
   const { elements, selectedId } = state
   const el = elements.find(e => e.id === selectedId)
+  const [lockRatio, setLockRatio] = useState(true)
 
   if (!el) {
     return (
@@ -14,6 +27,39 @@ export default function CanvasProperties({ state, dispatch }) {
   }
 
   const update = (props) => dispatch({ type: 'UPDATE_ELEMENT', id: el.id, props })
+
+  const aspectRatio = (el.width && el.height) ? el.width / el.height : 1
+
+  const handleScale = (newScale) => {
+    const s = Math.max(0.1, Math.min(3, newScale))
+    const baseW = el._baseWidth || el.width
+    const baseH = el._baseHeight || el.height
+    update({
+      width: Math.round(baseW * s),
+      height: Math.round(baseH * s),
+      _baseWidth: baseW,
+      _baseHeight: baseH,
+      _scale: s,
+    })
+  }
+
+  const currentScale = el._scale || 1
+
+  const handleWidthChange = (w) => {
+    if (lockRatio && el.height) {
+      update({ width: w, height: Math.round(w / aspectRatio) })
+    } else {
+      update({ width: w })
+    }
+  }
+
+  const handleHeightChange = (h) => {
+    if (lockRatio && el.width) {
+      update({ height: h, width: Math.round(h * aspectRatio) })
+    } else {
+      update({ height: h })
+    }
+  }
 
   return (
     <section className="control-section">
@@ -85,29 +131,70 @@ export default function CanvasProperties({ state, dispatch }) {
           <input type="range" value={el.opacity} onChange={e => update({ opacity: Number(e.target.value) })} min={0} max={1} step={0.05} style={{ width: '100%' }} />
         </label>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-          <label>
-            X
-            <input type="number" value={Math.round(el.x)} onChange={e => update({ x: Number(e.target.value) })} />
-          </label>
-          <label>
-            Y
-            <input type="number" value={Math.round(el.y)} onChange={e => update({ y: Number(e.target.value) })} />
-          </label>
-          <label>
-            Width
-            <input type="number" value={Math.round(el.width)} onChange={e => update({ width: Number(e.target.value) })} />
-          </label>
-          <label>
-            Height
-            <input type="number" value={Math.round(el.height || 0)} onChange={e => update({ height: Number(e.target.value) })} />
-          </label>
+        {/* Position - nudge style */}
+        <div className="ea-element" style={{ marginTop: 8 }}>
+          <div className="ea-element-header">
+            <span className="ea-label">Position</span>
+          </div>
+          <div className="ea-controls">
+            <NudgeControl label="Y pos" value={el.y} step={10} onChange={v => update({ y: v })} />
+            <NudgeControl label="X pos" value={el.x} step={10} onChange={v => update({ x: v })} />
+          </div>
         </div>
 
-        <label>
-          Rotation
-          <input type="range" value={el.rotation || 0} onChange={e => update({ rotation: Number(e.target.value) })} min={0} max={360} style={{ width: '100%' }} />
-        </label>
+        {/* Size - nudge style with lock + slider */}
+        <div className="ea-element">
+          <div className="ea-element-header">
+            <span className="ea-label">Size</span>
+            <label className="lock-toggle">
+              <input
+                type="checkbox"
+                checked={lockRatio}
+                onChange={e => setLockRatio(e.target.checked)}
+              />
+              <span className="lock-icon">{lockRatio ? '\uD83D\uDD12' : '\uD83D\uDD13'}</span>
+              Lock
+            </label>
+          </div>
+          <div className="ea-controls">
+            <NudgeControl label="Width" value={el.width} step={10} onChange={v => handleWidthChange(Math.max(10, v))} />
+            {el.type !== 'text' && (
+              <NudgeControl label="Height" value={el.height || 0} step={10} onChange={v => handleHeightChange(Math.max(10, v))} />
+            )}
+          </div>
+          <div style={{ marginTop: 8 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 10, color: 'var(--ui-text-muted)' }}>
+              <span>Scale</span>
+              <input
+                type="range"
+                value={currentScale}
+                onChange={e => handleScale(Number(e.target.value))}
+                min={0.1}
+                max={3}
+                step={0.05}
+                style={{ flex: 1 }}
+              />
+              <span style={{ fontFamily: 'monospace', width: 40, textAlign: 'right' }}>{Math.round(currentScale * 100)}%</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="ea-element">
+          <div className="ea-element-header">
+            <span className="ea-label">Rotation</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 10, color: 'var(--ui-text-muted)' }}>
+            <input
+              type="range"
+              value={el.rotation || 0}
+              onChange={e => update({ rotation: Number(e.target.value) })}
+              min={0}
+              max={360}
+              style={{ flex: 1 }}
+            />
+            <span style={{ fontFamily: 'monospace', width: 30, textAlign: 'right' }}>{Math.round(el.rotation || 0)}</span>
+          </div>
+        </div>
       </div>
     </section>
   )

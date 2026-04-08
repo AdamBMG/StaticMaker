@@ -135,6 +135,24 @@
   color: #ff6b6b;
 }
 
+/* Lock toggle */
+.lock-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--ui-text-muted);
+  cursor: pointer;
+}
+
+.lock-toggle input {
+  display: none;
+}
+
+.lock-icon {
+  font-size: 12px;
+}
+
 /* Background image indicator */
 .bg-image-indicator {
   display: flex;

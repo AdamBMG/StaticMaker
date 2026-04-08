@@ -5,6 +5,7 @@ export default function ClientSelector({ onSelect }) {
   return (
     <div className="selector-page">
       <div className="selector-content">
+        <img src="/assets/brand/bmg-header.png" alt="BMG" className="selector-logo" />
         <h1 className="selector-title">Static Ad Maker</h1>
         <p className="selector-subtitle">Select a client</p>
         <div className="client-grid">

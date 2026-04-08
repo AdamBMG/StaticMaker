@@ -11,8 +11,8 @@ export default function CanvasLayers({ state, dispatch }) {
         <div className="layers-list">
           {reversed.map(el => {
             const isSelected = el.id === selectedId
-            const icon = el.type === 'text' ? 'T' : el.type === 'rect' ? '\u25A0' : '\u25CF'
-            const label = el.type === 'text' ? (el.text.slice(0, 24) + (el.text.length > 24 ? '...' : '')) : el.type
+            const icon = el.type === 'text' ? 'T' : el.type === 'rect' ? '\u25A0' : el.type === 'image' ? '\u25A3' : '\u25CF'
+            const label = el.type === 'text' ? (el.text.slice(0, 24) + (el.text.length > 24 ? '...' : '')) : el.type === 'image' ? 'Image' : el.type
             return (
               <div
                 key={el.id}

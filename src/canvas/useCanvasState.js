@@ -31,6 +31,21 @@ export function createDefaultRect(cw, ch) {
   }
 }
 
+export function createImageElement(cw, ch, src, naturalWidth, naturalHeight) {
+  const maxW = cw * 0.5
+  const maxH = ch * 0.5
+  const scale = Math.min(maxW / naturalWidth, maxH / naturalHeight, 1)
+  const w = naturalWidth * scale
+  const h = naturalHeight * scale
+  return {
+    id: genId(), type: 'image',
+    x: (cw - w) / 2, y: (ch - h) / 2,
+    width: w, height: h,
+    rotation: 0, opacity: 1,
+    src,
+  }
+}
+
 export function createDefaultCircle(cw, ch) {
   return {
     id: genId(), type: 'circle',

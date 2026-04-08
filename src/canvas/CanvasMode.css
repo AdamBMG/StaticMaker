@@ -134,3 +134,99 @@
   background: rgba(224, 32, 32, 0.3);
   color: #ff6b6b;
 }
+
+/* Upload button */
+.upload-btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: 2px dashed var(--ui-border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ui-text);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-bottom: 12px;
+}
+
+.upload-btn:hover {
+  border-color: var(--ui-accent);
+  color: var(--ui-accent);
+}
+
+/* Asset tabs */
+.asset-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.asset-tab {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ui-text-muted);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.asset-tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.asset-tab.active {
+  background: var(--ui-accent);
+  color: white;
+}
+
+/* Asset grid */
+.asset-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.asset-thumb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px;
+  border: 1px solid var(--ui-border);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+  color: var(--ui-text-muted);
+}
+
+.asset-thumb:hover {
+  border-color: var(--ui-accent);
+  background: rgba(255, 122, 0, 0.08);
+}
+
+.asset-thumb img {
+  width: 100%;
+  height: 60px;
+  object-fit: contain;
+}
+
+.asset-thumb span {
+  font-size: 10px;
+  text-align: center;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}

@@ -5,6 +5,7 @@ import CanvasToolbar from './CanvasToolbar'
 import CanvasBackground from './CanvasBackground'
 import CanvasProperties from './CanvasProperties'
 import CanvasLayers from './CanvasLayers'
+import CanvasAssets from './CanvasAssets'
 import CanvasExport from './CanvasExport'
 import './CanvasMode.css'
 
@@ -24,6 +25,7 @@ export default function CanvasMode() {
     <div className="app-layout">
       <div className="controls-panel">
         <CanvasBackground state={state} dispatch={dispatch} />
+        <CanvasAssets state={state} dispatch={dispatch} />
         <CanvasProperties state={state} dispatch={dispatch} />
         <CanvasLayers state={state} dispatch={dispatch} />
         <CanvasExport stageRef={stageRef} format={state.format} />

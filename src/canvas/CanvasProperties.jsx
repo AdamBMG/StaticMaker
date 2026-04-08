@@ -51,23 +51,27 @@ export default function CanvasProperties({ state, dispatch }) {
           </>
         )}
 
-        {/* Colour - all types */}
-        <label>Colour</label>
-        <div className="colour-swatches">
-          {BRAND_COLOURS.map(c => (
-            <button
-              key={c.value}
-              className={`colour-swatch ${el.fill === c.value ? 'active' : ''}`}
-              style={{ background: c.value }}
-              onClick={() => update({ fill: c.value })}
-              title={c.name}
-            />
-          ))}
-        </div>
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 4 }}>
-          <input type="color" value={el.fill} onChange={e => update({ fill: e.target.value })} style={{ width: 32, height: 32, padding: 0, border: 'none', cursor: 'pointer' }} />
-          <input type="text" value={el.fill} onChange={e => update({ fill: e.target.value })} style={{ flex: 1, padding: '8px 10px', border: '1px solid var(--ui-border)', borderRadius: 6, background: 'rgba(0,0,0,0.3)', color: 'var(--ui-text)', fontFamily: 'inherit', fontSize: 13 }} />
-        </div>
+        {/* Colour - text and shapes only */}
+        {el.type !== 'image' && <label>Colour</label>}
+        {el.type !== 'image' && (
+          <>
+            <div className="colour-swatches">
+              {BRAND_COLOURS.map(c => (
+                <button
+                  key={c.value}
+                  className={`colour-swatch ${el.fill === c.value ? 'active' : ''}`}
+                  style={{ background: c.value }}
+                  onClick={() => update({ fill: c.value })}
+                  title={c.name}
+                />
+              ))}
+            </div>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 4 }}>
+              <input type="color" value={el.fill} onChange={e => update({ fill: e.target.value })} style={{ width: 32, height: 32, padding: 0, border: 'none', cursor: 'pointer' }} />
+              <input type="text" value={el.fill} onChange={e => update({ fill: e.target.value })} style={{ flex: 1, padding: '8px 10px', border: '1px solid var(--ui-border)', borderRadius: 6, background: 'rgba(0,0,0,0.3)', color: 'var(--ui-text)', fontFamily: 'inherit', fontSize: 13 }} />
+            </div>
+          </>
+        )}
 
         {el.type === 'rect' && (
           <label>

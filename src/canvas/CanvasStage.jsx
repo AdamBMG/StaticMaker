@@ -2,6 +2,7 @@ import { Stage, Layer, Rect } from 'react-konva'
 import CanvasText from './elements/CanvasText'
 import CanvasRect from './elements/CanvasRect'
 import CanvasCircle from './elements/CanvasCircle'
+import CanvasImage from './elements/CanvasImage'
 
 export default function CanvasStage({ state, dispatch, stageRef, displayScale, wrapperRef }) {
   const { canvasWidth, canvasHeight, background, elements, selectedId } = state
@@ -67,6 +68,17 @@ export default function CanvasStage({ state, dispatch, stageRef, displayScale, w
           if (el.type === 'circle') {
             return (
               <CanvasCircle
+                key={el.id}
+                el={el}
+                isSelected={isSelected}
+                onSelect={onSelect}
+                onUpdate={onUpdate}
+              />
+            )
+          }
+          if (el.type === 'image') {
+            return (
+              <CanvasImage
                 key={el.id}
                 el={el}
                 isSelected={isSelected}

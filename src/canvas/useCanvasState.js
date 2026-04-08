@@ -99,6 +99,8 @@ function reducer(state, action) {
       if (!el) return state
       return { ...state, elements: [...state.elements.filter(e => e.id !== action.id), el] }
     }
+    case 'LOAD_ELEMENTS':
+      return { ...state, elements: action.elements, selectedId: null }
     case 'SEND_TO_BACK': {
       const el = state.elements.find(e => e.id === action.id)
       if (!el) return state

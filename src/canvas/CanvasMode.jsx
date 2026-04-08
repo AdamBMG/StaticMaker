@@ -6,6 +6,7 @@ import CanvasBackground from './CanvasBackground'
 import CanvasProperties from './CanvasProperties'
 import CanvasLayers from './CanvasLayers'
 import CanvasAssets from './CanvasAssets'
+import CanvasTemplates from './CanvasTemplates'
 import CanvasExport from './CanvasExport'
 import HeadlineGenerator from '../components/HeadlineGenerator'
 import BackgroundGenerator from '../components/BackgroundGenerator'
@@ -36,6 +37,7 @@ export default function CanvasMode() {
   return (
     <div className="app-layout">
       <div className="controls-panel">
+        <CanvasTemplates state={state} dispatch={dispatch} />
         <CanvasBackground state={state} dispatch={dispatch} />
         <section className="control-section">
           <h2>AI Generate</h2>

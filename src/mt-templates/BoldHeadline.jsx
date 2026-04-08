@@ -27,7 +27,7 @@ export default function BoldHeadline({
         alt="mobileTutors"
         className={`mt-bold-logo ${logoTop ? 'mt-bold-logo-bottom' : 'mt-bold-logo-top'}`}
         style={{
-          height: isStory ? 48 : 36,
+          height: (isStory ? 48 : 36) + (ov['logo.fontSize'] || 0),
           top: logoTop ? undefined : (isStory ? 60 : 40) + (ov['logo.top'] || 0),
           bottom: logoTop ? (isStory ? 60 : 40) + (ov['logo.bottom'] || 0) : undefined,
           left: (isStory ? 60 : 40) + (ov['logo.left'] || 0),
@@ -51,11 +51,11 @@ export default function BoldHeadline({
           color: textColor,
           top: (isStory ? 680 : 480) + (ov['trust.top'] || 0),
           left: (isStory ? 60 : 40) + (ov['trust.left'] || 0),
-          fontSize: isStory ? 24 : 20,
+          fontSize: (isStory ? 24 : 20) + (ov['trust.fontSize'] || 0),
           opacity: 0.85,
         }}>
           <img src="/assets/mobile-tutors/trustpilot-stars.svg" alt="Trustpilot" className="mt-bold-stars" style={{
-            height: isStory ? 28 : 22,
+            height: (isStory ? 28 : 22) + (ov['trust.fontSize'] || 0),
           }} />
           {trustBadge}
         </div>
@@ -67,7 +67,7 @@ export default function BoldHeadline({
           color: textColor,
           bottom: (isStory ? 280 : 180) + (ov['price.bottom'] || 0),
           left: (isStory ? 60 : 40) + (ov['price.left'] || 0),
-          fontSize: isStory ? 36 : 28,
+          fontSize: (isStory ? 36 : 28) + (ov['price.fontSize'] || 0),
         }}>
           {priceLine}
         </div>
@@ -78,7 +78,7 @@ export default function BoldHeadline({
         <div className="mt-bold-cta" style={{
           bottom: (isStory ? 180 : 100) + (ov['cta.bottom'] || 0),
           left: (isStory ? 60 : 40) + (ov['cta.left'] || 0),
-          fontSize: isStory ? 28 : 22,
+          fontSize: (isStory ? 28 : 22) + (ov['cta.fontSize'] || 0),
         }}>
           {ctaText}
         </div>

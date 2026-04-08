@@ -135,6 +135,19 @@ export default function CanvasProperties({ state, dispatch }) {
         <div className="ea-element" style={{ marginTop: 8 }}>
           <div className="ea-element-header">
             <span className="ea-label">Position</span>
+            <button
+              className="centre-btn"
+              onClick={() => {
+                const elW = el.width || 0
+                const elH = el.height || 0
+                update({
+                  x: Math.round((state.canvasWidth - elW) / 2),
+                  y: Math.round((state.canvasHeight - elH) / 2),
+                })
+              }}
+            >
+              Centre
+            </button>
           </div>
           <div className="ea-controls">
             <NudgeControl label="Y pos" value={el.y} step={10} onChange={v => update({ y: v })} />

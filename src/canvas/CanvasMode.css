@@ -153,6 +153,25 @@
   font-size: 12px;
 }
 
+/* Centre button */
+.centre-btn {
+  padding: 3px 10px;
+  border: 1px solid var(--ui-border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ui-text-muted);
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.centre-btn:hover {
+  border-color: var(--ui-accent);
+  color: var(--ui-accent);
+}
+
 /* Background image indicator */
 .bg-image-indicator {
   display: flex;

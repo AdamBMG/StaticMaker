@@ -12,7 +12,8 @@ function NudgeControl({ label, value, step, onChange }) {
   )
 }
 
-export default function CanvasProperties({ state, dispatch }) {
+export default function CanvasProperties({ state, dispatch, palette }) {
+  const colours = palette || BRAND_COLOURS
   const { elements, selectedId } = state
   const el = elements.find(e => e.id === selectedId)
   const [lockRatio, setLockRatio] = useState(true)
@@ -115,7 +116,7 @@ export default function CanvasProperties({ state, dispatch }) {
         {el.type !== 'image' && (
           <>
             <div className="colour-swatches">
-              {BRAND_COLOURS.map(c => (
+              {colours.map(c => (
                 <button
                   key={c.value}
                   className={`colour-swatch ${el.fill === c.value ? 'active' : ''}`}

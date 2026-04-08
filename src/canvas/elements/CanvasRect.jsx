@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react'
 import { Rect, Transformer } from 'react-konva'
 
-export default function CanvasRect({ el, isSelected, onSelect, onUpdate }) {
+export default function CanvasRect({ el, isSelected, onSelect, onUpdate, onSnapDragMove, onSnapDragEnd }) {
   const shapeRef = useRef(null)
   const trRef = useRef(null)
 
@@ -29,7 +29,9 @@ export default function CanvasRect({ el, isSelected, onSelect, onUpdate }) {
         draggable
         onClick={() => onSelect(el.id)}
         onTap={() => onSelect(el.id)}
+        onDragMove={onSnapDragMove ? (e) => onSnapDragMove(el.id, e.target) : undefined}
         onDragEnd={e => {
+          if (onSnapDragEnd) onSnapDragEnd()
           onUpdate(el.id, { x: e.target.x(), y: e.target.y() })
         }}
         onTransformEnd={() => {

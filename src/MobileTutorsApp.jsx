@@ -7,7 +7,16 @@ import GuaranteeResults from './mt-templates/GuaranteeResults'
 import QCChecker from './components/QCChecker'
 import HeadlineGenerator from './components/HeadlineGenerator'
 import ElementAdjuster from './components/ElementAdjuster'
+import CanvasMode from './canvas/CanvasMode'
+import { MT_BRAND_COLOURS, MT_BRAND_FONTS, MT_ASSET_CATEGORIES, MT_STARTER_TEMPLATES } from './canvas/data/mtBrandPalette'
 import './App.css'
+
+const MT_BRAND_CONFIG = {
+  colours: MT_BRAND_COLOURS,
+  fonts: MT_BRAND_FONTS,
+  assets: MT_ASSET_CATEGORIES,
+  templates: MT_STARTER_TEMPLATES,
+}
 
 const TEMPLATES = [
   {
@@ -206,6 +215,7 @@ const SAFE_ZONES = {
 }
 
 export default function MobileTutorsApp({ onBack }) {
+  const [mode, setMode] = useState('single')
   const [selectedTemplate, setSelectedTemplate] = useState(0)
   const [selectedFormat, setSelectedFormat] = useState(0)
   const [selectedVariant, setSelectedVariant] = useState(0)
@@ -356,8 +366,15 @@ export default function MobileTutorsApp({ onBack }) {
         )}
         <img src="/assets/mobile-tutors/logo-dark.png" alt="Mobile Tutors" className="app-logo" />
         <h1>Static Ad Maker</h1>
+        <div className="mode-toggle">
+          <button className={`mode-btn ${mode === 'single' ? 'active' : ''}`} onClick={() => setMode('single')}>Template</button>
+          <button className={`mode-btn ${mode === 'canvas' ? 'active' : ''}`} onClick={() => setMode('canvas')}>Canvas</button>
+        </div>
       </header>
 
+      {mode === 'canvas' ? (
+        <CanvasMode brandConfig={MT_BRAND_CONFIG} />
+      ) : (
       <div className="app-layout">
         {/* Left panel - Controls */}
         <div className="controls-panel">
@@ -566,6 +583,7 @@ export default function MobileTutorsApp({ onBack }) {
           </div>
         </div>
       </div>
+      )}
     </div>
   )
 }

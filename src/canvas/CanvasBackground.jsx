@@ -1,7 +1,8 @@
 import { BRAND_COLOURS } from './data/brandPalette'
 
-export default function CanvasBackground({ state, dispatch }) {
+export default function CanvasBackground({ state, dispatch, palette }) {
   const { background } = state
+  const colours = palette || BRAND_COLOURS
 
   const setType = (type) => dispatch({ type: 'SET_BACKGROUND', payload: { type, image: null } })
   const setColor = (color) => dispatch({ type: 'SET_BACKGROUND', payload: { color } })
@@ -25,7 +26,7 @@ export default function CanvasBackground({ state, dispatch }) {
       {background.type === 'solid' ? (
         <>
           <div className="colour-swatches">
-            {BRAND_COLOURS.map(c => (
+            {colours.map(c => (
               <button
                 key={c.value}
                 className={`colour-swatch ${background.color === c.value ? 'active' : ''}`}

@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react'
 import { Ellipse, Transformer } from 'react-konva'
 
-export default function CanvasCircle({ el, isSelected, onSelect, onUpdate }) {
+export default function CanvasCircle({ el, isSelected, onSelect, onUpdate, onSnapDragMove, onSnapDragEnd }) {
   const shapeRef = useRef(null)
   const trRef = useRef(null)
 
@@ -28,7 +28,9 @@ export default function CanvasCircle({ el, isSelected, onSelect, onUpdate }) {
         draggable
         onClick={() => onSelect(el.id)}
         onTap={() => onSelect(el.id)}
+        onDragMove={onSnapDragMove ? (e) => onSnapDragMove(el.id, e.target) : undefined}
         onDragEnd={e => {
+          if (onSnapDragEnd) onSnapDragEnd()
           onUpdate(el.id, {
             x: e.target.x() - el.width / 2,
             y: e.target.y() - el.height / 2,

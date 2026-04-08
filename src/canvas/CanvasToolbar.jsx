@@ -1,6 +1,6 @@
 import { createDefaultText, createDefaultRect, createDefaultCircle } from './useCanvasState'
 
-export default function CanvasToolbar({ state, dispatch, canUndo, canRedo }) {
+export default function CanvasToolbar({ state, dispatch, canUndo, canRedo, snapEnabled, onToggleSnap }) {
   const { canvasWidth, canvasHeight, format } = state
 
   return (
@@ -22,6 +22,11 @@ export default function CanvasToolbar({ state, dispatch, canUndo, canRedo }) {
         </button>
         <button className="canvas-tool-btn" onClick={() => dispatch({ type: 'ADD_ELEMENT', element: createDefaultCircle(canvasWidth, canvasHeight) })}>
           + Circle
+        </button>
+      </div>
+      <div className="canvas-toolbar-group">
+        <button className={`canvas-tool-btn ${snapEnabled ? 'snap-active' : ''}`} onClick={onToggleSnap} title="Toggle snap guides">
+          Snap {snapEnabled ? 'On' : 'Off'}
         </button>
       </div>
       <div className="format-toggle">

@@ -250,6 +250,11 @@
   cursor: not-allowed;
 }
 
+.canvas-tool-btn.snap-active {
+  border-color: var(--ui-accent);
+  color: var(--ui-accent);
+}
+
 /* Centre button */
 .centre-btn {
   padding: 3px 10px;

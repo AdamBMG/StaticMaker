@@ -231,11 +231,12 @@ const STARTER_TEMPLATES = [
   },
 ]
 
-export default function CanvasTemplates({ state, dispatch }) {
+export default function CanvasTemplates({ state, dispatch, templates: customTemplates }) {
+  const templateList = customTemplates || STARTER_TEMPLATES
   const [confirmIdx, setConfirmIdx] = useState(null)
 
   const loadTemplate = (idx) => {
-    const tmpl = STARTER_TEMPLATES[idx]
+    const tmpl = templateList[idx]
     const { background, elements } = tmpl.build(state.canvasWidth, state.canvasHeight)
     dispatch({ type: 'SET_BACKGROUND', payload: background })
     dispatch({ type: 'LOAD_ELEMENTS', elements })
@@ -246,7 +247,7 @@ export default function CanvasTemplates({ state, dispatch }) {
     <section className="control-section">
       <h2>Start from Template</h2>
       <div className="template-starters">
-        {STARTER_TEMPLATES.map((tmpl, i) => (
+        {templateList.map((tmpl, i) => (
           <div key={tmpl.name} className="starter-item">
             {confirmIdx === i ? (
               <div className="starter-confirm">

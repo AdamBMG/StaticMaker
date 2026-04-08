@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 import { Text, Transformer } from 'react-konva'
 
-export default function CanvasText({ el, isSelected, onSelect, onUpdate, displayScale, wrapperRef }) {
+export default function CanvasText({ el, isSelected, onSelect, onUpdate, displayScale, wrapperRef, onSnapDragMove, onSnapDragEnd }) {
   const textRef = useRef(null)
   const trRef = useRef(null)
   const [editing, setEditing] = useState(false)
@@ -44,7 +44,9 @@ export default function CanvasText({ el, isSelected, onSelect, onUpdate, display
         onTap={() => onSelect(el.id)}
         onDblClick={handleDblClick}
         onDblTap={handleDblClick}
+        onDragMove={onSnapDragMove ? (e) => onSnapDragMove(el.id, e.target) : undefined}
         onDragEnd={e => {
+          if (onSnapDragEnd) onSnapDragEnd()
           onUpdate(el.id, { x: e.target.x(), y: e.target.y() })
         }}
         onTransformEnd={() => {

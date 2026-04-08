@@ -1,6 +1,7 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import useCanvasState, { createDefaultText } from './useCanvasState'
 import useCanvasKeyboard from './useCanvasKeyboard'
+import useSnapGuides from './useSnapGuides'
 import CanvasStage from './CanvasStage'
 import CanvasToolbar from './CanvasToolbar'
 import CanvasBackground from './CanvasBackground'
@@ -14,10 +15,12 @@ import HeadlineGenerator from '../components/HeadlineGenerator'
 import BackgroundGenerator from '../components/BackgroundGenerator'
 import './CanvasMode.css'
 
-export default function CanvasMode() {
+export default function CanvasMode({ brandConfig } = {}) {
   const [state, dispatch, { canUndo, canRedo }] = useCanvasState()
   const stageRef = useRef(null)
   const wrapperRef = useRef(null)
+  const [snapEnabled, setSnapEnabled] = useState(true)
+  const snapGuides = useSnapGuides(state, snapEnabled)
 
   useCanvasKeyboard(state, dispatch, { canUndo, canRedo })
 
@@ -57,9 +60,9 @@ export default function CanvasMode() {
   return (
     <div className="app-layout">
       <div className="controls-panel">
-        <CanvasTemplates state={state} dispatch={dispatch} />
+        <CanvasTemplates state={state} dispatch={dispatch} templates={brandConfig?.templates} />
         <CanvasSaveLoad state={state} dispatch={dispatch} />
-        <CanvasBackground state={state} dispatch={dispatch} />
+        <CanvasBackground state={state} dispatch={dispatch} palette={brandConfig?.colours} />
         <section className="control-section">
           <h2>AI Generate</h2>
           <HeadlineGenerator
@@ -71,13 +74,13 @@ export default function CanvasMode() {
             onBackgroundGenerated={handleBackgroundGenerated}
           />
         </section>
-        <CanvasAssets state={state} dispatch={dispatch} />
-        <CanvasProperties state={state} dispatch={dispatch} />
+        <CanvasAssets state={state} dispatch={dispatch} assetCategories={brandConfig?.assets} />
+        <CanvasProperties state={state} dispatch={dispatch} palette={brandConfig?.colours} />
         <CanvasLayers state={state} dispatch={dispatch} />
         <CanvasExport stageRef={stageRef} state={state} dispatch={dispatch} format={state.format} />
       </div>
       <div className="preview-panel">
-        <CanvasToolbar state={state} dispatch={dispatch} canUndo={canUndo} canRedo={canRedo} />
+        <CanvasToolbar state={state} dispatch={dispatch} canUndo={canUndo} canRedo={canRedo} snapEnabled={snapEnabled} onToggleSnap={() => setSnapEnabled(s => !s)} />
         <div className="preview-label">
           {state.canvasWidth} x {state.canvasHeight} - Canvas
         </div>
@@ -102,6 +105,7 @@ export default function CanvasMode() {
               stageRef={stageRef}
               displayScale={displayScale}
               wrapperRef={wrapperRef}
+              snapGuides={snapEnabled ? snapGuides : null}
             />
           </div>
         </div>

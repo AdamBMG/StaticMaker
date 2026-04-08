@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from 'react'
 import { Image, Transformer } from 'react-konva'
 
-export default function CanvasImage({ el, isSelected, onSelect, onUpdate }) {
+export default function CanvasImage({ el, isSelected, onSelect, onUpdate, onSnapDragMove, onSnapDragEnd }) {
   const imageRef = useRef(null)
   const trRef = useRef(null)
   const [img, setImg] = useState(null)
@@ -36,7 +36,9 @@ export default function CanvasImage({ el, isSelected, onSelect, onUpdate }) {
         draggable
         onClick={() => onSelect(el.id)}
         onTap={() => onSelect(el.id)}
+        onDragMove={onSnapDragMove ? (e) => onSnapDragMove(el.id, e.target) : undefined}
         onDragEnd={e => {
+          if (onSnapDragEnd) onSnapDragEnd()
           onUpdate(el.id, { x: e.target.x(), y: e.target.y() })
         }}
         onTransformEnd={() => {

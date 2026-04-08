@@ -77,7 +77,8 @@ function loadImage(src) {
   })
 }
 
-export default function CanvasAssets({ state, dispatch }) {
+export default function CanvasAssets({ state, dispatch, assetCategories }) {
+  const categories = assetCategories || ASSET_CATEGORIES
   const [activeCategory, setActiveCategory] = useState(0)
   const [loading, setLoading] = useState(false)
 
@@ -109,7 +110,7 @@ export default function CanvasAssets({ state, dispatch }) {
     e.target.value = ''
   }
 
-  const category = ASSET_CATEGORIES[activeCategory]
+  const category = categories[activeCategory]
 
   return (
     <section className="control-section">
@@ -121,7 +122,7 @@ export default function CanvasAssets({ state, dispatch }) {
       </label>
 
       <div className="asset-tabs">
-        {ASSET_CATEGORIES.map((cat, i) => (
+        {categories.map((cat, i) => (
           <button
             key={cat.name}
             className={`asset-tab ${i === activeCategory ? 'active' : ''}`}

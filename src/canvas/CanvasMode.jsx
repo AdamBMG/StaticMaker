@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import useCanvasState from './useCanvasState'
+import useCanvasState, { createDefaultText } from './useCanvasState'
 import CanvasStage from './CanvasStage'
 import CanvasToolbar from './CanvasToolbar'
 import CanvasBackground from './CanvasBackground'
@@ -7,6 +7,8 @@ import CanvasProperties from './CanvasProperties'
 import CanvasLayers from './CanvasLayers'
 import CanvasAssets from './CanvasAssets'
 import CanvasExport from './CanvasExport'
+import HeadlineGenerator from '../components/HeadlineGenerator'
+import BackgroundGenerator from '../components/BackgroundGenerator'
 import './CanvasMode.css'
 
 export default function CanvasMode() {
@@ -21,10 +23,31 @@ export default function CanvasMode() {
     maxPreviewHeight / state.canvasHeight
   )
 
+  const handleSelectHeadline = (text) => {
+    const el = createDefaultText(state.canvasWidth, state.canvasHeight)
+    el.text = text
+    dispatch({ type: 'ADD_ELEMENT', element: el })
+  }
+
+  const handleBackgroundGenerated = (imageDataUrl) => {
+    dispatch({ type: 'SET_BACKGROUND', payload: { type: 'image', image: imageDataUrl } })
+  }
+
   return (
     <div className="app-layout">
       <div className="controls-panel">
         <CanvasBackground state={state} dispatch={dispatch} />
+        <section className="control-section">
+          <h2>AI Generate</h2>
+          <HeadlineGenerator
+            mode="single"
+            onSelectHeadline={handleSelectHeadline}
+          />
+          <BackgroundGenerator
+            format={state.format}
+            onBackgroundGenerated={handleBackgroundGenerated}
+          />
+        </section>
         <CanvasAssets state={state} dispatch={dispatch} />
         <CanvasProperties state={state} dispatch={dispatch} />
         <CanvasLayers state={state} dispatch={dispatch} />

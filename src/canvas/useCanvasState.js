@@ -118,6 +118,7 @@ const initialState = {
     color: '#FF7A00',
     gradientFrom: '#FF7A00',
     gradientTo: '#6B2FA0',
+    image: null,
   },
   elements: [],
   selectedId: null,

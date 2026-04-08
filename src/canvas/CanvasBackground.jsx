@@ -3,7 +3,7 @@ import { BRAND_COLOURS } from './data/brandPalette'
 export default function CanvasBackground({ state, dispatch }) {
   const { background } = state
 
-  const setType = (type) => dispatch({ type: 'SET_BACKGROUND', payload: { type } })
+  const setType = (type) => dispatch({ type: 'SET_BACKGROUND', payload: { type, image: null } })
   const setColor = (color) => dispatch({ type: 'SET_BACKGROUND', payload: { color } })
   const setGradientFrom = (gradientFrom) => dispatch({ type: 'SET_BACKGROUND', payload: { gradientFrom } })
   const setGradientTo = (gradientTo) => dispatch({ type: 'SET_BACKGROUND', payload: { gradientTo } })
@@ -11,8 +11,14 @@ export default function CanvasBackground({ state, dispatch }) {
   return (
     <section className="control-section">
       <h2>Background</h2>
+      {background.image && (
+        <div className="bg-image-indicator">
+          <span>AI background active</span>
+          <button onClick={() => dispatch({ type: 'SET_BACKGROUND', payload: { image: null, type: 'solid' } })}>Clear</button>
+        </div>
+      )}
       <div className="format-toggle" style={{ marginBottom: 12 }}>
-        <button className={`format-btn ${background.type === 'solid' ? 'active' : ''}`} onClick={() => setType('solid')}>Solid</button>
+        <button className={`format-btn ${background.type === 'solid' && !background.image ? 'active' : ''}`} onClick={() => setType('solid')}>Solid</button>
         <button className={`format-btn ${background.type === 'gradient' ? 'active' : ''}`} onClick={() => setType('gradient')}>Gradient</button>
       </div>
 

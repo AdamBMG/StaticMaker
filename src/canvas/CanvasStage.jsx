@@ -1,11 +1,25 @@
-import { Stage, Layer, Rect } from 'react-konva'
+import { useState, useEffect } from 'react'
+import { Stage, Layer, Rect, Image as KonvaImage } from 'react-konva'
 import CanvasText from './elements/CanvasText'
 import CanvasRect from './elements/CanvasRect'
 import CanvasCircle from './elements/CanvasCircle'
 import CanvasImage from './elements/CanvasImage'
 
+function useBgImage(src) {
+  const [img, setImg] = useState(null)
+  useEffect(() => {
+    if (!src) { setImg(null); return }
+    const image = new window.Image()
+    image.crossOrigin = 'anonymous'
+    image.onload = () => setImg(image)
+    image.src = src
+  }, [src])
+  return img
+}
+
 export default function CanvasStage({ state, dispatch, stageRef, displayScale, wrapperRef }) {
   const { canvasWidth, canvasHeight, background, elements, selectedId } = state
+  const bgImage = useBgImage(background.image)
 
   const onSelect = (id) => dispatch({ type: 'SELECT_ELEMENT', id })
   const onUpdate = (id, props) => dispatch({ type: 'UPDATE_ELEMENT', id, props })
@@ -39,6 +53,16 @@ export default function CanvasStage({ state, dispatch, stageRef, displayScale, w
           height={canvasHeight}
           {...bgProps}
         />
+        {bgImage && (
+          <KonvaImage
+            image={bgImage}
+            x={0}
+            y={0}
+            width={canvasWidth}
+            height={canvasHeight}
+            listening={false}
+          />
+        )}
         {elements.map(el => {
           const isSelected = el.id === selectedId
           if (el.type === 'text') {

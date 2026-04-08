@@ -2,6 +2,8 @@ import { useState, useRef, useCallback, useEffect } from 'react'
 import { toPng } from 'html-to-image'
 import { saveAs } from 'file-saver'
 import BoldHeadline from './mt-templates/BoldHeadline'
+import Testimonial from './mt-templates/Testimonial'
+import GuaranteeResults from './mt-templates/GuaranteeResults'
 import QCChecker from './components/QCChecker'
 import HeadlineGenerator from './components/HeadlineGenerator'
 import ElementAdjuster from './components/ElementAdjuster'
@@ -87,6 +89,107 @@ const TEMPLATES = [
         headline: 'Don\'t wait until your child is behind',
         bgColor: '#1D1A63',
         textColor: '#FFFFFF',
+      },
+    ],
+  },
+  {
+    id: 'testimonial',
+    name: 'Testimonial',
+    component: Testimonial,
+    description: 'Parent review + Trustpilot stars',
+    defaults: {
+      headline: 'MobileTutors gave my son extra confidence in Maths GCSE when he was really struggling.',
+      bgColor: '#FAFBFF',
+      textColor: '#1D1A63',
+      ctaText: 'Book Free Consultation',
+      priceLine: '',
+      trustBadge: 'Excellent - 4.9/5',
+      logoPosition: 'top',
+      attribution: 'Liz, Parent - Verified Review',
+      heroImage: '',
+    },
+    variants: [
+      {
+        label: 'White - "Confidence in Maths"',
+        headline: 'MobileTutors gave my son extra confidence in Maths GCSE when he was really struggling.',
+        bgColor: '#FAFBFF',
+        textColor: '#1D1A63',
+        attribution: 'Liz, Parent - Verified Review',
+      },
+      {
+        label: 'White - "Daughter progressing"',
+        headline: 'Having private online lessons has helped my daughter progress more quickly than we ever expected.',
+        bgColor: '#FAFBFF',
+        textColor: '#1D1A63',
+        attribution: 'Mrs. Parent - Verified Review',
+      },
+      {
+        label: 'White - "Focused and tailored"',
+        headline: 'The online format works brilliantly - it\'s focused, convenient, and tailored exactly to what my son needs.',
+        bgColor: '#FAFBFF',
+        textColor: '#1D1A63',
+        attribution: 'Mark, Parent - Verified Review',
+      },
+      {
+        label: 'White - "Couldn\'t be happier"',
+        headline: 'I couldn\'t be happier with my child\'s progress since starting with MobileTutors.',
+        bgColor: '#FAFBFF',
+        textColor: '#1D1A63',
+        attribution: 'Sarah, Parent - Verified Review',
+      },
+    ],
+  },
+  {
+    id: 'guarantee-results',
+    name: 'Guarantee',
+    component: GuaranteeResults,
+    description: 'Bold guarantee + proof points',
+    defaults: {
+      headline: '2 grades higher in 12 weeks. Guaranteed.',
+      bgColor: '#1D1A63',
+      textColor: '#FFFFFF',
+      ctaText: 'Book Free Consultation',
+      priceLine: 'From \u00A35 per lesson',
+      trustBadge: 'Excellent - 4.9/5',
+      subheadline: 'Structured. Proven. Examiner-led.',
+      logoPosition: 'top',
+      heroImage: '',
+    },
+    variants: [
+      {
+        label: 'Navy - "2 grades higher"',
+        headline: '2 grades higher in 12 weeks. Guaranteed.',
+        bgColor: '#1D1A63',
+        textColor: '#FFFFFF',
+        subheadline: 'Structured. Proven. Examiner-led.',
+      },
+      {
+        label: 'Navy - "Secure a 2-grade jump"',
+        headline: 'Secure a 2-grade jump in 12 weeks. Guaranteed.',
+        bgColor: '#1D1A63',
+        textColor: '#FFFFFF',
+        subheadline: 'With examiner-led GCSE prep.',
+      },
+      {
+        label: 'Navy - "Guaranteed improvement"',
+        headline: 'Guaranteed grade improvement in 12 weeks',
+        bgColor: '#1D1A63',
+        textColor: '#DBB539',
+        subheadline: 'Live lessons. Mock exams. Unlimited support.',
+      },
+      {
+        label: 'Gold - "Jump 2 grades"',
+        headline: 'Jump 2 grades in 12 weeks guaranteed',
+        bgColor: '#DBB539',
+        textColor: '#000000',
+        subheadline: 'With structured GCSE exam preparation.',
+      },
+      {
+        label: 'Navy - "GCSE & A-Level success"',
+        headline: 'GCSE & A-Level success starts here',
+        bgColor: '#1D1A63',
+        textColor: '#FFFFFF',
+        subheadline: 'Qualified teachers. No contract. From \u00A35/lesson.',
       },
     ],
   },

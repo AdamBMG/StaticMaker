@@ -48,4 +48,17 @@ export const ELEMENT_MAPS = {
     { id: 'cta', label: 'CTA Button', props: { bottom: { step: 10 }, left: { step: 10 }, fontSize: { step: 2 } } },
     { id: 'image', label: 'Hero Image', props: { bottom: { step: 10 }, right: { step: 10 }, height: { step: 2, unit: '%' } } },
   ],
+  'testimonial': [
+    { id: 'headline', label: 'Quote', props: { top: { step: 10 }, left: { step: 10 }, fontSize: { step: 4 } } },
+    { id: 'logo', label: 'Logo', props: { top: { step: 10 }, left: { step: 10 }, fontSize: { step: 4 } } },
+    { id: 'trust', label: 'Trust / Attribution', props: { top: { step: 10 }, left: { step: 10 }, fontSize: { step: 2 } } },
+    { id: 'cta', label: 'CTA Button', props: { bottom: { step: 10 }, left: { step: 10 }, fontSize: { step: 2 } } },
+  ],
+  'guarantee-results': [
+    { id: 'headline', label: 'Headline', props: { top: { step: 10 }, left: { step: 10 }, fontSize: { step: 4 } } },
+    { id: 'logo', label: 'Logo', props: { top: { step: 10 }, left: { step: 10 }, fontSize: { step: 4 } } },
+    { id: 'trust', label: 'Trust Badge', props: { top: { step: 10 }, left: { step: 10 }, fontSize: { step: 2 } } },
+    { id: 'price', label: 'Price Line', props: { bottom: { step: 10 }, left: { step: 10 }, fontSize: { step: 2 } } },
+    { id: 'cta', label: 'CTA Button', props: { bottom: { step: 10 }, left: { step: 10 }, fontSize: { step: 2 } } },
+  ],
 }

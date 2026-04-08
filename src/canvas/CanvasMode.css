@@ -153,6 +153,103 @@
   font-size: 12px;
 }
 
+/* Save/Load */
+.save-load-btns {
+  display: flex;
+  gap: 6px;
+}
+
+.save-load-btns .canvas-tool-btn { flex: 1; text-align: center; }
+
+.save-form {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.save-form input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid var(--ui-border);
+  border-radius: 6px;
+  background: rgba(0,0,0,0.3);
+  color: var(--ui-text);
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.save-form input:focus { outline: none; border-color: var(--ui-accent); }
+
+.save-confirm {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: var(--ui-accent);
+  color: white;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.save-confirm:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.design-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.design-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.03);
+  font-size: 12px;
+}
+
+.design-info { display: flex; flex-direction: column; gap: 1px; }
+.design-info strong { color: var(--ui-text); font-size: 12px; }
+.design-info span { color: var(--ui-text-muted); font-size: 10px; }
+
+.design-actions { display: flex; gap: 4px; }
+
+.design-actions button {
+  padding: 3px 8px;
+  border: 1px solid var(--ui-border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ui-text-muted);
+  font-size: 10px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.design-actions button:hover { border-color: var(--ui-accent); color: var(--ui-accent); }
+
+.design-delete:hover {
+  border-color: #ef4444 !important;
+  color: #ef4444 !important;
+}
+
+/* Batch export */
+.batch-export-panel {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Disabled toolbar buttons */
+.canvas-tool-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
 /* Centre button */
 .centre-btn {
   padding: 3px 10px;

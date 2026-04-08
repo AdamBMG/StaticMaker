@@ -1,10 +1,18 @@
 import { createDefaultText, createDefaultRect, createDefaultCircle } from './useCanvasState'
 
-export default function CanvasToolbar({ state, dispatch }) {
+export default function CanvasToolbar({ state, dispatch, canUndo, canRedo }) {
   const { canvasWidth, canvasHeight, format } = state
 
   return (
     <div className="canvas-toolbar">
+      <div className="canvas-toolbar-group">
+        <button className="canvas-tool-btn" onClick={() => dispatch({ type: 'UNDO' })} disabled={!canUndo} title="Undo (Ctrl+Z)">
+          Undo
+        </button>
+        <button className="canvas-tool-btn" onClick={() => dispatch({ type: 'REDO' })} disabled={!canRedo} title="Redo (Ctrl+Shift+Z)">
+          Redo
+        </button>
+      </div>
       <div className="canvas-toolbar-group">
         <button className="canvas-tool-btn" onClick={() => dispatch({ type: 'ADD_ELEMENT', element: createDefaultText(canvasWidth, canvasHeight) })}>
           + Text

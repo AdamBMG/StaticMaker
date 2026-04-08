@@ -86,6 +86,19 @@ export default function CanvasProperties({ state, dispatch }) {
               Font Size
               <input type="number" value={el.fontSize} onChange={e => update({ fontSize: Number(e.target.value) })} min={8} max={400} />
             </label>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+              <label>
+                Stroke Colour
+                <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                  <input type="color" value={el.stroke || '#000000'} onChange={e => update({ stroke: e.target.value })} style={{ width: 28, height: 28, padding: 0, border: 'none', cursor: 'pointer' }} />
+                  <input type="text" value={el.stroke || ''} onChange={e => update({ stroke: e.target.value })} placeholder="none" style={{ flex: 1, padding: '6px 8px', border: '1px solid var(--ui-border)', borderRadius: 6, background: 'rgba(0,0,0,0.3)', color: 'var(--ui-text)', fontFamily: 'inherit', fontSize: 12 }} />
+                </div>
+              </label>
+              <label>
+                Stroke Width
+                <input type="number" value={el.strokeWidth || 0} onChange={e => update({ strokeWidth: Number(e.target.value) })} min={0} max={20} />
+              </label>
+            </div>
             <label>
               Alignment
               <div className="format-toggle">

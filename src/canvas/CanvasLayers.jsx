@@ -23,6 +23,7 @@ export default function CanvasLayers({ state, dispatch }) {
                 <span className="layer-label">{label}</span>
                 {isSelected && (
                   <div className="layer-actions">
+                    <button title="Duplicate (Ctrl+D)" onClick={e => { e.stopPropagation(); dispatch({ type: 'DUPLICATE_ELEMENT', id: el.id }) }}>{'\u2398'}</button>
                     <button title="Move up" onClick={e => { e.stopPropagation(); dispatch({ type: 'MOVE_LAYER_UP', id: el.id }) }}>{'\u2191'}</button>
                     <button title="Move down" onClick={e => { e.stopPropagation(); dispatch({ type: 'MOVE_LAYER_DOWN', id: el.id }) }}>{'\u2193'}</button>
                     <button title="Delete" onClick={e => { e.stopPropagation(); dispatch({ type: 'DELETE_ELEMENT', id: el.id }) }}>{'\u2715'}</button>

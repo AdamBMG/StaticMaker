@@ -16,6 +16,7 @@ export function createDefaultText(cw, ch) {
     fill: '#FFFFFF',
     align: 'center',
     fontStyle: '',
+    stroke: '', strokeWidth: 0,
   }
 }
 
@@ -78,6 +79,15 @@ function reducer(state, action) {
         elements: state.elements.filter(el => el.id !== action.id),
         selectedId: state.selectedId === action.id ? null : state.selectedId,
       }
+    case 'DUPLICATE_ELEMENT': {
+      const orig = state.elements.find(e => e.id === action.id)
+      if (!orig) return state
+      const clone = { ...orig, id: genId(), x: orig.x + 20, y: orig.y + 20 }
+      const idx = state.elements.findIndex(e => e.id === action.id)
+      const els = [...state.elements]
+      els.splice(idx + 1, 0, clone)
+      return { ...state, elements: els, selectedId: clone.id }
+    }
     case 'SELECT_ELEMENT':
       return { ...state, selectedId: action.id }
     case 'MOVE_LAYER_UP': {
@@ -101,6 +111,14 @@ function reducer(state, action) {
     }
     case 'LOAD_ELEMENTS':
       return { ...state, elements: action.elements, selectedId: null }
+    case 'LOAD_DESIGN':
+      return {
+        ...state,
+        ...action.design,
+        canvasWidth: 1080,
+        canvasHeight: action.design.format === 'story' ? 1920 : 1080,
+        selectedId: null,
+      }
     case 'SEND_TO_BACK': {
       const el = state.elements.find(e => e.id === action.id)
       if (!el) return state
@@ -126,6 +144,55 @@ const initialState = {
   selectedId: null,
 }
 
+// Actions that should NOT create undo history
+const SKIP_HISTORY = new Set(['SELECT_ELEMENT', 'SET_FORMAT'])
+
+const MAX_HISTORY = 50
+
+function historyReducer(historyState, action) {
+  if (action.type === 'UNDO') {
+    if (historyState.past.length === 0) return historyState
+    const prev = historyState.past[historyState.past.length - 1]
+    return {
+      past: historyState.past.slice(0, -1),
+      present: prev,
+      future: [historyState.present, ...historyState.future],
+    }
+  }
+  if (action.type === 'REDO') {
+    if (historyState.future.length === 0) return historyState
+    const next = historyState.future[0]
+    return {
+      past: [...historyState.past, historyState.present],
+      present: next,
+      future: historyState.future.slice(1),
+    }
+  }
+
+  const newPresent = reducer(historyState.present, action)
+  if (newPresent === historyState.present) return historyState
+
+  if (SKIP_HISTORY.has(action.type)) {
+    return { ...historyState, present: newPresent }
+  }
+
+  return {
+    past: [...historyState.past.slice(-MAX_HISTORY), historyState.present],
+    present: newPresent,
+    future: [],
+  }
+}
+
 export default function useCanvasState() {
-  return useReducer(reducer, initialState)
+  const [history, dispatch] = useReducer(historyReducer, {
+    past: [],
+    present: initialState,
+    future: [],
+  })
+
+  return [
+    history.present,
+    dispatch,
+    { canUndo: history.past.length > 0, canRedo: history.future.length > 0 },
+  ]
 }

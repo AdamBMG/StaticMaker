@@ -35,6 +35,8 @@ export default function CanvasText({ el, isSelected, onSelect, onUpdate, display
         fill={el.fill}
         align={el.align || 'left'}
         fontStyle={el.fontStyle || ''}
+        stroke={el.stroke || undefined}
+        strokeWidth={el.strokeWidth || 0}
         opacity={editing ? 0 : el.opacity}
         rotation={el.rotation}
         draggable

@@ -284,12 +284,32 @@ export default function MobileTutorsApp({ onBack }) {
   const overridesKey = `ov_mt_${template.id}_${selectedVariant}_${format.id}`
   const [elementOverrides, setElementOverrides] = useState({})
 
+  function migrateOverrides(ovData) {
+    const migrated = {}
+    for (const [key, val] of Object.entries(ovData)) {
+      if (typeof val === 'object' && val !== null) {
+        const newVal = {}
+        for (const [prop, v] of Object.entries(val)) {
+          if (prop.endsWith('.fontSize')) {
+            newVal[prop.replace('.fontSize', '.scale')] = Math.round(v * 0.7)
+          } else {
+            newVal[prop] = v
+          }
+        }
+        migrated[key] = newVal
+      } else {
+        migrated[key] = val
+      }
+    }
+    return migrated
+  }
+
   useEffect(() => {
     fetch('/api/scales').then(r => r.json()).then(data => {
       const ovKeys = Object.keys(data).filter(k => k.startsWith('ov_mt_'))
       const ovData = {}
       ovKeys.forEach(k => { ovData[k] = data[k] })
-      setElementOverrides(prev => ({ ...prev, ...ovData }))
+      setElementOverrides(prev => ({ ...prev, ...migrateOverrides(ovData) }))
     }).catch(() => {})
   }, [])
 

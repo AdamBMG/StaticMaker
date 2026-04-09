@@ -444,6 +444,28 @@ function App({ onBack }) {
   const overridesKey = `ov_${template.id}_${selectedVariant}_${format.id}`
   const [elementOverrides, setElementOverrides] = useState({})
 
+  // Migrate old .fontSize overrides to .scale
+  function migrateOverrides(ovData) {
+    const migrated = {}
+    for (const [key, val] of Object.entries(ovData)) {
+      if (typeof val === 'object' && val !== null) {
+        const newVal = {}
+        for (const [prop, v] of Object.entries(val)) {
+          if (prop.endsWith('.fontSize')) {
+            const newProp = prop.replace('.fontSize', '.scale')
+            newVal[newProp] = Math.round(v * 0.7) // rough px-to-% conversion
+          } else {
+            newVal[prop] = v
+          }
+        }
+        migrated[key] = newVal
+      } else {
+        migrated[key] = val
+      }
+    }
+    return migrated
+  }
+
   // Load overrides from server on mount
   useEffect(() => {
     fetch('/api/scales').then(r => r.json()).then(data => {
@@ -451,7 +473,7 @@ function App({ onBack }) {
       const ovKeys = Object.keys(data).filter(k => k.startsWith('ov_'))
       const ovData = {}
       ovKeys.forEach(k => { ovData[k] = data[k] })
-      setElementOverrides(prev => ({ ...prev, ...ovData }))
+      setElementOverrides(prev => ({ ...prev, ...migrateOverrides(ovData) }))
     }).catch(() => {})
   }, [])
 

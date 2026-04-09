@@ -215,19 +215,34 @@ const SAFE_ZONES = {
   reels: { top: 0.14, bottom: 0.35 },
 }
 
+function loadSaved(key, fallback) {
+  try { const v = localStorage.getItem(key); return v != null ? JSON.parse(v) : fallback } catch { return fallback }
+}
+
 export default function MobileTutorsApp({ onBack }) {
-  const [mode, setMode] = useState('single')
-  const [selectedTemplate, setSelectedTemplate] = useState(0)
-  const [selectedFormat, setSelectedFormat] = useState(0)
-  const [selectedVariant, setSelectedVariant] = useState(0)
-  const [customProps, setCustomProps] = useState({})
+  const [mode, setMode] = useState(() => loadSaved('mt_mode', 'single'))
+  const [selectedTemplate, setSelectedTemplate] = useState(() => loadSaved('mt_template', 0))
+  const [selectedFormat, setSelectedFormat] = useState(() => loadSaved('mt_format', 0))
+  const [selectedVariant, setSelectedVariant] = useState(() => loadSaved('mt_variant', 0))
+  const [customProps, setCustomProps] = useState(() => loadSaved('mt_customProps', {}))
   const [exporting, setExporting] = useState(false)
-  const [checkedVariants, setCheckedVariants] = useState(new Set())
+  const [checkedVariants, setCheckedVariants] = useState(() => {
+    const arr = loadSaved('mt_checked', [])
+    return new Set(arr)
+  })
   const [showSafeZones, setShowSafeZones] = useState(false)
   const [safeZoneType, setSafeZoneType] = useState('story')
   const adRef = useRef(null)
 
-  const template = TEMPLATES[selectedTemplate]
+  // Persist state to localStorage
+  useEffect(() => { localStorage.setItem('mt_mode', JSON.stringify(mode)) }, [mode])
+  useEffect(() => { localStorage.setItem('mt_template', JSON.stringify(selectedTemplate)) }, [selectedTemplate])
+  useEffect(() => { localStorage.setItem('mt_format', JSON.stringify(selectedFormat)) }, [selectedFormat])
+  useEffect(() => { localStorage.setItem('mt_variant', JSON.stringify(selectedVariant)) }, [selectedVariant])
+  useEffect(() => { localStorage.setItem('mt_customProps', JSON.stringify(customProps)) }, [customProps])
+  useEffect(() => { localStorage.setItem('mt_checked', JSON.stringify([...checkedVariants])) }, [checkedVariants])
+
+  const template = TEMPLATES[selectedTemplate] || TEMPLATES[0]
   const format = FORMATS[selectedFormat]
 
   // QC scale: saved per template+variant+format, synced to server + localStorage

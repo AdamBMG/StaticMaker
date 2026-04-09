@@ -370,21 +370,36 @@ const SAFE_ZONES = {
   },
 }
 
+function loadSaved(key, fallback) {
+  try { const v = localStorage.getItem(key); return v != null ? JSON.parse(v) : fallback } catch { return fallback }
+}
+
 function App({ onBack }) {
-  const [mode, setMode] = useState('single') // 'single' or 'batch'
+  const [mode, setMode] = useState(() => loadSaved('sv_mode', 'single'))
   const [batchAds, setBatchAds] = useState([])
-  const [selectedTemplate, setSelectedTemplate] = useState(0)
-  const [selectedFormat, setSelectedFormat] = useState(0)
-  const [selectedVariant, setSelectedVariant] = useState(0)
-  const [customProps, setCustomProps] = useState({})
+  const [selectedTemplate, setSelectedTemplate] = useState(() => loadSaved('sv_template', 0))
+  const [selectedFormat, setSelectedFormat] = useState(() => loadSaved('sv_format', 0))
+  const [selectedVariant, setSelectedVariant] = useState(() => loadSaved('sv_variant', 0))
+  const [customProps, setCustomProps] = useState(() => loadSaved('sv_customProps', {}))
   const [exporting, setExporting] = useState(false)
-  const [checkedVariants, setCheckedVariants] = useState(new Set())
+  const [checkedVariants, setCheckedVariants] = useState(() => {
+    const arr = loadSaved('sv_checked', [])
+    return new Set(arr)
+  })
   const [showSafeZones, setShowSafeZones] = useState(false)
   const [safeZoneType, setSafeZoneType] = useState('story')
   const adRef = useRef(null)
 
-  const template = TEMPLATES[selectedTemplate]
-  const format = FORMATS[selectedFormat]
+  // Persist state to localStorage
+  useEffect(() => { localStorage.setItem('sv_mode', JSON.stringify(mode)) }, [mode])
+  useEffect(() => { localStorage.setItem('sv_template', JSON.stringify(selectedTemplate)) }, [selectedTemplate])
+  useEffect(() => { localStorage.setItem('sv_format', JSON.stringify(selectedFormat)) }, [selectedFormat])
+  useEffect(() => { localStorage.setItem('sv_variant', JSON.stringify(selectedVariant)) }, [selectedVariant])
+  useEffect(() => { localStorage.setItem('sv_customProps', JSON.stringify(customProps)) }, [customProps])
+  useEffect(() => { localStorage.setItem('sv_checked', JSON.stringify([...checkedVariants])) }, [checkedVariants])
+
+  const template = TEMPLATES[selectedTemplate] || TEMPLATES[0]
+  const format = FORMATS[selectedFormat] || FORMATS[0]
 
   // QC scale: saved per template+variant+format, synced to server + localStorage
   const scaleKey = `qc_${template.id}_${selectedVariant}_${format.id}`

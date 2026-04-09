@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { ELEMENT_MAPS } from '../data/elementMaps'
 import './ElementAdjuster.css'
 
@@ -13,7 +13,7 @@ const PROP_LABELS = {
   size: 'Scale',
 }
 
-function ElementControls({ el, overrides, onOverrideChange, onUnpin, isPinned }) {
+function ElementControls({ el, overrides, onOverrideChange, onUnpin, isPinned, adRef, canvasWidth, canvasHeight }) {
   const getValue = (prop) => overrides[`${el.id}.${prop}`] ?? 0
 
   const nudge = (prop, step) => {
@@ -22,6 +22,77 @@ function ElementControls({ el, overrides, onOverrideChange, onUnpin, isPinned })
   }
 
   const reset = (prop) => onOverrideChange(`${el.id}.${prop}`, 0)
+
+  const centreH = () => {
+    if (!adRef?.current || !canvasWidth) return
+    // Find the element in the rendered ad by class/data matching
+    const container = adRef.current
+    const candidates = container.querySelectorAll('[class*="headline"], [class*="cta"], [class*="points"], [class*="quote"], [class*="price"], [class*="logo"], [class*="trust"], [class*="steps"]')
+    // Try to find element matching this adjuster's id
+    let target = null
+    for (const node of candidates) {
+      const cls = node.className || ''
+      if (cls.includes(el.id) || (el.id === 'headline' && cls.includes('headline')) ||
+          (el.id === 'quote' && cls.includes('quote')) || (el.id === 'cta' && cls.includes('cta')) ||
+          (el.id === 'points' && cls.includes('points')) || (el.id === 'price' && cls.includes('price')) ||
+          (el.id === 'logo' && cls.includes('logo')) || (el.id === 'trust' && cls.includes('trust')) ||
+          (el.id === 'steps' && cls.includes('steps'))) {
+        target = node
+        break
+      }
+    }
+    if (!target) return
+    const containerRect = container.getBoundingClientRect()
+    const elRect = target.getBoundingClientRect()
+    // Scale factor (preview is scaled down)
+    const scaleX = canvasWidth / containerRect.width
+    // Current element position and width in canvas pixels
+    const elLeft = (elRect.left - containerRect.left) * scaleX
+    const elWidth = elRect.width * scaleX
+    // Offset needed to centre horizontally
+    const currentCentre = elLeft + elWidth / 2
+    const targetCentre = canvasWidth / 2
+    const offsetNeeded = targetCentre - currentCentre
+    // Apply as override
+    if (el.props.left) {
+      const currentVal = overrides[`${el.id}.left`] ?? 0
+      onOverrideChange(`${el.id}.left`, Math.round(currentVal + offsetNeeded))
+    }
+  }
+
+  const centreV = () => {
+    if (!adRef?.current || !canvasHeight) return
+    const container = adRef.current
+    const candidates = container.querySelectorAll('[class*="headline"], [class*="cta"], [class*="points"], [class*="quote"], [class*="price"], [class*="logo"], [class*="trust"], [class*="steps"], [class*="box"]')
+    let target = null
+    for (const node of candidates) {
+      const cls = node.className || ''
+      if (cls.includes(el.id) || (el.id === 'headline' && cls.includes('headline')) ||
+          (el.id === 'quote' && cls.includes('quote')) || (el.id === 'cta' && cls.includes('cta')) ||
+          (el.id === 'box' && cls.includes('box')) || (el.id === 'points' && cls.includes('points')) ||
+          (el.id === 'price' && cls.includes('price')) || (el.id === 'logo' && cls.includes('logo')) ||
+          (el.id === 'trust' && cls.includes('trust')) || (el.id === 'steps' && cls.includes('steps'))) {
+        target = node
+        break
+      }
+    }
+    if (!target) return
+    const containerRect = container.getBoundingClientRect()
+    const elRect = target.getBoundingClientRect()
+    const scaleY = canvasHeight / containerRect.height
+    const elTop = (elRect.top - containerRect.top) * scaleY
+    const elHeight = elRect.height * scaleY
+    const currentCentre = elTop + elHeight / 2
+    const targetCentre = canvasHeight / 2
+    const offsetNeeded = targetCentre - currentCentre
+    if (el.props.top) {
+      const currentVal = overrides[`${el.id}.top`] ?? 0
+      onOverrideChange(`${el.id}.top`, Math.round(currentVal + offsetNeeded))
+    } else if (el.props.bottom) {
+      const currentVal = overrides[`${el.id}.bottom`] ?? 0
+      onOverrideChange(`${el.id}.bottom`, Math.round(currentVal - offsetNeeded))
+    }
+  }
 
   return (
     <div className="ea-element">
@@ -47,16 +118,10 @@ function ElementControls({ el, overrides, onOverrideChange, onUnpin, isPinned })
       {(el.props.left || el.props.right || el.props.top || el.props.bottom) && (
         <div className="ea-centre-btns">
           {(el.props.left || el.props.right) && (
-            <button className="ea-centre-btn" onClick={() => {
-              if (el.props.left) reset('left')
-              if (el.props.right) reset('right')
-            }}>Centre H</button>
+            <button className="ea-centre-btn" onClick={centreH}>Centre H</button>
           )}
           {(el.props.top || el.props.bottom) && (
-            <button className="ea-centre-btn" onClick={() => {
-              if (el.props.top) reset('top')
-              if (el.props.bottom) reset('bottom')
-            }}>Centre V</button>
+            <button className="ea-centre-btn" onClick={centreV}>Centre V</button>
           )}
         </div>
       )}
@@ -64,7 +129,7 @@ function ElementControls({ el, overrides, onOverrideChange, onUnpin, isPinned })
   )
 }
 
-export default function ElementAdjuster({ templateId, overrides, onOverrideChange }) {
+export default function ElementAdjuster({ templateId, overrides, onOverrideChange, adRef, canvasWidth, canvasHeight, overrideHistory }) {
   const elements = ELEMENT_MAPS[templateId]
   const [activeId, setActiveId] = useState(elements?.[0]?.id || '')
   const [pinnedIds, setPinnedIds] = useState([])
@@ -75,13 +140,11 @@ export default function ElementAdjuster({ templateId, overrides, onOverrideChang
   const pinnedEls = elements.filter(e => pinnedIds.includes(e.id))
   const hasAnyOverride = Object.values(overrides).some(v => v !== 0)
 
-  // Elements available in dropdown (exclude already pinned ones)
   const dropdownOptions = elements.filter(e => !pinnedIds.includes(e.id))
 
   const pinCurrent = () => {
     if (activeId && !pinnedIds.includes(activeId)) {
       setPinnedIds(prev => [...prev, activeId])
-      // Switch dropdown to next available element
       const remaining = elements.filter(e => !pinnedIds.includes(e.id) && e.id !== activeId)
       if (remaining.length > 0) setActiveId(remaining[0].id)
     }
@@ -93,7 +156,15 @@ export default function ElementAdjuster({ templateId, overrides, onOverrideChang
 
   return (
     <div className="element-adjuster">
-      {/* Pinned elements - always visible */}
+      {/* Undo/Redo */}
+      {overrideHistory && (
+        <div className="ea-undo-redo">
+          <button className="ea-undo-btn" onClick={overrideHistory.undo} disabled={!overrideHistory.canUndo} title="Undo">Undo</button>
+          <button className="ea-undo-btn" onClick={overrideHistory.redo} disabled={!overrideHistory.canRedo} title="Redo">Redo</button>
+        </div>
+      )}
+
+      {/* Pinned elements */}
       {pinnedEls.map(el => (
         <ElementControls
           key={el.id}
@@ -102,10 +173,12 @@ export default function ElementAdjuster({ templateId, overrides, onOverrideChang
           onOverrideChange={onOverrideChange}
           onUnpin={() => unpin(el.id)}
           isPinned={true}
+          adRef={adRef}
+          canvasWidth={canvasWidth}
+          canvasHeight={canvasHeight}
         />
       ))}
 
-      {/* Dropdown selector for active element */}
       {dropdownOptions.length > 0 && (
         <>
           <select
@@ -124,10 +197,12 @@ export default function ElementAdjuster({ templateId, overrides, onOverrideChang
               overrides={overrides}
               onOverrideChange={onOverrideChange}
               isPinned={false}
+              adRef={adRef}
+              canvasWidth={canvasWidth}
+              canvasHeight={canvasHeight}
             />
           )}
 
-          {/* Pin button - adds current element as permanently visible */}
           <button className="ea-pin-btn" onClick={pinCurrent}>
             + Pin "{activeEl?.label}" to panel
           </button>

@@ -468,10 +468,15 @@ function App({ onBack }) {
   // Get overrides for current template
   const currentOverrides = elementOverrides[overridesKey] || {}
 
+  // Undo/redo history for overrides
+  const [overridePast, setOverridePast] = useState([])
+  const [overrideFuture, setOverrideFuture] = useState([])
+
   const setOverride = useCallback((propKey, value) => {
     const updated = { ...currentOverrides, [propKey]: value }
-    // Clean out zero values
     Object.keys(updated).forEach(k => { if (updated[k] === 0) delete updated[k] })
+    setOverridePast(prev => [...prev.slice(-30), currentOverrides])
+    setOverrideFuture([])
     setElementOverrides(prev => ({ ...prev, [overridesKey]: updated }))
     localStorage.setItem(overridesKey, JSON.stringify(updated))
     fetch('/api/scales/' + encodeURIComponent(overridesKey), {
@@ -480,6 +485,41 @@ function App({ onBack }) {
       body: JSON.stringify({ value: updated }),
     }).catch(() => {})
   }, [overridesKey, currentOverrides])
+
+  const undoOverride = useCallback(() => {
+    if (overridePast.length === 0) return
+    const prev = overridePast[overridePast.length - 1]
+    setOverrideFuture(f => [currentOverrides, ...f])
+    setOverridePast(p => p.slice(0, -1))
+    setElementOverrides(ov => ({ ...ov, [overridesKey]: prev }))
+    localStorage.setItem(overridesKey, JSON.stringify(prev))
+    fetch('/api/scales/' + encodeURIComponent(overridesKey), {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ value: prev }),
+    }).catch(() => {})
+  }, [overridePast, currentOverrides, overridesKey])
+
+  const redoOverride = useCallback(() => {
+    if (overrideFuture.length === 0) return
+    const next = overrideFuture[0]
+    setOverridePast(p => [...p, currentOverrides])
+    setOverrideFuture(f => f.slice(1))
+    setElementOverrides(ov => ({ ...ov, [overridesKey]: next }))
+    localStorage.setItem(overridesKey, JSON.stringify(next))
+    fetch('/api/scales/' + encodeURIComponent(overridesKey), {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ value: next }),
+    }).catch(() => {})
+  }, [overrideFuture, currentOverrides, overridesKey])
+
+  const overrideHistory = {
+    undo: undoOverride,
+    redo: redoOverride,
+    canUndo: overridePast.length > 0,
+    canRedo: overrideFuture.length > 0,
+  }
 
   const variant = template.variants[selectedVariant] || {}
   const adProps = { ...template.defaults, ...variant, ...customProps }
@@ -807,6 +847,10 @@ function App({ onBack }) {
               templateId={template.id}
               overrides={currentOverrides}
               onOverrideChange={setOverride}
+              adRef={adRef}
+              canvasWidth={format.width}
+              canvasHeight={format.height}
+              overrideHistory={overrideHistory}
             />
           </section>
 

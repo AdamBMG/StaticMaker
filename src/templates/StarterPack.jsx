@@ -25,7 +25,9 @@ export default function StarterPack({
 
       <div className="sp-headline" style={{
         color: accentColor, top: (isStory ? 340 : 58) + (ov['headline.top'] || 0),
-        fontSize: (isStory ? 82 : 72) + (ov['headline.fontSize'] || 0),
+        fontSize: isStory ? 82 : 72,
+        transform: `scale(${1 + (ov['headline.scale'] || 0) / 100})`,
+        transformOrigin: 'top left',
         marginLeft: ov['headline.left'] || 0,
         padding: isStory ? '0 40px' : '0 20px',
         WebkitTextStroke: `3px ${darken(accentColor, 30)}`,

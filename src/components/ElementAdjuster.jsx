@@ -8,6 +8,7 @@ const PROP_LABELS = {
   left: 'X pos',
   right: 'X pos',
   fontSize: 'Size',
+  scale: 'Scale',
   height: 'Height',
   size: 'Scale',
 }

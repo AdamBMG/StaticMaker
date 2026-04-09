@@ -13,7 +13,9 @@ export default function Testimonial({
       {/* Quote at top */}
       <div className="tm-quote" style={{
         color: textColor, top: (isStory ? 290 : 24) + (ov['quote.top'] || 0),
-        fontSize: (isStory ? 62 : 54) + (ov['quote.fontSize'] || 0),
+        fontSize: isStory ? 62 : 54,
+        transform: `scale(${1 + (ov['quote.scale'] || 0) / 100})`,
+        transformOrigin: 'top left',
         padding: isStory ? '0 50px' : '0 30px',
         marginLeft: ov['quote.left'] || 0,
         zIndex: 10,

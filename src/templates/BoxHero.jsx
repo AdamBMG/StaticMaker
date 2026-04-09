@@ -17,7 +17,9 @@ export default function BoxHero({ headline, bgColor, textColor, boxImage, bgImag
       <div className="bh-headline" style={{
         color: textColor,
         top: (isStory ? 290 : 24) + (ov['headline.top'] || 0),
-        fontSize: (isStory ? 120 : 104) + (ov['headline.fontSize'] || 0),
+        fontSize: isStory ? 120 : 104,
+        transform: `scale(${1 + (ov['headline.scale'] || 0) / 100})`,
+        transformOrigin: 'top left',
         padding: isStory ? '0 50px' : '0 30px',
         marginLeft: ov['headline.left'] || 0,
         zIndex: 10,

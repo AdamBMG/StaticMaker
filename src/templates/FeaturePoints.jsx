@@ -14,7 +14,9 @@ export default function FeaturePoints({
 
       <div className="fp-headline" style={{
         color: textColor, top: (isStory ? 360 : 80) + (ov['headline.top'] || 0),
-        fontSize: (isStory ? 76 : 54) + (ov['headline.fontSize'] || 0),
+        fontSize: isStory ? 76 : 54,
+        transform: `scale(${1 + (ov['headline.scale'] || 0) / 100})`,
+        transformOrigin: 'top left',
         padding: isStory ? '0 50px' : '0 30px',
         marginLeft: ov['headline.left'] || 0,
         width: isStory ? '100%' : '58%',
@@ -31,7 +33,7 @@ export default function FeaturePoints({
         zIndex: 10,
       }}>
         {[point1, point2, point3].filter(Boolean).map((point, i) => (
-          <div key={i} className="fp-point" style={{ fontSize: (isStory ? 36 : 28) + (ov['points.fontSize'] || 0) }}>
+          <div key={i} className="fp-point" style={{ fontSize: isStory ? 36 : 28, transform: `scale(${1 + (ov['points.scale'] || 0) / 100})`, transformOrigin: 'top left' }}>
             <span className="fp-check" style={{ color: accentColor, fontSize: isStory ? 40 : 32 }}>&#10003;</span>
             <span style={{ color: textColor }}>{point}</span>
           </div>
@@ -48,7 +50,7 @@ export default function FeaturePoints({
 
       <div className="fp-cta" style={{
         bottom: (isStory ? 410 : 24) + (ov['cta.bottom'] || 0), left: (isStory ? 50 : 30) + (ov['cta.left'] || 0),
-        fontSize: (isStory ? 28 : 22) + (ov['cta.fontSize'] || 0), background: accentColor, color: bgColor,
+        fontSize: isStory ? 28 : 22, transform: `scale(${1 + (ov['cta.scale'] || 0) / 100})`, transformOrigin: 'top left', background: accentColor, color: bgColor,
         zIndex: 10,
       }}>
         SUBSCRIBE NOW

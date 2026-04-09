@@ -12,7 +12,7 @@ export default function PricingTier({ headline, bgColor, width, height, format, 
 
   return (
     <div className="pricing-tier" style={{ width, height, background: `linear-gradient(180deg, ${bgColor} 0%, ${darken(bgColor, 12)} 100%)` }}>
-      <div className="pt-headline" style={{ top: (isStory ? 360 : 68) + (ov['headline.top'] || 0), fontSize: (isStory ? 72 : 60) + (ov['headline.fontSize'] || 0), color: '#FFFFFF' }}>
+      <div className="pt-headline" style={{ top: (isStory ? 360 : 68) + (ov['headline.top'] || 0), fontSize: isStory ? 72 : 60, transform: `scale(${1 + (ov['headline.scale'] || 0) / 100})`, transformOrigin: 'top left', color: '#FFFFFF' }}>
         {headline}
       </div>
 

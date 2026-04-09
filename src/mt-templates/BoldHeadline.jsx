@@ -27,7 +27,9 @@ export default function BoldHeadline({
         alt="mobileTutors"
         className={`mt-bold-logo ${logoTop ? 'mt-bold-logo-bottom' : 'mt-bold-logo-top'}`}
         style={{
-          height: (isStory ? 48 : 36) + (ov['logo.fontSize'] || 0),
+          height: isStory ? 48 : 36,
+          transform: `scale(${1 + (ov['logo.scale'] || 0) / 100})`,
+          transformOrigin: 'top left',
           top: logoTop ? undefined : (isStory ? 60 : 40) + (ov['logo.top'] || 0),
           bottom: logoTop ? (isStory ? 60 : 40) + (ov['logo.bottom'] || 0) : undefined,
           left: (isStory ? 60 : 40) + (ov['logo.left'] || 0),
@@ -37,7 +39,9 @@ export default function BoldHeadline({
       {/* Headline */}
       <div className="mt-bold-headline" style={{
         color: textColor,
-        fontSize: (isStory ? 108 : 86) + (ov['headline.fontSize'] || 0),
+        fontSize: isStory ? 108 : 86,
+        transform: `scale(${1 + (ov['headline.scale'] || 0) / 100})`,
+        transformOrigin: 'top left',
         top: (isStory ? 160 : 100) + (ov['headline.top'] || 0),
         left: (isStory ? 60 : 40) + (ov['headline.left'] || 0),
         right: showImage ? (isStory ? '45%' : '40%') : (isStory ? 60 : 40),
@@ -51,11 +55,13 @@ export default function BoldHeadline({
           color: textColor,
           top: (isStory ? 680 : 480) + (ov['trust.top'] || 0),
           left: (isStory ? 60 : 40) + (ov['trust.left'] || 0),
-          fontSize: (isStory ? 24 : 20) + (ov['trust.fontSize'] || 0),
+          fontSize: isStory ? 24 : 20,
+          transform: `scale(${1 + (ov['trust.scale'] || 0) / 100})`,
+          transformOrigin: 'top left',
           opacity: 0.85,
         }}>
           <img src="/assets/mobile-tutors/trustpilot-stars.svg" alt="Trustpilot" className="mt-bold-stars" style={{
-            height: (isStory ? 28 : 22) + (ov['trust.fontSize'] || 0),
+            height: isStory ? 28 : 22,
           }} />
           {trustBadge}
         </div>
@@ -67,7 +73,9 @@ export default function BoldHeadline({
           color: textColor,
           bottom: (isStory ? 280 : 180) + (ov['price.bottom'] || 0),
           left: (isStory ? 60 : 40) + (ov['price.left'] || 0),
-          fontSize: (isStory ? 36 : 28) + (ov['price.fontSize'] || 0),
+          fontSize: isStory ? 36 : 28,
+          transform: `scale(${1 + (ov['price.scale'] || 0) / 100})`,
+          transformOrigin: 'top left',
         }}>
           {priceLine}
         </div>
@@ -78,7 +86,9 @@ export default function BoldHeadline({
         <div className="mt-bold-cta" style={{
           bottom: (isStory ? 180 : 100) + (ov['cta.bottom'] || 0),
           left: (isStory ? 60 : 40) + (ov['cta.left'] || 0),
-          fontSize: (isStory ? 28 : 22) + (ov['cta.fontSize'] || 0),
+          fontSize: isStory ? 28 : 22,
+          transform: `scale(${1 + (ov['cta.scale'] || 0) / 100})`,
+          transformOrigin: 'top left',
         }}>
           {ctaText}
         </div>

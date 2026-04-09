@@ -17,7 +17,7 @@ export default function NumberedSteps({ headline = "You'll eat these.", bgColor 
 
       <div className="ns-headline" style={{
         top: (isStory ? 350 : 60) + (ov['headline.top'] || 0), right: (isStory ? 50 : 20) + (ov['headline.right'] || 0),
-        fontSize: (isStory ? 66 : 54) + (ov['headline.fontSize'] || 0), width: isStory ? '52%' : '48%',
+        fontSize: isStory ? 66 : 54, transform: `scale(${1 + (ov['headline.scale'] || 0) / 100})`, transformOrigin: 'top left', width: isStory ? '52%' : '48%',
       }}>
         {headline}
       </div>
@@ -43,7 +43,7 @@ export default function NumberedSteps({ headline = "You'll eat these.", bgColor 
             <div className="ns-number" style={{ width: isStory ? 56 : 50, height: isStory ? 56 : 50, fontSize: isStory ? 30 : 28 }}>
               {step.number}
             </div>
-            <span className="ns-label" style={{ fontSize: (isStory ? 30 : 28) + (ov['steps.fontSize'] || 0) }}>{step.label}</span>
+            <span className="ns-label" style={{ fontSize: isStory ? 30 : 28, transform: `scale(${1 + (ov['steps.scale'] || 0) / 100})`, transformOrigin: 'top left' }}>{step.label}</span>
           </div>
         ))}
       </div>

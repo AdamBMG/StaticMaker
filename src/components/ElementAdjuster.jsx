@@ -44,6 +44,22 @@ function ElementControls({ el, overrides, onOverrideChange, onUnpin, isPinned })
           )
         })}
       </div>
+      {(el.props.left || el.props.right || el.props.top || el.props.bottom) && (
+        <div className="ea-centre-btns">
+          {(el.props.left || el.props.right) && (
+            <button className="ea-centre-btn" onClick={() => {
+              if (el.props.left) reset('left')
+              if (el.props.right) reset('right')
+            }}>Centre H</button>
+          )}
+          {(el.props.top || el.props.bottom) && (
+            <button className="ea-centre-btn" onClick={() => {
+              if (el.props.top) reset('top')
+              if (el.props.bottom) reset('bottom')
+            }}>Centre V</button>
+          )}
+        </div>
+      )}
     </div>
   )
 }

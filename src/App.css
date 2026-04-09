@@ -190,10 +190,29 @@
   gap: 6px;
 }
 
+.variant-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.variant-row.active {
+  /* handled by child variant-btn */
+}
+
+.variant-check {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--ui-accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
 .variant-btn {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex: 1;
   padding: 8px 12px;
   border: 2px solid transparent;
   border-radius: 6px;

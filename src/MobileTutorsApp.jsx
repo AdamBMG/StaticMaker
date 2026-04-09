@@ -221,6 +221,7 @@ export default function MobileTutorsApp({ onBack }) {
   const [selectedVariant, setSelectedVariant] = useState(0)
   const [customProps, setCustomProps] = useState({})
   const [exporting, setExporting] = useState(false)
+  const [checkedVariants, setCheckedVariants] = useState(new Set())
   const [showSafeZones, setShowSafeZones] = useState(false)
   const [safeZoneType, setSafeZoneType] = useState('story')
   const adRef = useRef(null)
@@ -321,6 +322,46 @@ export default function MobileTutorsApp({ onBack }) {
     }
     setExporting(false)
   }, [adRef, format, template, selectedVariant])
+
+  const toggleCheck = useCallback((templateIdx, variantIdx) => {
+    const key = `${templateIdx}_${variantIdx}`
+    setCheckedVariants(prev => {
+      const next = new Set(prev)
+      if (next.has(key)) next.delete(key); else next.add(key)
+      return next
+    })
+  }, [])
+
+  const handleExportSelected = useCallback(async () => {
+    if (!adRef.current || checkedVariants.size === 0) return
+    setExporting(true)
+    try {
+      const items = Array.from(checkedVariants).map(key => {
+        const [ti, vi] = key.split('_').map(Number)
+        return { ti, vi }
+      })
+      for (const { ti, vi } of items) {
+        for (let fi = 0; fi < FORMATS.length; fi++) {
+          setSelectedTemplate(ti)
+          setSelectedVariant(vi)
+          setSelectedFormat(fi)
+          setCustomProps({})
+          await new Promise(r => setTimeout(r, 300))
+          const f = FORMATS[fi]
+          const t = TEMPLATES[ti]
+          const dataUrl = await toPng(adRef.current, {
+            width: f.width, height: f.height, pixelRatio: 1,
+            style: { transform: 'scale(1)', transformOrigin: 'top left', width: f.width + 'px', height: f.height + 'px' },
+          })
+          saveAs(dataUrl, `mobiletutors_${t.id}_${f.id}_v${vi + 1}.png`)
+          await new Promise(r => setTimeout(r, 300))
+        }
+      }
+    } catch (err) {
+      console.error('Selected export failed:', err)
+    }
+    setExporting(false)
+  }, [adRef, checkedVariants])
 
   const handleExportAll = useCallback(async () => {
     if (!adRef.current) return
@@ -444,16 +485,27 @@ export default function MobileTutorsApp({ onBack }) {
           <section className="control-section">
             <h2>Variant</h2>
             <div className="variant-list">
-              {template.variants.map((v, i) => (
-                <button
-                  key={i}
-                  className={`variant-btn ${i === selectedVariant ? 'active' : ''}`}
-                  onClick={() => { setSelectedVariant(i); setCustomProps({}) }}
-                >
-                  <span className="variant-swatch" style={{ background: v.bgColor || template.defaults.bgColor }} />
-                  {v.label}
-                </button>
-              ))}
+              {template.variants.map((v, i) => {
+                const checkKey = `${selectedTemplate}_${i}`
+                return (
+                  <div key={i} className={`variant-row ${i === selectedVariant ? 'active' : ''}`}>
+                    <input
+                      type="checkbox"
+                      className="variant-check"
+                      checked={checkedVariants.has(checkKey)}
+                      onChange={() => toggleCheck(selectedTemplate, i)}
+                      onClick={e => e.stopPropagation()}
+                    />
+                    <button
+                      className={`variant-btn ${i === selectedVariant ? 'active' : ''}`}
+                      onClick={() => { setSelectedVariant(i); setCustomProps({}) }}
+                    >
+                      <span className="variant-swatch" style={{ background: v.bgColor || template.defaults.bgColor }} />
+                      {v.label}
+                    </button>
+                  </div>
+                )
+              })}
             </div>
           </section>
 
@@ -532,6 +584,11 @@ export default function MobileTutorsApp({ onBack }) {
             <button className="export-btn" onClick={handleExport} disabled={exporting}>
               {exporting ? 'Exporting...' : 'Export PNG'}
             </button>
+            {checkedVariants.size > 0 && (
+              <button className="export-btn" onClick={handleExportSelected} disabled={exporting} style={{ background: '#1D1A63' }}>
+                {exporting ? 'Exporting...' : `Export ${checkedVariants.size} Selected`}
+              </button>
+            )}
             <button className="export-all-btn" onClick={handleExportAll} disabled={exporting}>
               {exporting ? 'Exporting...' : 'Export All Variants'}
             </button>

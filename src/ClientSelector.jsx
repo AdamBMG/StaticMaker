@@ -1,7 +1,21 @@
+import { useState, useEffect } from 'react'
 import { CLIENTS } from './clients'
 import './ClientSelector.css'
 
+function getRecentDesigns() {
+  try {
+    const index = JSON.parse(localStorage.getItem('canvas_designs_index') || '[]')
+    return index.slice(-4).reverse()
+  } catch { return [] }
+}
+
 export default function ClientSelector({ onSelect }) {
+  const [recentDesigns, setRecentDesigns] = useState([])
+
+  useEffect(() => {
+    setRecentDesigns(getRecentDesigns())
+  }, [])
+
   return (
     <div className="selector-page">
       <div className="selector-content">
@@ -31,6 +45,19 @@ export default function ClientSelector({ onSelect }) {
             </button>
           ))}
         </div>
+        {recentDesigns.length > 0 && (
+          <div className="recent-designs">
+            <p className="recent-title">Recent Designs</p>
+            <div className="recent-list">
+              {recentDesigns.map(d => (
+                <div key={d.id} className="recent-item">
+                  <span className="recent-name">{d.name}</span>
+                  <span className="recent-date">{new Date(d.savedAt).toLocaleDateString()}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

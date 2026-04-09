@@ -34,8 +34,9 @@ export default function CanvasImage({ el, isSelected, onSelect, onUpdate, onSnap
         rotation={el.rotation}
         opacity={el.opacity}
         draggable
-        onClick={() => onSelect(el.id)}
-        onTap={() => onSelect(el.id)}
+        onClick={(e) => onSelect(el.id, e)}
+        onTap={(e) => onSelect(el.id, e)}
+        onContextMenu={(e) => { e.evt?.preventDefault(); onSelect(el.id, e) }}
         onDragMove={onSnapDragMove ? (e) => onSnapDragMove(el.id, e.target) : undefined}
         onDragEnd={e => {
           if (onSnapDragEnd) onSnapDragEnd()

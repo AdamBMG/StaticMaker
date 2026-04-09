@@ -17,12 +17,18 @@ function useBgImage(src) {
   return img
 }
 
-export default function CanvasStage({ state, dispatch, stageRef, displayScale, wrapperRef, snapGuides }) {
+export default function CanvasStage({ state, dispatch, stageRef, displayScale, wrapperRef, snapGuides, onContextMenu }) {
   const { canvasWidth, canvasHeight, background, elements, selectedId } = state
   const bgImage = useBgImage(background.image)
   const guides = snapGuides?.guides || []
 
-  const onSelect = (id) => dispatch({ type: 'SELECT_ELEMENT', id })
+  const onSelect = (id, e) => {
+    if (e?.evt?.shiftKey) {
+      dispatch({ type: 'TOGGLE_SELECT', id })
+    } else {
+      dispatch({ type: 'SELECT_ELEMENT', id })
+    }
+  }
   const onUpdate = (id, props) => dispatch({ type: 'UPDATE_ELEMENT', id, props })
 
   const bgProps = {}
@@ -57,6 +63,10 @@ export default function CanvasStage({ state, dispatch, stageRef, displayScale, w
         if (e.target === e.target.getStage() || e.target.attrs.id === 'bg-rect') {
           dispatch({ type: 'SELECT_ELEMENT', id: null })
         }
+      }}
+      onContextMenu={e => {
+        e.evt.preventDefault()
+        if (selectedId && onContextMenu) onContextMenu(e, selectedId)
       }}
     >
       <Layer>

@@ -7,6 +7,7 @@ export default function CanvasExport({ stageRef, state, dispatch, format }) {
   const [showBatch, setShowBatch] = useState(false)
   const [batchHeadlines, setBatchHeadlines] = useState('')
   const [batchTarget, setBatchTarget] = useState('')
+  const [exportPrefix, setExportPrefix] = useState('canvas')
 
   const textElements = (state?.elements || []).filter(e => e.type === 'text')
 
@@ -16,7 +17,7 @@ export default function CanvasExport({ stageRef, state, dispatch, format }) {
     try {
       await document.fonts.ready
       const dataUrl = stageRef.current.toDataURL({ pixelRatio: 1, mimeType: 'image/png' })
-      const name = `snackverse_canvas_${format}_${Date.now()}.png`
+      const name = `${exportPrefix}_${format}_${Date.now()}.png`
       saveAs(dataUrl, name)
     } catch (err) {
       console.error('Canvas export failed:', err)
@@ -44,14 +45,14 @@ export default function CanvasExport({ stageRef, state, dispatch, format }) {
         await new Promise(r => requestAnimationFrame(() => setTimeout(r, 100)))
         const dataUrl = stageRef.current.toDataURL({ pixelRatio: 1, mimeType: 'image/png' })
         const base64 = dataUrl.split(',')[1]
-        zip.file(`canvas_${format}_${i + 1}.png`, base64, { base64: true })
+        zip.file(`${exportPrefix}_${format}_${i + 1}.png`, base64, { base64: true })
       }
 
       // Restore original text
       dispatch({ type: 'UPDATE_ELEMENT', id: batchTarget, props: { text: originalText } })
 
       const blob = await zip.generateAsync({ type: 'blob' })
-      saveAs(blob, `canvas_batch_${format}_${Date.now()}.zip`)
+      saveAs(blob, `${exportPrefix}_batch_${format}_${Date.now()}.zip`)
     } catch (err) {
       console.error('Batch export failed:', err)
     }
@@ -60,6 +61,12 @@ export default function CanvasExport({ stageRef, state, dispatch, format }) {
 
   return (
     <section className="control-section export-section">
+      <div className="custom-fields" style={{ marginBottom: 8 }}>
+        <label>
+          File prefix
+          <input type="text" value={exportPrefix} onChange={e => setExportPrefix(e.target.value)} placeholder="canvas" />
+        </label>
+      </div>
       <button className="export-btn" onClick={handleExport} disabled={exporting}>
         {exporting ? 'Exporting...' : 'Export PNG'}
       </button>

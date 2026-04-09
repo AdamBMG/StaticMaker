@@ -40,8 +40,9 @@ export default function CanvasText({ el, isSelected, onSelect, onUpdate, display
         opacity={editing ? 0 : el.opacity}
         rotation={el.rotation}
         draggable
-        onClick={() => onSelect(el.id)}
-        onTap={() => onSelect(el.id)}
+        onClick={(e) => onSelect(el.id, e)}
+        onTap={(e) => onSelect(el.id, e)}
+        onContextMenu={(e) => { e.evt?.preventDefault(); onSelect(el.id, e) }}
         onDblClick={handleDblClick}
         onDblTap={handleDblClick}
         onDragMove={onSnapDragMove ? (e) => onSnapDragMove(el.id, e.target) : undefined}

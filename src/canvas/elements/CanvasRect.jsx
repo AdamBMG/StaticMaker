@@ -27,8 +27,9 @@ export default function CanvasRect({ el, isSelected, onSelect, onUpdate, onSnapD
         strokeWidth={el.strokeWidth || 0}
         cornerRadius={el.cornerRadius || 0}
         draggable
-        onClick={() => onSelect(el.id)}
-        onTap={() => onSelect(el.id)}
+        onClick={(e) => onSelect(el.id, e)}
+        onTap={(e) => onSelect(el.id, e)}
+        onContextMenu={(e) => { e.evt?.preventDefault(); onSelect(el.id, e) }}
         onDragMove={onSnapDragMove ? (e) => onSnapDragMove(el.id, e.target) : undefined}
         onDragEnd={e => {
           if (onSnapDragEnd) onSnapDragEnd()

@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState, useCallback } from 'react'
 import useCanvasState, { createDefaultText } from './useCanvasState'
 import useCanvasKeyboard from './useCanvasKeyboard'
 import useSnapGuides from './useSnapGuides'
@@ -11,6 +11,7 @@ import CanvasAssets from './CanvasAssets'
 import CanvasTemplates from './CanvasTemplates'
 import CanvasSaveLoad from './CanvasSaveLoad'
 import CanvasExport from './CanvasExport'
+import CanvasContextMenu from './CanvasContextMenu'
 import HeadlineGenerator from '../components/HeadlineGenerator'
 import BackgroundGenerator from '../components/BackgroundGenerator'
 import './CanvasMode.css'
@@ -21,6 +22,8 @@ export default function CanvasMode({ brandConfig } = {}) {
   const wrapperRef = useRef(null)
   const [snapEnabled, setSnapEnabled] = useState(true)
   const snapGuides = useSnapGuides(state, snapEnabled)
+  const [zoom, setZoom] = useState(1)
+  const [contextMenu, setContextMenu] = useState(null)
 
   useCanvasKeyboard(state, dispatch, { canUndo, canRedo })
 
@@ -40,12 +43,19 @@ export default function CanvasMode({ brandConfig } = {}) {
     return () => clearTimeout(autoSaveTimer.current)
   }, [state.format, state.background, state.elements])
 
-  const maxPreviewWidth = 500
-  const maxPreviewHeight = state.format === 'story' ? 700 : 500
-  const displayScale = Math.min(
-    maxPreviewWidth / state.canvasWidth,
-    maxPreviewHeight / state.canvasHeight
+  // Close context menu on click anywhere
+  useEffect(() => {
+    if (!contextMenu) return
+    const close = () => setContextMenu(null)
+    document.addEventListener('click', close)
+    return () => document.removeEventListener('click', close)
+  }, [contextMenu])
+
+  const baseScale = Math.min(
+    500 / state.canvasWidth,
+    (state.format === 'story' ? 700 : 500) / state.canvasHeight
   )
+  const displayScale = baseScale * zoom
 
   const handleSelectHeadline = (text) => {
     const el = createDefaultText(state.canvasWidth, state.canvasHeight)
@@ -56,6 +66,18 @@ export default function CanvasMode({ brandConfig } = {}) {
   const handleBackgroundGenerated = (imageDataUrl) => {
     dispatch({ type: 'SET_BACKGROUND', payload: { type: 'image', image: imageDataUrl } })
   }
+
+  const handleContextMenu = useCallback((e, elementId) => {
+    e.evt?.preventDefault?.()
+    e.preventDefault?.()
+    const rect = wrapperRef.current?.getBoundingClientRect()
+    if (!rect) return
+    setContextMenu({
+      x: (e.evt?.clientX || e.clientX) - rect.left,
+      y: (e.evt?.clientY || e.clientY) - rect.top,
+      elementId,
+    })
+  }, [])
 
   return (
     <div className="app-layout">
@@ -106,8 +128,24 @@ export default function CanvasMode({ brandConfig } = {}) {
               displayScale={displayScale}
               wrapperRef={wrapperRef}
               snapGuides={snapEnabled ? snapGuides : null}
+              onContextMenu={handleContextMenu}
             />
           </div>
+          {contextMenu && (
+            <CanvasContextMenu
+              x={contextMenu.x}
+              y={contextMenu.y}
+              elementId={contextMenu.elementId}
+              dispatch={dispatch}
+              onClose={() => setContextMenu(null)}
+            />
+          )}
+        </div>
+        <div className="zoom-controls">
+          <button className="zoom-btn" onClick={() => setZoom(z => Math.max(0.25, z - 0.1))}>-</button>
+          <span className="zoom-label">{Math.round(zoom * 100)}%</span>
+          <button className="zoom-btn" onClick={() => setZoom(z => Math.min(3, z + 0.1))}>+</button>
+          {zoom !== 1 && <button className="zoom-reset" onClick={() => setZoom(1)}>Reset</button>}
         </div>
       </div>
     </div>

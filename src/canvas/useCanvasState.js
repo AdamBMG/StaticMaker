@@ -89,7 +89,31 @@ function reducer(state, action) {
       return { ...state, elements: els, selectedId: clone.id }
     }
     case 'SELECT_ELEMENT':
-      return { ...state, selectedId: action.id }
+      return { ...state, selectedId: action.id, selectedIds: action.id ? [action.id] : [] }
+    case 'TOGGLE_SELECT': {
+      const ids = state.selectedIds || []
+      const has = ids.includes(action.id)
+      const newIds = has ? ids.filter(i => i !== action.id) : [...ids, action.id]
+      return { ...state, selectedIds: newIds, selectedId: newIds[newIds.length - 1] || null }
+    }
+    case 'PASTE_ELEMENTS': {
+      const pasted = action.elements.map(el => ({ ...el, id: genId(), x: el.x + 20, y: el.y + 20 }))
+      return {
+        ...state,
+        elements: [...state.elements, ...pasted],
+        selectedId: pasted[pasted.length - 1]?.id || null,
+        selectedIds: pasted.map(e => e.id),
+      }
+    }
+    case 'DELETE_SELECTED': {
+      const ids = new Set(action.ids || [])
+      return {
+        ...state,
+        elements: state.elements.filter(el => !ids.has(el.id)),
+        selectedId: null,
+        selectedIds: [],
+      }
+    }
     case 'MOVE_LAYER_UP': {
       const idx = state.elements.findIndex(el => el.id === action.id)
       if (idx < 0 || idx >= state.elements.length - 1) return state
@@ -142,10 +166,12 @@ const initialState = {
   },
   elements: [],
   selectedId: null,
+  selectedIds: [],
+  clipboard: [],
 }
 
 // Actions that should NOT create undo history
-const SKIP_HISTORY = new Set(['SELECT_ELEMENT', 'SET_FORMAT'])
+const SKIP_HISTORY = new Set(['SELECT_ELEMENT', 'TOGGLE_SELECT', 'SET_FORMAT'])
 
 const MAX_HISTORY = 50
 

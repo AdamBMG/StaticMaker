@@ -406,25 +406,36 @@ function App({ onBack }) {
   const [qcScale, setQcScaleRaw] = useState(1.0)
   const [serverScales, setServerScales] = useState({})
 
-  // Load all scales from server on mount
+  // Load QC scales from localStorage (primary) on mount
   useEffect(() => {
-    fetch('/api/scales').then(r => r.json()).then(data => {
-      setServerScales(data)
-    }).catch(() => {
-      // Fallback: load from localStorage
-      const local = {}
-      for (let i = 0; i < localStorage.length; i++) {
-        const k = localStorage.key(i)
-        if (k.startsWith('qc_')) local[k] = parseFloat(localStorage.getItem(k))
+    const local = {}
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i)
+      if (k.startsWith('qc_') && !k.startsWith('qc_mt_')) {
+        local[k] = parseFloat(localStorage.getItem(k))
       }
-      setServerScales(local)
-    })
+    }
+    setServerScales(local)
+    // Also sync from server as backup (won't overwrite localStorage values)
+    fetch('/api/scales').then(r => r.json()).then(data => {
+      setServerScales(prev => {
+        const merged = { ...data }
+        // localStorage wins over server
+        Object.entries(prev).forEach(([k, v]) => { if (v != null) merged[k] = v })
+        return merged
+      })
+    }).catch(() => {})
   }, [])
 
   // When key changes, load saved scale
   useEffect(() => {
-    const saved = serverScales[scaleKey]
-    setQcScaleRaw(saved != null ? parseFloat(saved) : 1.0)
+    const localVal = localStorage.getItem(scaleKey)
+    if (localVal != null) {
+      setQcScaleRaw(parseFloat(localVal))
+    } else {
+      const saved = serverScales[scaleKey]
+      setQcScaleRaw(saved != null ? parseFloat(saved) : 1.0)
+    }
   }, [scaleKey, serverScales])
 
   // Save to server + localStorage on change
@@ -442,40 +453,17 @@ function App({ onBack }) {
 
   // Element position overrides - saved per template+variant+format
   const overridesKey = `ov_${template.id}_${selectedVariant}_${format.id}`
-  const [elementOverrides, setElementOverrides] = useState({})
-
-  // Migrate old .fontSize overrides to .scale
-  function migrateOverrides(ovData) {
-    const migrated = {}
-    for (const [key, val] of Object.entries(ovData)) {
-      if (typeof val === 'object' && val !== null) {
-        const newVal = {}
-        for (const [prop, v] of Object.entries(val)) {
-          if (prop.endsWith('.fontSize')) {
-            const newProp = prop.replace('.fontSize', '.scale')
-            newVal[newProp] = Math.round(v * 0.7) // rough px-to-% conversion
-          } else {
-            newVal[prop] = v
-          }
-        }
-        migrated[key] = newVal
-      } else {
-        migrated[key] = val
+  const [elementOverrides, setElementOverrides] = useState(() => {
+    // Load ALL overrides from localStorage on init (primary source)
+    const local = {}
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i)
+      if (k.startsWith('ov_') && !k.startsWith('ov_mt_')) {
+        try { local[k] = JSON.parse(localStorage.getItem(k)) } catch {}
       }
     }
-    return migrated
-  }
-
-  // Load overrides from server on mount
-  useEffect(() => {
-    fetch('/api/scales').then(r => r.json()).then(data => {
-      // Overrides are stored alongside scales with "ov_" prefix
-      const ovKeys = Object.keys(data).filter(k => k.startsWith('ov_'))
-      const ovData = {}
-      ovKeys.forEach(k => { ovData[k] = data[k] })
-      setElementOverrides(prev => ({ ...prev, ...migrateOverrides(ovData) }))
-    }).catch(() => {})
-  }, [])
+    return local
+  })
 
   // Get overrides for current template
   const currentOverrides = elementOverrides[overridesKey] || {}

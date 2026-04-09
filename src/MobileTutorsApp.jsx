@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { toPng } from 'html-to-image'
 import { saveAs } from 'file-saver'
+import JSZip from 'jszip'
 import BoldHeadline from './mt-templates/BoldHeadline'
 import Testimonial from './mt-templates/Testimonial'
 import GuaranteeResults from './mt-templates/GuaranteeResults'
@@ -336,6 +337,7 @@ export default function MobileTutorsApp({ onBack }) {
     if (!adRef.current || checkedVariants.size === 0) return
     setExporting(true)
     try {
+      const zip = new JSZip()
       const items = Array.from(checkedVariants).map(key => {
         const [ti, vi] = key.split('_').map(Number)
         return { ti, vi }
@@ -346,17 +348,19 @@ export default function MobileTutorsApp({ onBack }) {
           setSelectedVariant(vi)
           setSelectedFormat(fi)
           setCustomProps({})
-          await new Promise(r => setTimeout(r, 300))
+          await new Promise(r => setTimeout(r, 400))
           const f = FORMATS[fi]
           const t = TEMPLATES[ti]
           const dataUrl = await toPng(adRef.current, {
             width: f.width, height: f.height, pixelRatio: 1,
             style: { transform: 'scale(1)', transformOrigin: 'top left', width: f.width + 'px', height: f.height + 'px' },
           })
-          saveAs(dataUrl, `mobiletutors_${t.id}_${f.id}_v${vi + 1}.png`)
-          await new Promise(r => setTimeout(r, 300))
+          const base64 = dataUrl.split(',')[1]
+          zip.file(`mobiletutors_${t.id}_${f.id}_v${vi + 1}.png`, base64, { base64: true })
         }
       }
+      const blob = await zip.generateAsync({ type: 'blob' })
+      saveAs(blob, `mobiletutors_selected_${Date.now()}.zip`)
     } catch (err) {
       console.error('Selected export failed:', err)
     }

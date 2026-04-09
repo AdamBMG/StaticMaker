@@ -502,28 +502,35 @@ function App({ onBack }) {
     (format.id === 'story' ? 700 : 500) / format.height
   )
 
+  const exportOpts = useCallback((f) => ({
+    width: f.width,
+    height: f.height,
+    pixelRatio: 1,
+    includeQueryParams: true,
+    style: {
+      transform: 'scale(1)',
+      transformOrigin: 'top left',
+      width: f.width + 'px',
+      height: f.height + 'px',
+    },
+  }), [])
+
   const handleExport = useCallback(async () => {
     if (!adRef.current) return
     setExporting(true)
     try {
-      const dataUrl = await toPng(adRef.current, {
-        width: format.width,
-        height: format.height,
-        pixelRatio: 1,
-        style: {
-          transform: 'scale(1)',
-          transformOrigin: 'top left',
-          width: format.width + 'px',
-          height: format.height + 'px',
-        },
-      })
+      await document.fonts.ready
+      // Double-render to ensure fonts are embedded
+      await toPng(adRef.current, exportOpts(format))
+      await new Promise(r => setTimeout(r, 100))
+      const dataUrl = await toPng(adRef.current, exportOpts(format))
       const name = `snackverse_${template.id}_${format.id}_v${selectedVariant + 1}.png`
       saveAs(dataUrl, name)
     } catch (err) {
       console.error('Export failed:', err)
     }
     setExporting(false)
-  }, [adRef, format, template, selectedVariant])
+  }, [adRef, format, template, selectedVariant, exportOpts])
 
   const toggleCheck = useCallback((templateIdx, variantIdx) => {
     const key = `${templateIdx}_${variantIdx}`
@@ -550,12 +557,12 @@ function App({ onBack }) {
           setSelectedFormat(fi)
           setCustomProps({})
           await new Promise(r => setTimeout(r, 400))
+          await document.fonts.ready
           const f = FORMATS[fi]
           const t = TEMPLATES[ti]
-          const dataUrl = await toPng(adRef.current, {
-            width: f.width, height: f.height, pixelRatio: 1,
-            style: { transform: 'scale(1)', transformOrigin: 'top left', width: f.width + 'px', height: f.height + 'px' },
-          })
+          await toPng(adRef.current, exportOpts(f))
+          await new Promise(r => setTimeout(r, 100))
+          const dataUrl = await toPng(adRef.current, exportOpts(f))
           const base64 = dataUrl.split(',')[1]
           zip.file(`snackverse_${t.id}_${f.id}_v${vi + 1}.png`, base64, { base64: true })
         }
@@ -574,10 +581,10 @@ function App({ onBack }) {
     if (!adRef.current) return
     setExporting(true)
     try {
-      const dataUrl = await toPng(adRef.current, {
-        width: format.width, height: format.height, pixelRatio: 1,
-        style: { transform: 'scale(1)', transformOrigin: 'top left', width: format.width + 'px', height: format.height + 'px' },
-      })
+      await document.fonts.ready
+      await toPng(adRef.current, exportOpts(format))
+      await new Promise(r => setTimeout(r, 100))
+      const dataUrl = await toPng(adRef.current, exportOpts(format))
       setCanvasInitData({
         format: format.id,
         background: { type: 'image', color: '#000000', gradientFrom: '#000000', gradientTo: '#000000', image: dataUrl },
@@ -598,22 +605,15 @@ function App({ onBack }) {
         for (let vi = 0; vi < template.variants.length; vi++) {
           setSelectedFormat(fi)
           setSelectedVariant(vi)
-          await new Promise(r => setTimeout(r, 200))
+          await new Promise(r => setTimeout(r, 300))
+          await document.fonts.ready
           const f = FORMATS[fi]
-          const dataUrl = await toPng(adRef.current, {
-            width: f.width,
-            height: f.height,
-            pixelRatio: 1,
-            style: {
-              transform: 'scale(1)',
-              transformOrigin: 'top left',
-              width: f.width + 'px',
-              height: f.height + 'px',
-            },
-          })
+          await toPng(adRef.current, exportOpts(f))
+          await new Promise(r => setTimeout(r, 100))
+          const dataUrl = await toPng(adRef.current, exportOpts(f))
           const name = `snackverse_${template.id}_${f.id}_v${vi + 1}.png`
           saveAs(dataUrl, name)
-          await new Promise(r => setTimeout(r, 300))
+          await new Promise(r => setTimeout(r, 200))
         }
       }
     } catch (err) {

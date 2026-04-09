@@ -546,6 +546,28 @@ function App({ onBack }) {
     setExporting(false)
   }, [adRef, checkedVariants])
 
+  const [canvasInitData, setCanvasInitData] = useState(null)
+
+  const handleEditInCanvas = useCallback(async () => {
+    if (!adRef.current) return
+    setExporting(true)
+    try {
+      const dataUrl = await toPng(adRef.current, {
+        width: format.width, height: format.height, pixelRatio: 1,
+        style: { transform: 'scale(1)', transformOrigin: 'top left', width: format.width + 'px', height: format.height + 'px' },
+      })
+      setCanvasInitData({
+        format: format.id,
+        background: { type: 'image', color: '#000000', gradientFrom: '#000000', gradientTo: '#000000', image: dataUrl },
+        elements: [],
+      })
+      setMode('canvas')
+    } catch (err) {
+      console.error('Edit in canvas failed:', err)
+    }
+    setExporting(false)
+  }, [adRef, format])
+
   const handleExportAll = useCallback(async () => {
     if (!adRef.current) return
     setExporting(true)
@@ -598,7 +620,7 @@ function App({ onBack }) {
       </header>
 
       {mode === 'canvas' ? (
-        <CanvasMode />
+        <CanvasMode initData={canvasInitData} onInitConsumed={() => setCanvasInitData(null)} />
       ) : mode === 'batch' && batchAds.length > 0 ? (
         <BatchGrid ads={batchAds} onBack={() => setBatchAds([])} />
       ) : mode === 'batch' ? (
@@ -789,6 +811,9 @@ function App({ onBack }) {
             )}
             <button className="export-all-btn" onClick={handleExportAll} disabled={exporting}>
               {exporting ? 'Exporting...' : 'Export All Variants'}
+            </button>
+            <button className="export-all-btn" onClick={handleEditInCanvas} disabled={exporting} style={{ marginTop: 4, borderColor: '#6B2FA0', color: '#6B2FA0' }}>
+              Edit in Canvas
             </button>
           </section>
         </div>

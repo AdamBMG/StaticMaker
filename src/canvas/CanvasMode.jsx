@@ -16,7 +16,7 @@ import HeadlineGenerator from '../components/HeadlineGenerator'
 import BackgroundGenerator from '../components/BackgroundGenerator'
 import './CanvasMode.css'
 
-export default function CanvasMode({ brandConfig } = {}) {
+export default function CanvasMode({ brandConfig, initData, onInitConsumed } = {}) {
   const [state, dispatch, { canUndo, canRedo }] = useCanvasState()
   const stageRef = useRef(null)
   const wrapperRef = useRef(null)
@@ -24,6 +24,16 @@ export default function CanvasMode({ brandConfig } = {}) {
   const snapGuides = useSnapGuides(state, snapEnabled)
   const [zoom, setZoom] = useState(1)
   const [contextMenu, setContextMenu] = useState(null)
+  const initConsumed = useRef(false)
+
+  // Load initial data from Single mode "Edit in Canvas"
+  useEffect(() => {
+    if (initData && !initConsumed.current) {
+      initConsumed.current = true
+      dispatch({ type: 'LOAD_DESIGN', design: initData })
+      if (onInitConsumed) onInitConsumed()
+    }
+  }, [initData, dispatch, onInitConsumed])
 
   useCanvasKeyboard(state, dispatch, { canUndo, canRedo })
 

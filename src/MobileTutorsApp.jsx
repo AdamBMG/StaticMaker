@@ -382,6 +382,28 @@ export default function MobileTutorsApp({ onBack }) {
     setExporting(false)
   }, [adRef, checkedVariants])
 
+  const [canvasInitData, setCanvasInitData] = useState(null)
+
+  const handleEditInCanvas = useCallback(async () => {
+    if (!adRef.current) return
+    setExporting(true)
+    try {
+      const dataUrl = await toPng(adRef.current, {
+        width: format.width, height: format.height, pixelRatio: 1,
+        style: { transform: 'scale(1)', transformOrigin: 'top left', width: format.width + 'px', height: format.height + 'px' },
+      })
+      setCanvasInitData({
+        format: format.id,
+        background: { type: 'image', color: '#000000', gradientFrom: '#000000', gradientTo: '#000000', image: dataUrl },
+        elements: [],
+      })
+      setMode('canvas')
+    } catch (err) {
+      console.error('Edit in canvas failed:', err)
+    }
+    setExporting(false)
+  }, [adRef, format])
+
   const handleExportAll = useCallback(async () => {
     if (!adRef.current) return
     setExporting(true)
@@ -433,7 +455,7 @@ export default function MobileTutorsApp({ onBack }) {
       </header>
 
       {mode === 'canvas' ? (
-        <CanvasMode brandConfig={MT_BRAND_CONFIG} />
+        <CanvasMode brandConfig={MT_BRAND_CONFIG} initData={canvasInitData} onInitConsumed={() => setCanvasInitData(null)} />
       ) : (
       <div className="app-layout">
         {/* Left panel - Controls */}
@@ -610,6 +632,9 @@ export default function MobileTutorsApp({ onBack }) {
             )}
             <button className="export-all-btn" onClick={handleExportAll} disabled={exporting}>
               {exporting ? 'Exporting...' : 'Export All Variants'}
+            </button>
+            <button className="export-all-btn" onClick={handleEditInCanvas} disabled={exporting} style={{ marginTop: 4, borderColor: '#1D1A63', color: '#1D1A63' }}>
+              Edit in Canvas
             </button>
           </section>
         </div>
